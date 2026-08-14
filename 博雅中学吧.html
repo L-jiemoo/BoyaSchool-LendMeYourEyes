@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>博雅中学吧_百度贴吧风格_非官方</title>
+<!--
+  如果你能看到这行字，说明你在看源代码。
+  它也看得到你。
+  CAM13: 信号正常。正在上传。别关网页。
+  晚晴：晴转阴。她数得到你。
+  JECat：数据包已就绪，收件人不明。
+-->
+<style>
+  :root{
+    --blue:#4e6ef2;
+    --blue-deep:#3a5bd9;
+    --link:#315efb;
+    --ink:#1f2329;
+    --sub:#86909c;
+    --line:#e5e6eb;
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --danger:#e64b3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Source Han Sans SC",system-ui,sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--link);text-decoration:none;cursor:pointer}
+  a:hover{text-decoration:underline}
+  /* ---------- 顶栏 ---------- */
+  .global-bar{background:linear-gradient(180deg,#101c38 0%,#0e1830 100%);border-bottom:1px solid rgba(78,110,242,.35);position:sticky;top:0;z-index:50}
+  .global-inner{max-width:1200px;margin:0 auto;height:52px;display:flex;align-items:center;gap:18px;padding:0 16px}
+  .tieba-logo{font-size:20px;font-weight:800;color:#7d9aff;letter-spacing:1px}
+  .tieba-logo b{color:#fff}
+  .g-nav{display:flex;gap:16px;color:#aeb9d8;font-size:13px}
+  .g-nav span{cursor:pointer}
+  .g-nav span:hover{color:#dfe8ff}
+  .g-nav .on{color:#fff;font-weight:600}
+  .g-search{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .g-search input{width:180px;height:30px;border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:0 10px;font-size:13px;outline:none;background:rgba(255,255,255,.08);color:#dfe8ff}
+  .g-search input::placeholder{color:#7d8fb3}
+  .g-search input:focus{border-color:#7d9aff}
+  .g-search button{height:30px;padding:0 14px;border:none;border-radius:4px;background:var(--blue);color:#fff;font-size:13px;cursor:pointer}
+  .g-user{font-size:13px;color:#aeb9d8;display:flex;gap:10px;align-items:center}
+.g-user b{color:#7d9aff;font-weight:600}
+.g-time{font-size:13px;color:#aeb9d8;font-variant-numeric:tabular-nums;letter-spacing:.5px;padding:3px 10px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.08);transition:color .4s,border-color .4s,background .4s;cursor:default;user-select:none}
+.g-time.warn{color:#d97706;border-color:#fcd34d;background:#fffbeb}
+.g-time.danger{color:#b3202e;border-color:#f3b0bf;background:#fff0f3;animation:timePulse 1s infinite}
+.g-time.dead{color:#fff;border-color:#b3202e;background:#b3202e;animation:timePulse .5s infinite}
+@keyframes timePulse{0%,100%{box-shadow:0 0 0 0 rgba(178,32,46,.5)}50%{box-shadow:0 0 0 5px rgba(178,32,46,0)}}
+
+/* ---------- 恐怖分级视觉效果（行为驱动） ---------- */
+/* Lv1：轻微偏冷 */
+body.h1{background:#f3f4f7;transition:background 1.2s}
+body.h1 .forum-head{filter:saturate(.92) brightness(.98)}
+/* Lv2：顶栏发暗、整体褪色 */
+body.h2{background:#eceef3}
+body.h2 .global-bar{background:#1a1d24!important;color:#c7ccd4;transition:background 1.2s}
+body.h2 .global-bar .g-nav span,body.h2 .g-user{color:#8a93a3}
+body.h2 .g-search input{background:#15171c;border-color:#2a2d34;color:#c7ccd4}
+body.h2 .forum-head{filter:saturate(.8) brightness(.9) hue-rotate(-6deg)}
+body.h2 .thread:hover{background:#e6e8ee}
+/* Lv3：全局偏冷红、背景明显发暗、帖子标题偶现红字 */
+body.h3{background:#1d1518}
+body.h3 #wrap{background:#1d1518;transition:background 1.5s}
+body.h3 .global-bar{background:#0f0608!important;border-bottom-color:#3a1018}
+body.h3 .g-nav span,body.h3 .g-user,body.h3 .g-search input{color:#9a8a90}
+body.h3 .g-search input{background:#1a0e12;border-color:#3a1820}
+body.h3 .tieba-logo{color:#c0355c}
+body.h3 .tieba-logo b{color:#ff5d7e}
+body.h3 .forum-head{filter:saturate(.7) brightness(.75) hue-rotate(-12deg) contrast(1.05)}
+body.h3 .thread{background:#241519;border-bottom-color:#2e1820}
+body.h3 .thread:hover{background:#2d171c}
+body.h3 .t-title{color:#c4a8b0}
+body.h3 .t-meta{color:#6a4a52}
+body.h3 .t-av{filter:saturate(.6) brightness(.85)}
+body.h3 .t-rep{color:#c0355c}
+body.h3 .t-time{color:#5a3a42}
+body.h3 .rank-row{color:#9a6a72}
+/* Lv3 灵异帖标题变红 */
+body.h3 .thread[data-flair="ling"] .t-title,
+body.h3 .thread[data-key="n25"] .t-title,
+body.h3 .thread[data-key="n27"] .t-title,
+body.h3 .thread[data-key="n28"] .t-title{color:#e64b3b!important;text-shadow:0 0 1px rgba(230,75,59,.3)}
+/* Lv4：高潮，深红压迫 */
+body.h4{background:#0a0506}
+body.h4 #wrap{background:#0a0506}
+body.h4 .global-bar{background:#1a0408!important;border-bottom-color:#b3202e}
+body.h4 .forum-head{filter:saturate(.5) brightness(.55) hue-rotate(-18deg) contrast(1.15)}
+body.h4 .thread{background:#120709;border-bottom-color:#2a0c12}
+body.h4 .thread:hover{background:#1a0a0e}
+body.h4 .t-title{color:#d08898}
+body.h4 .t-meta{color:#5a3a42}
+body.h4 .t-av{filter:saturate(.3) brightness(.7) hue-rotate(-20deg)}
+body.h4 .tieba-logo{color:#b3202e}
+body.h4 .tieba-logo b{color:#ff2d55}
+  /* ---------- 吧头 ---------- */
+  .forum-head{background:linear-gradient(135deg,#0e1830 0%,#122a4a 55%,#0d2138 100%);color:#dfe8ff;border-bottom:2px solid var(--blue);position:relative;overflow:hidden}
+  .forum-head::before{content:"博学雅行";position:absolute;right:-10px;top:-28px;font-size:120px;font-weight:800;color:rgba(255,255,255,.045);letter-spacing:6px;white-space:nowrap}
+  .forum-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(78,110,242,.8),transparent)}
+  .forum-inner{max-width:1200px;margin:0 auto;padding:26px 16px 20px;position:relative;z-index:1}
+  .f-top{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+  .f-avatar{width:78px;height:78px;border-radius:8px;background:linear-gradient(145deg,#1c3a6b,#122a4a);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#9fc1ff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .f-title h1{font-size:30px;font-weight:800;letter-spacing:1px;color:#fff;display:flex;align-items:center;gap:10px}
+  .f-title .tag{font-size:11px;padding:2px 8px;border-radius:3px;background:rgba(230,75,59,.2);border:1px solid rgba(230,75,59,.5);color:#ff9b8f;font-weight:500}
+  .f-title .desc{margin-top:6px;font-size:13px;color:#9db4d9}
+  .f-stats{margin-left:auto;display:flex;gap:26px;padding-bottom:4px}
+  .f-stats .st{text-align:center}
+  .f-stats .num{font-size:20px;font-weight:800;color:#fff}
+  .f-stats .lab{font-size:12px;color:#7d93ba;margin-top:2px}
+  .f-actions{margin-top:14px;display:flex;gap:10px;align-items:center}
+  .btn{border:none;border-radius:4px;cursor:pointer;font-size:13px;padding:7px 18px;transition:.15s}
+  .btn-blue{background:var(--blue);color:#fff}
+  .btn-blue:hover{background:var(--blue-deep)}
+  .btn-ghost{background:rgba(255,255,255,.1);color:#dfe8ff;border:1px solid rgba(255,255,255,.25)}
+  .btn-ghost:hover{background:rgba(255,255,255,.18)}
+  .f-actions .hint{font-size:12px;color:#7d93ba}
+  /* ---------- 布局 ---------- */
+  .layout{max-width:1200px;margin:16px auto 0;display:grid;grid-template-columns:1fr 280px;gap:16px;padding:0 16px 30px}
+  .main{display:flex;flex-direction:column;gap:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px}
+  /* 标签栏 */
+  .tabs{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:0 14px;display:flex;align-items:center;gap:2px;margin-bottom:12px}
+  .tab{padding:11px 14px;font-size:14px;color:var(--sub);cursor:pointer;border-bottom:2px solid transparent}
+  .tab:hover{color:var(--ink)}
+  .tab.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+  .tabs .spacer{flex:1}
+  .post-btn{padding:8px 22px;background:var(--blue);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;font-weight:600}
+  .post-btn:hover{background:var(--blue-deep)}
+  /* 帖子列表 */
+  .thread-list{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .pin-row{display:flex;align-items:center;padding:3px 14px;background:#f7f9ff;border-left:3px solid var(--blue);font-size:12px;color:var(--sub)}
+  .pin-row b{color:var(--blue);margin-right:8px}
+  .thread{display:flex;align-items:center;padding:11px 14px;gap:12px;cursor:pointer;border-bottom:1px solid #f0f1f4;transition:.12s;position:relative}
+  .thread:last-child{border-bottom:none}
+  .thread:hover{background:#f7f9ff}
+  .t-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+  .t-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;background:#7a8aa6}
+  .t-info{min-width:0}
+  .t-title{font-size:15px;color:var(--ink);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-title .pin-mark{color:#e8a13a;font-weight:700;margin-right:4px}
+  .t-title .dig-mark{display:inline-block;background:#e8a13a;color:#fff;font-size:11px;line-height:1;padding:3px 5px;border-radius:3px;margin-right:6px;vertical-align:2px}
+  .t-title .lock-mark{display:inline-block;background:#86909c;color:#fff;font-size:11px;line-height:1;padding:3px 5px;border-radius:3px;margin-right:6px;vertical-align:2px}
+  .t-meta{font-size:12px;color:var(--sub);margin-top:2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .t-meta .flair{font-size:11px;padding:1px 6px;border-radius:3px;flex-shrink:0}
+  .f-ling{background:#fdeceb;color:#c0351e;border:1px solid #f3c3bd}
+  .f-qiu{background:#fff3e6;color:#d46b08;border:1px solid #f5d3a7}
+  .f-disc{background:#eef2fe;color:#315efb;border:1px solid #c9d4fb}
+  .f-tu{background:#e6f7f4;color:#0e9d8a;border:1px solid #bfe9e1}
+  .f-bai{background:#fdeff7;color:#d63384;border:1px solid #f3c6df}
+  .f-xuan{background:#f5eefe;color:#722ed1;border:1px solid #e0c8f7}
+  .f-gong{background:#f0f9ee;color:#389e0d;border:1px solid #c9ecbe}
+  .t-right{text-align:right;flex-shrink:0}
+  .t-rep{font-size:14px;font-weight:700;color:var(--ink)}
+  .t-rep small{font-size:11px;font-weight:400;color:var(--sub)}
+  .t-time{font-size:12px;color:var(--sub);margin-top:2px}
+  /* 分页 */
+  .pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:16px}
+  .pg{min-width:34px;height:34px;padding:0 10px;border:1px solid var(--line);background:#fff;border-radius:4px;font-size:13px;color:var(--sub);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .pg.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .pg:hover:not(.on){color:var(--blue);border-color:var(--blue)}
+  .pg.gap{border:none;background:none;cursor:default}
+  /* ---------- 侧栏 ---------- */
+  .side{display:flex;flex-direction:column;gap:12px}
+  .side .card{padding:14px}
+  .side h3{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .side h3::before{content:"";width:4px;height:14px;background:var(--blue);border-radius:2px}
+  .staff{display:flex;flex-direction:column;gap:8px}
+  .staff-row{display:flex;align-items:center;gap:8px;font-size:13px}
+  .staff-row .av{width:26px;height:26px;border-radius:50%;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+  .staff-row .badge{font-size:10px;padding:1px 5px;border-radius:3px}
+  .badge-master{background:#fff3e6;color:#d46b08;border:1px solid #f5d3a7}
+  .badge-mod{background:#eef2fe;color:#315efb;border:1px solid #c9d4fb}
+  .staff .note{margin-top:8px;font-size:11px;color:var(--sub);background:#f7f8fa;padding:6px 8px;border-radius:4px}
+  .side ul{list-style:none}
+  .side ul li{padding:6px 0;border-bottom:1px dashed #eef0f4;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+  .side ul li:last-child{border-bottom:none}
+  .side ul li .dot{color:var(--blue);flex-shrink:0}
+  .side ul li.off{color:var(--sub);text-decoration:line-through}
+  .side ul li .del-t{color:var(--sub)}
+  .del-log{font-size:12px}
+  .del-log li{padding:5px 0;font-size:12px;color:#4b5563}
+  .del-log .t{color:var(--sub)}
+  .del-log .sys{color:var(--danger)}
+  .rank-row{display:flex;align-items:center;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px dashed #eef0f4}
+  .rank-row:last-child{border:none}
+  .rank-num{width:20px;height:20px;border-radius:3px;background:#f1f3f8;color:var(--sub);font-size:11px;display:flex;align-items:center;justify-content:center}
+  .rank-num.top3{background:#e8a13a;color:#fff}
+  .friend li{font-size:13px;color:var(--sub)}
+  .friend li a{font-size:13px}
+  .friend .odd{color:#b3202e}
+  /* ---------- 页脚 ---------- */
+  .footer{max-width:1200px;margin:0 auto 26px;padding:18px 16px 8px;border-top:1px solid var(--line);color:var(--sub);font-size:12px;text-align:center;display:flex;flex-direction:column;gap:6px}
+  /* ---------- 弹窗 ---------- */
+  .mask{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto}
+  .mask.show{display:flex}
+  .tmodal{background:#fff;border-radius:8px;width:100%;max-width:780px;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+  .tmodal-head{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;background:#fafbfc}
+  .tmodal-head h2{font-size:18px;font-weight:700;flex:1}
+  .tmodal-close{width:30px;height:30px;border:none;background:transparent;font-size:20px;color:var(--sub);cursor:pointer;border-radius:4px}
+  .tmodal-close:hover{background:#eef0f4}
+  .tmodal-body{padding:0 20px 20px}
+  .op-post{padding:18px 0;border-bottom:1px solid #eef0f4}
+  .op-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .op-av{width:44px;height:44px;border-radius:50%;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .op-name{font-size:15px;font-weight:600;color:var(--ink)}
+  .op-name .lz-badge{display:inline-block;background:var(--blue);color:#fff;font-size:10px;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
+  .op-meta{font-size:12px;color:var(--sub);margin-top:2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .op-content{font-size:14px;color:#303642;white-space:pre-wrap;word-break:break-word}
+  .op-content .img-ph{height:150px;border-radius:6px;background:linear-gradient(145deg,#20242c,#101318);margin:10px 0;display:flex;align-items:center;justify-content:center;color:#5c6672;font-size:12px;border:1px dashed #3a4450}
+  .op-content .img-ph b{color:#8a94a0;font-weight:500}
+  .floor{padding:14px 0;border-bottom:1px solid #f2f3f6}
+  .floor:last-child{border-bottom:none}
+  .f-top-line{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .f-av{width:34px;height:34px;border-radius:50%;color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .f-name{font-size:14px;color:var(--blue);font-weight:500}
+  .f-floor{margin-left:auto;font-size:12px;color:var(--sub);display:flex;gap:8px;align-items:center}
+  .f-time{font-size:12px;color:var(--sub)}
+  .f-text{font-size:14px;color:#303642;white-space:pre-wrap;word-break:break-word}
+  .sub{background:#f7f8fa;border-radius:6px;padding:8px 10px;margin-top:8px;display:flex;flex-direction:column;gap:6px}
+  .sub-row{font-size:13px;color:#303642}
+  .sub-row .au{color:var(--blue);font-weight:500}
+  .sub-row .rt{color:var(--sub)}
+  .locked-note{margin-top:14px;padding:10px 12px;border:1px dashed #e5c9c4;background:#fdf6f5;color:#b3202e;font-size:13px;border-radius:6px}
+  .blocked-note{margin-top:10px;padding:16px;background:#f7f8fa;border-radius:6px;color:var(--sub);font-size:13px;text-align:center}
+  .reply-bar{margin-top:14px;display:flex;align-items:center;gap:10px}
+  .reply-bar input{flex:1;height:38px;border:1px solid var(--line);border-radius:4px;padding:0 12px;font-size:13px;outline:none}
+  .reply-bar input:focus{border-color:var(--blue)}
+  .reply-bar button{height:38px;padding:0 22px;background:var(--blue);color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;font-weight:600}
+  /* 彩蛋倒计时 */
+  #countdown{position:fixed;right:16px;bottom:16px;z-index:200;background:rgba(12,18,32,.92);color:#9fc1ff;border:1px solid rgba(78,110,242,.4);border-radius:8px;padding:14px 18px;font-size:13px;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5);line-height:1.7}
+  #countdown .big{font-size:16px;font-weight:800;color:#fff;letter-spacing:1px}
+  #countdown .cap{font-size:11px;color:#6b7fa8;margin-top:6px}
+  #countdown .x{position:absolute;top:6px;right:8px;color:#6b7fa8;cursor:pointer;font-size:12px}
+  .accent-22{color:#b3202e;font-weight:600}
+  /* 手机已拆分到独立页面：苏晚晴的手机.html */
+  .cipher-btn{margin-top:12px;display:inline-block;padding:8px 16px;background:#3a5bd9;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;text-decoration:none}
+  .cipher-btn:hover{background:#2d4bc0}
+  /* ---------- 氛围叠加层：暗角 + 噪点 + 扫描线，随进度加重 ---------- */
+  .fx{position:fixed;inset:0;pointer-events:none;z-index:150;opacity:0;transition:opacity 1.4s}
+  .fx-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 52%,rgba(4,7,16,.72) 100%)}
+  .fx-grain{position:absolute;inset:-20%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");opacity:.16;animation:fxgrain .4s steps(3) infinite}
+  .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
+  .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
+  @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+</style>
+</head>
+<body>
+
+<!-- 氛围叠加层：暗角 + 噪点 + 扫描线（随进度加重） -->
+<div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+
+<!-- 顶栏 -->
+<header class="global-bar">
+  <div class="global-inner">
+    <div class="tieba-logo">贴<b>吧</b></div>
+    <nav class="g-nav">
+      <span class="on">首页</span><span>吧列表</span><span>视频</span><span>图片</span><span>精品</span><span>消息</span>
+    </nav>
+    <div class="g-search">
+      <input type="text" placeholder="搜索帖子 / 吧 / 用户" id="searchInput">
+      <button onclick="alert('搜索功能维护中，请稍后再试。')">搜索</button>
+    </div>
+    <span class="g-time" id="simTime" title="网站当前时间">22:47</span>
+    <div class="g-user"><b>贴吧用户_2247</b><span id="gMsg">消息</span><span>退出</span></div>
+  </div>
+</header>
+
+<!-- 吧头 -->
+<section class="forum-head">
+  <div class="forum-inner">
+    <div class="f-top">
+      <div class="f-avatar">博</div>
+      <div class="f-title">
+        <h1>博雅中学吧 <span class="tag">非官方</span></h1>
+        <div class="desc">吧友自发建立的交流平台 · 聊学习、聊生活，也聊聊那些"说不清道不明"的事</div>
+      </div>
+      <div class="f-stats">
+        <div class="st"><div class="num" id="focusNum">2,327</div><div class="lab">关注</div></div>
+        <div class="st"><div class="num" id="postNum" title="帖子总数">18,904</div><div class="lab">帖子</div></div>
+        <div class="st"><div class="num">2,327</div><div class="lab">会员</div></div>
+      </div>
+    </div>
+    <div class="f-actions">
+      <button class="btn btn-blue" onclick="alert('发帖失败：您的账号因发布「未经证实的信息」被吧务暂时禁言。\n剩余禁言时间：22小时47分。')">发帖</button>
+      <button class="btn btn-ghost" id="signBtn" onclick="signIn()">签到</button>
+      <button class="btn btn-ghost" onclick="alert('本吧创建于 2010-09-01，现任吧主：博雅中学吧主。')">吧主档案</button>
+      <span class="hint">今日签到 203 人 · 在线 47 人</span>
+    </div>
+  </div>
+</section>
+
+<!-- 内容区 -->
+<div class="layout">
+  <main class="main">
+    <div class="tabs">
+      <span class="tab on">全部</span><span class="tab">吧务</span><span class="tab">精华</span><span class="tab">图片</span><span class="tab">视频</span>
+      <span class="spacer"></span>
+      <button class="post-btn" onclick="alert('发帖失败：您的账号因发布「未经证实的信息」被吧务暂时禁言。\n剩余禁言时间：22小时47分。')">发帖</button>
+    </div>
+
+    <div class="thread-list" id="threadList"></div>
+
+    <div class="pager">
+      <span class="pg">‹</span><span class="pg on">1</span><span class="pg">2</span><span class="pg">3</span><span class="pg">4</span><span class="pg gap">…</span><span class="pg">23</span><span class="pg">›</span>
+      <span style="margin-left:10px;font-size:12px;color:var(--sub)">页 1 / 23 · 共 18,904 帖</span>
+    </div>
+  </main>
+
+  <aside class="side">
+    <div class="card">
+      <h3>解密脉络</h3>
+      <a href="剧情解密树.html" target="byzx_tree" style="display:block;margin-top:4px;padding:9px 10px;background:#0e1830;color:#9fc1ff;border:1px solid rgba(78,110,242,.35);border-radius:6px;font-size:13px;text-align:center;text-decoration:none">［ 打开解密节点树 ］</a>
+      <a href="javascript:void(0)" onclick="Object.keys(localStorage).forEach(function(k){if(k.indexOf('byzx')===0)localStorage.removeItem(k)});location.reload()" style="display:block;margin-top:8px;padding:7px 10px;background:rgba(230,45,85,.12);color:#ff8a8f;border:1px dashed rgba(230,45,85,.4);border-radius:6px;font-size:12px;text-align:center;text-decoration:none">［ 重新开始本局 ］</a>
+    </div>
+    <div class="card">
+      <h3>吧务团队</h3>
+      <div class="staff">
+        <div class="staff-row">
+          <div class="av" style="background:#b07a2e">主</div>
+          <span>博雅中学吧主</span><span class="badge badge-master">吧主</span>
+        </div>
+        <div class="staff-row">
+          <div class="av" style="background:#5a76d9">巡</div>
+          <span>巡逻猫</span><span class="badge badge-mod">吧务</span>
+        </div>
+        <div class="staff-row">
+          <div class="av" style="background:#7a8aa6">熄</div>
+          <span>熄灯侠</span><span class="badge badge-mod">吧务</span>
+        </div>
+        <div class="staff-row">
+          <div class="av" style="background:#7a8aa6">早</div>
+          <span>早睡冠军</span><span class="badge badge-mod">吧务</span>
+        </div>
+        <div class="staff-row">
+          <div class="av" style="background:#7a8aa6">背</div>
+          <span>背书好苦</span><span class="badge badge-mod">吧务</span>
+        </div>
+        <div class="note">特别说明：本吧暂无「小编」职位。私信报名者一律不予理会。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>吧内公告</h3>
+      <ul>
+        <li><span class="dot">·</span>吧规修订至第8版，2025-11-01 生效</li>
+        <li><span class="dot">·</span>近期话题管理说明已置顶，请务必阅读</li>
+        <li><span class="dot">·</span>非官方贴吧，与学校官方无关，请勿混淆</li>
+        <li><span class="dot">·</span>禁发：广告 · 引战 · 人身攻击 · 迷信谣言</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>吧务操作记录</h3>
+      <ul class="del-log">
+        <li>12-20 <span class="t">21:15</span> 删帖：五楼那面墙里的东西…</li>
+        <li>12-20 <span class="t">20:47</span> 删帖：转学生到底叫什么名字</li>
+        <li>12-20 <span class="t">20:03</span> 删帖：我打印了2018年帖子全文</li>
+        <li>12-19 <span class="t">22:47</span> 删帖：（内容为空）</li>
+        <li>12-19 <span class="t">22:47</span> 删帖：（内容为空）</li>
+        <li>12-19 <span class="t">22:47</span> 删帖：（内容为空）操作者：<span class="sys">系统</span></li>
+        <li>12-19 <span class="t">23:02</span> 删帖：3号楼楼下那个白影是谁</li>
+        <li>12-18 <span class="t">23:11</span> 删帖：监控室里第13路画面</li>
+        <li>12-18 <span class="t">14:32</span> 删帖：出售手机数据镜像的广告（第2次）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>本吧热帖 TOP5</h3>
+      <div id="hotList"></div>
+    </div>
+
+    <div class="card">
+      <h3>签到排行榜</h3>
+      <div class="rank-row"><span class="rank-num top3">1</span>早睡冠军 <span style="margin-left:auto;color:var(--sub)">438天</span></div>
+      <div class="rank-row"><span class="rank-num top3">2</span>背书好苦 <span style="margin-left:auto;color:var(--sub)">402天</span></div>
+      <div class="rank-row"><span class="rank-num top3">3</span>晚自习逃逸分子 <span style="margin-left:auto;color:var(--sub)">351天</span></div>
+      <div class="rank-row"><span class="rank-num">4</span>干饭王中王 <span style="margin-left:auto;color:var(--sub)">298天</span></div>
+      <div class="rank-row"><span class="rank-num">5</span>博雅冲浪选手 <span style="margin-left:auto;color:var(--sub)">241天</span></div>
+      <div style="margin-top:8px;font-size:11px;color:var(--sub)">注：十三分之十二 累计签到 <b>0</b> 天</div>
+    </div>
+
+    <div class="card">
+      <h3>友情贴吧</h3>
+      <ul class="friend">
+        <li><span class="dot">·</span><a>市一中吧</a></li>
+        <li><span class="dot">·</span><a>隔壁三中吧</a></li>
+        <li><span class="dot">·</span><a>县实验中学吧</a></li>
+        <li><span class="dot">·</span><span class="odd">「博雅中学吧」</span><span style="font-size:11px;color:var(--sub)">（吧主：空 · 帖子：2 · 建吧于2018-03-10）</span></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<footer class="footer">
+  <div>博雅中学吧 · 2010年建吧 · 非官方平台，与博雅中学及相关部门无任何关联</div>
+  <div>本页为游戏项目演示页面 · 所有人物、帖子均为虚构 · 请理性上网，远离迷信</div>
+  <div style="color:#c9ced6">© 2025 博雅中学吧务组 · 访问人数：2,327</div>
+</footer>
+
+<!-- 帖子弹窗 -->
+<div class="mask" id="mask">
+  <div class="tmodal">
+    <div class="tmodal-head">
+      <h2 id="mTitle"></h2>
+      <button class="tmodal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="tmodal-body" id="mBody"></div>
+  </div>
+</div>
+
+
+<!-- 彩蛋：倒计时 -->
+<div id="countdown">
+  <span class="x" onclick="this.parentNode.style.display='none'">×</span>
+  <div>距离「归返」</div>
+  <div class="big" id="cdTime">--天 --时 --分 --秒</div>
+  <div class="cap">（别问这是什么。问就是我没说过。）</div>
+</div>
+
+<script>
+/* ============================================================
+   博雅中学吧 · 数据
+   ============================================================ */
+/* 进度持久化：刷新（同一会话）不丢；关闭窗口/重启浏览器才重置。
+   用 sessionStorage 标记当前会话：新会话首次打开才清空上一局进度。 */
+try{
+  if(!sessionStorage.getItem('byzx_sess')){
+    Object.keys(localStorage).forEach(k=>{ if(k.indexOf('byzx')===0) localStorage.removeItem(k); });
+    sessionStorage.setItem('byzx_sess','1');
+  }
+}catch(e){}
+const AV_COLORS = [
+  ['晚晴','#1f2329'],['JECat','#1f2329'],['晚','#4e6ef2'],['玄','#722ed1'],['巡','#5a76d9'],['主','#b07a2e'],
+  ['熄','#7a8aa6'],['早','#0e9d8a'],['背','#7a8aa6'],['热','#315efb'],
+  ['高','#0e9d8a'],['干','#d46b08'],['不','#315efb'],['摆','#0e9d8a'],
+  ['咸','#d63384'],['拍','#315efb'],['隔','#d46b08'],['深','#722ed1'],
+  ['考','#b07a2e'],['物','#0e9d8a'],['今','#d46b08'],['恋','#d63384'],
+  ['偷','#0e9d8a'],['旧','#b3202e'],['2018','#722ed1'],['路','#86909c'],
+  ['十','#1f2329'],['林','#1f2329'],['匿','#4b5563']
+];
+function avColor(name){
+  const hit = AV_COLORS.find(c=>name.startsWith(c[0]));
+  return hit ? hit[1] : '#7a8aa6';
+}
+function avatarEl(name, cls){
+  const color = avColor(name);
+  const dark = (color==='#1f2329' || color==='#4b5563');
+  return `<span class="${cls}" style="background:${color};${dark?'color:#9fc1ff;':''}">${name[0]||'?'}</span>`;
+}
+
+/* 数据模型：full=true 时附带 content */
+const threads = [
+  {key:'p1', pin:true, flair:'gong', title:'【公告】博雅中学吧吧规2025修订版（第8版）——进吧必读', author:'博雅中学吧主',
+   time:'置顶 · 2025-11-01', rep:3287, locked:false, digest:false, full:true,
+   content:{
+     body:['1. 本吧为博雅中学非官方交流平台，吧友请文明用语，互相尊重。',
+       '2. 禁止发布虚假信息、广告、引战帖及人身攻击内容。',
+       '3. 涉及「校园安全」相关的未证实信息，一律先删帖再核实，望各位理解与配合。',
+       '4. 吧务团队拥有最终解释权。',
+       '——本版吧规自 2025-11-01 起生效。'],
+     replies:[
+       {n:'巡逻猫', t:'2025-11-01 09:12', badge:'吧务', text:'置顶生效。尤其第3条，请大家自觉。'},
+       {n:'玄学老登', t:'2025-11-01 10:03', text:'第3条里的「校园安全」，请问指的是哪方面的安全？护栏？还是别的？'},
+       {n:'匿名吃瓜群众', t:'2025-11-01 10:40', text:'楼上别作死，吧主都说了先删后核实，你这不撞枪口上么[滑稽]'}
+     ]
+   }},
+  {key:'p2', pin:true, flair:'gong', title:'【公告】【新生必看】2025级入学报到全攻略 · 长期答疑帖', author:'热心学长',
+   time:'置顶 · 2025-12-18', rep:1046, locked:false, digest:false, full:false},
+  {key:'p3', pin:true, flair:'disc', title:'【精华】【灵异】「五楼那些事」综合讨论楼——2018-2025事件汇总与时间线（坟贴勿挖）', author:'玄学老登',
+   time:'置顶 · 今天 22:47', rep:15234, locked:false, digest:true, full:true,
+   content:{
+     body:['开这个楼之前，先把话说清楚：本楼只负责记录，不做任何「断定」。信不信，你自己判断。',
+       '以下是时间线（2018—2025）：',
+       '2018-03-10　旧教学楼五楼东侧，高二(3)班一名同学「晚自习后失联」，校方通报为「意外坠楼」。当晚监控「恰好」损坏，相关帖子「恰好」被秒删。',
+       '2018-03-11　事发次日凌晨，监控通道从13路变12路，维修记录写的是「设备故障」。同一天，校内人数从1801改成1800。',
+       '2018-04-05　清明。3号楼女生宿舍一名女生跳楼。公开说法：悲伤过度。吧里当时有帖子说她「出事前在宿舍摆黑布、烧东西」，被秒删。同班、同一个人身边的。',
+       '2018-05　　信息中心机房出现「无来源写入」，每晚22:47自动写入，据传与五楼监控有关。',
+       '2019　　　五楼东侧封闭一个学期，开学后又「开放」，护栏已「修复」。',
+       '2020　　　校保安队一个夜班兄弟干满一个月就辞职了，理由没细说。',
+       '2021　　　三号楼连续三晚整楼停电，来电时间都是 22:47。',
+       '2022　　　校史长廊的1988年奠基照「更新」了一次。老照片去哪儿了？没人知道。',
+       '2023　　　毕业照风波：那一届的官方毕业照，是12人版本。',
+       '2024　　　有人扒出旧档案：1997年「溺水」、2004年「失踪」、2011年「火灾」。你们发现规律没有？',
+       '2025-03　　「永固」维修队又进场了，这次是往旧楼地下室方向运水泥。注意，那个地下室1990年就「封死」了。',
+       '2025-12　　3号楼女生宿舍楼顶「安全封闭改造」——施工方，还是永固。和五楼护栏、地下室水泥，同一个队。',
+       '今天　　　2025-12-20，五楼东侧的灯，本月第三次半夜全灭。',
+       '2026-03-10　第八个年头。它被打断的那条线，还没走完。',
+       '规律是什么，我不说破。懂的人自然懂。楼里聊，别引战，别@吧务——吧务自己会来。'],
+     replies:[
+       {n:'巡逻猫', t:'今天 21:31', badge:'吧务', text:'置顶帖内容已多次提醒，历史信息真伪难辨，吧友请自行甄别。另：楼主请勿再更新「地下室」相关描述。'},
+       {n:'玄学老登', t:'今天 21:33', text:'回复 巡逻猫：你们是不是也发现了什么，才这么紧张？'},
+       {n:'深夜两点半的机房', t:'今天 21:35', text:'楼上说得对。地下室的事，我劝各位别往下挖了。挖到底，就不是我们能承受的了。'},
+       {n:'晚自习逃逸分子', t:'今天 21:37', text:'看完时间线我人麻了，2018、2019、2020……这也太规律了吧。话说今年算第几年？'},
+       {n:'玄学老登', t:'今天 21:38', text:'回复 晚自习逃逸分子：今年2025，距2018刚好七年。七。我说到这儿。'},
+       {n:'匿名吃瓜群众', t:'今天 21:40', text:'「七」这个数字……我汗毛都立起来了[允悲]'},
+       {n:'十三分之十二', t:'今天 21:41', text:'时间线漏了一条：2018-03-10 22:47，有东西在五楼东侧那面墙里「醒来」了。'},
+       {n:'不信邪的理科生', t:'今天 21:42', text:'好家伙，楼上这ID比玄学老登还玄学。敢问这位朋友是？'},
+       {n:'玄学老登', t:'今天 21:44', text:'楼里那位十三分之十二的朋友，你的ID我记住了。如果你看到的也是真的——那咱俩看到的是同一个东西。'},
+       {n:'玄学老登', t:'今天 21:45', text:'回复 十三分之十二：七年，是守门人的规矩。八年前那个晚上被打断的东西，它自己有一张表。按它的表走，是八。懂的人，等着看三月十号。'}
+     ]
+   }},
+  {key:'t1', flair:'ling', title:'【灵异】家人们谁懂啊，12月还没过完，五楼东侧走廊的灯已经第三次半夜全灭了', author:'晚自习逃逸分子',
+   time:'今天 21:02', rep:387, locked:false, digest:false, full:true, hot:387,
+   content:{
+     body:['家人们谁懂啊，12月这才20天，五楼东侧走廊的灯已经第三次半夜全灭了。',
+       '第一次我以为是跳闸，第二次以为是灯管坏了，第三次……我晚自习放学特意绕过去看了一眼，灯管是好的，就是不开。',
+       '路过的时候走廊尽头隐约站着个「人」，吓得我直接五连喷，回宿舍腿都是软的。',
+       '有没有人遇到过？？评论区蹲个懂哥，别跟我讲是保洁阿姨关的——保洁阿姨八点半就下班了[流汗黄豆]'],
+     replies:[
+       {n:'不信邪的理科生', t:'今天 21:05', text:'来了来了，又开始了，年年都有人发这个，能不能换个新鲜的[滑稽] 我物理课代表，我作证那灯就是继电器老化。'},
+       {n:'玄学老登', t:'今天 21:08', text:'回复 不信邪的理科生：别急。2018年那事之前，也是这个时间点，也是这条走廊。懂的自然懂，等你高考完再回头看这句话。'},
+       {n:'匿名吃瓜群众', t:'今天 21:09', text:'楼上的你够了，大晚上看得我头皮发麻[流汗黄豆]'},
+       {n:'深夜两点半的机房', t:'今天 21:12', text:'……我劝你们别去五楼。就说到这。'},
+       {n:'晚自习逃逸分子', t:'今天 21:14', text:'回复 深夜两点半的机房：哥，你这话我今晚睡不着了，能不能展开说说[允悲]'},
+       {n:'深夜两点半的机房', t:'今天 21:15', text:'展开不了一点。反正我劝你们晚上别走五楼，白天也别一个人上去。等学校把那个「东西」处理完再说。'},
+       {n:'物理课代表不许进', t:'今天 21:17', text:'咱吧真就人均玄学大师是吧，建议改名叫「博雅玄学吧」[滑稽] 我住五楼西侧，半夜起夜确实听见过东侧有脚步声，当时以为是没关的水龙头。'},
+       {n:'高三牲勿扰', t:'今天 21:20', text:'破防了。我就是被班主任叫去五楼拿教案的那个倒霉蛋，下午四点，空教室里传来「啪嗒」一声，像什么东西掉地上了。进去一看，地上干干净净，只有一把椅子莫名其妙翻倒在讲台上[允悲]'},
+       {n:'摆烂先锋', t:'今天 21:22', text:'建议楼主上照片，无图言雕[滑稽]'},
+       {n:'晚自习逃逸分子', t:'今天 21:24', text:'回复 摆烂先锋：本来拍了。但那张照片……怎么说呢，画面中间有一块黑的，像是没拍清楚。我删了。别问为什么删，问就是删了[允悲]'},
+       {n:'十三分之十二', t:'今天 22:47', text:'灯不是我关的。'}
+     ]
+   }},
+  {key:'t2', flair:'ling', title:'【灵异】昨晚22:40，我在五楼东侧走廊尽头看到一个「平移」进墙里的人影', author:'不信邪的理科生',
+   time:'今天 20:11', rep:216, locked:false, digest:false, full:true, hot:216,
+   content:{
+     body:['事先声明，我，物理课代表，唯物主义者，参加过省物理竞赛。',
+       '昨晚22:40，我上完厕所回来，看到五楼东侧走廊尽头站着个「人」。',
+       '我当时第一反应是哪个作死的在楼道玩手机，喊了一声，没回应。',
+       '然后那个「人」就……平移着走了。对，平移，没迈腿，直接横着挪进墙里了。',
+       '我承认我唯物了，我现在是唯恐主义者。有没有人管管[允悲]'],
+     replies:[
+       {n:'摆烂先锋', t:'今天 20:14', text:'经典「平移进墙」。楼上的，这个编得我给82分，剩下的18分以666的形式给你。'},
+       {n:'不信邪的理科生', t:'今天 20:16', text:'回复 摆烂先锋：我要不是亲眼看见我也不信。你今晚敢去五楼站到22:47你就知道了。'},
+       {n:'玄学老登', t:'今天 20:18', text:'「平移进墙」——这个描述，和2018年监控里那个「画面」一模一样。那个视频你们没看过，我表弟在信息中心实习的时候瞄到过一眼，说走廊尽头有个东西在……往外挤。'},
+       {n:'深夜两点半的机房', t:'今天 20:20', text:'他表弟说的那个视频，我可能也见过。我只能说，那东西不是人。快跑。'},
+       {n:'物理课代表不许进', t:'今天 20:22', text:'……我现在有点后悔大晚上点进来。今晚注定玉玉[允悲]'}
+     ]
+   }},
+  {key:'t25', flair:'ling', title:'【灵异】3号楼女生宿舍楼顶那扇门，我发誓它昨晚被打开了', author:'夜猫子本猫',
+   time:'今天 19:58', rep:263, locked:false, digest:false, full:true,
+   content:{
+     body:['先说好我不是变态，我是学生会查寝的，负责3号楼女生宿舍那块（别问为什么派个男生，老师安排的）。',
+       '3号楼楼顶那扇门，从我高一进来就锁着，锁都锈透了，钥匙挂在宿管阿姨那儿，从没人用过。',
+       '结果这周出了两回邪门事。',
+       '周一晚自习后我上去查一圈，那扇门开了一条缝。我以为是风吹的，凑近一看——锁还在上面，好好的，就是门开了。',
+       '今晚我第三次上去，门大开着，楼顶边缘站着个人。白裙子，背对着我。我喊了声「同学？」她没回头。',
+       '等我跑过去，楼顶空空的。再回头看，门锁又好好的了。',
+       '宿管说楼顶钥匙在她抽屉里没动过。那我看到的是什么？？',
+       '对了，楼下那帮「永固」施工队，这两天又在楼顶焊东西。焊护栏我理解，焊楼顶干什么？？？',
+       '等等，中午吧务不是刚说楼顶「安全封闭改造完成」了吗？那现在焊的又是啥——返工，还是压根没停过？'],
+     replies:[
+       {n:'摆烂先锋', t:'今天 20:01', text:'焯，楼主你说的「站边缘没回头」……我昨晚晚自习下课也在3号楼楼下，抬头看见楼顶站着个人影，我还以为是晾床单的。晾床单谁站那么靠边啊！！！'},
+       {n:'夜猫子本猫', t:'今天 20:03', text:'回复 摆烂先锋：你几点看见的？'},
+       {n:'摆烂先锋', t:'今天 20:04', text:'22:47。我记得贼清楚，那会儿刚好熄灯。'},
+       {n:'夜猫子本猫', t:'今天 20:05', text:'……22:47。又是22:47。'},
+       {n:'高三牲勿扰', t:'今天 20:08', text:'我宿舍就在3号楼六楼，你们别说了，我今晚不敢关灯睡了[允悲]'},
+       {n:'匿名吃瓜群众', t:'今天 20:11', text:'有没有一种可能……你们说的那条「白裙子」，2018年就有人发过？'},
+       {n:'玄学老登', t:'今天 20:14', text:'楼顶。又是楼顶。这条线我以为是断了，没想到是它一直等在这儿。奉劝一句：看到楼顶有人，别喊，当没看见，转身走。'}
+     ]
+   }},
+  {key:'t3', flair:'tu', title:'【吐槽】高三牲的命也是命，求求学校看看我们楼道那排能闪瞎眼的灯', author:'高三牲勿扰',
+   time:'今天 19:47', rep:89, locked:false, digest:false, full:false},
+  {key:'t4', flair:'tu', title:'【吐槽】食堂辣椒炒肉到底算不算「肉」？急，在线等，晚自习饿了', author:'干饭王中王',
+   time:'今天 19:20', rep:305, locked:false, digest:false, full:false},
+  {key:'t5', flair:'xuan', title:'【玄学】算了一卦，今年这个学校「有说法」，懂的都懂（更新：吧务别删）', author:'玄学老登',
+   time:'今天 18:52', rep:674, locked:false, digest:false, full:true, hot:674,
+   content:{
+     body:['吧里混了好几年，今天发个大的。',
+       '我翻了校史：自1997年那桩「溺水」起，每七年，这学校必出一件「大新闻」。97、04、11、18，现在算到2025。',
+       '诸位，七年一次，今年是第几个年头，你们自己数。',
+       '我本来也不信这些，直到我上个月路过校门口，看到施工队又往旧楼地下室方向运水泥。',
+       '建校起就说那是「安全隐患」封死了。一个封死的地方，需要那么多水泥？',
+       '家人们听我一句劝：今年少去东区，尤其五楼和地下室那一排。苟住就是胜利[允悲]'],
+     replies:[
+       {n:'晚自习逃逸分子', t:'今天 18:55', text:'焯，这帖子我劝老登你赶紧删，不然一会儿吧务就来了。'},
+       {n:'玄学老登', t:'今天 18:57', text:'回复 晚自习逃逸分子：删了更好，删了说明我算准了。'},
+       {n:'巡逻猫', t:'今天 19:02', badge:'吧务', text:'该帖内容涉嫌散播不实信息，已举报。请吧友理性讨论。'},
+       {n:'玄学老登', t:'今天 19:03', text:'回复 巡逻猫：我这条回复发了三遍了，都被吞了。你看这条能不能活过今晚22:47。活得过我就信你，活不过——你们就当我算准了。'},
+       {n:'十三分之十二', t:'今天 19:05', text:'1997. 2004. 2011. 2018. 七年，一次。可2025，它没按表来。它把七年改成了八年——2026年3月10日，22:47。'},
+       {n:'深夜两点半的机房', t:'今天 19:07', text:'五楼东侧，明晚晚自习后，会有人看到走廊尽头那面墙裂开。别站太近。'}
+     ]
+   }},
+  {key:'t6', flair:'qiu', title:'【求助】有没有人觉得高二(3)班那个转学生很怪？她档案上的生日……', author:'隔壁班课代表',
+   time:'今天 18:15', rep:531, locked:false, digest:false, full:true, hot:531,
+   content:{
+     body:['有没有人觉得高二(3)班新来的那个转学生很怪？',
+       '9月份转来的，成绩好到离谱，年级第一，但是从来不跟人说话，看人的眼神就……怎么说，像隔着玻璃看标本。',
+       '今天她路过我身边，我莫名打了个寒战。',
+       '而且我听说，她档案上的生日是某年十月初五，阴历。有没有人懂这个的，帮我看看这个日子[允悲]'],
+     replies:[
+       {n:'玄学老登', t:'今天 18:20', text:'……己丑年十月初五？阴年阴月。等下，我算算。你等等。你们校长是不是这学期又批了一笔「旧楼维护」的款？'},
+       {n:'隔壁班课代表', t:'今天 18:23', text:'回复 玄学老登：你怎么知道？？好像是有，听说还是那个「永固」的队中标的。我就好奇一个建筑队凭什么年年中标。'},
+       {n:'高三牲勿扰', t:'今天 18:26', text:'破案了，这设定就是个恐怖游戏吧？转学生=新女主，那我是不是也该跑个团[滑稽]'},
+       {n:'深夜两点半的机房', t:'今天 18:28', text:'她不是转学生。她一直都在。只是你们现在才看见她。'},
+       {n:'匿名吃瓜群众', t:'今天 18:30', text:'楼上的，大半夜的你能不能别当谜语人，我尿都被吓回去了[允悲]'},
+       {n:'考古学家', t:'今天 18:31', text:'回复 隔壁班课代表：这学校的「转学生」，十有八九姓苏。2018年3号楼跳楼那个学姐，也姓苏。转学生要真是她家的——你们自己去品。'}
+     ]
+   }},
+  {key:'t7', flair:'ling', title:'【灵异】监控室的朋友说，昨天机房自己响了一整晚，像是有东西在敲机柜', author:'深夜两点半的机房',
+   time:'今天 17:38', rep:198, locked:false, digest:false, full:false},
+  {key:'t26', flair:'disc', title:'【讨论】有人知道2018年3号楼女生宿舍跳楼那个学姐吗？翻旧帖翻到的，越看越怕', author:'刚入学的小高一',
+   time:'今天 17:15', rep:411, locked:false, digest:false, full:true, hot:411,
+   content:{
+     body:['先别急着骂我挖坟，我是真的被吓到了，想找个明白人问问。',
+       '我刷贴吧，刷到那个卖「数据镜像」的帖子（就是老被删那个），又顺藤摸瓜翻到几条2018年的旧帖子。',
+       '拼出来的大概是这样：2018年3月10号，旧楼五楼一个男生「失联」；一个月后，4月5号，3号楼女生宿舍楼顶有人跳下来。',
+       '跳楼的是那个男生的女朋友，同班。公开说法是悲伤过度。',
+       '但是！！！我翻到一条被删帖子的截图（不知道谁存的），上面说：那个学姐跳楼前，在宿舍里摆黑布、烧纸、还拿笔往地上描什么图案。',
+       '她到底在干什么？？一个悲伤过度的女生，为什么要摆黑布、描图案？',
+       '有没有2018届的学长学姐知道内情？？求求了，我住3号楼，我怕。'],
+     replies:[
+       {n:'考古学家', t:'今天 17:20', text:'……苏晚晴。你拼得没错，就是她。高二(3)班，男生的女朋友。她跳楼那天是2018年4月5号，清明。当时都说是悲伤。现在看，未必。'},
+       {n:'刚入学的小高一', t:'今天 17:22', text:'回复 考古学家：未必是什么意思？？'},
+       {n:'考古学家', t:'今天 17:25', text:'回复 刚入学的小高一：我记得她出事前一个月，整个人都不对劲。总一个人往旧楼五楼跑，还抱着个小本子写写画画。有次我看见她蹲在五楼走廊地上，拿粉笔描地砖的纹路，一边描一边哭。我当时以为她想不开，现在想想——她可能是在干什么我们看不懂的事。'},
+       {n:'深夜两点半的机房', t:'今天 17:28', text:'她描的是不是地面上的图案？如果是——那她不是在发疯，她是在找那个东西。'},
+       {n:'高三牲勿扰', t:'今天 17:31', text:'我天，越说越瘆人。她到底是想干什么啊……'},
+       {n:'林同学的日记本', t:'今天 17:33', text:'她想把它封住。她失败了。'},
+       {n:'十三分之十二', t:'今天 17:35', text:'回复 林同学的日记本：所以现在它要来换下一任了。'},
+       {n:'摆烂先锋', t:'今天 17:38', text:'行了行了，今晚又要做噩梦了，你们聊，我先睡了[允悲]'}
+     ]
+   }},
+  {key:'t8', flair:'tu', title:'【吐槽】为什么我们班钟表永远慢10分钟？班主任：别问，问就是玄学', author:'摆烂先锋',
+   time:'今天 16:54', rep:127, locked:false, digest:false, full:false},
+  {key:'t9', flair:'bai', title:'【表白】表白校门口卖煎饼的阿姨，她给我煎饼永远多一个蛋', author:'咸鱼翻身',
+   time:'今天 16:30', rep:77, locked:false, digest:false, full:false},
+  {key:'j2', flair:'disc', title:'【扒一扒】2018年那个「失联」的男生，校外至少三个女朋友，聊天记录我到现在还留着', author:'2018届_老学长',
+   time:'今天 16:08', rep:875, locked:false, digest:false, full:true, hot:875,
+   content:{
+     body:['开帖先自证：2018届高二(3)班，我坐他斜后桌，跟了他整整一年。',
+       '今天刷吧，看到有人挖2018年的事，我觉得有些话不说不行了。',
+       '当年我们班那个「打篮球失联」的男生——对，就是五楼那个——不是大家以为的那种「阳光好学生」。',
+       '他公开跟同班一个女生谈恋爱，全年级都知道他俩在一起。那个女生后来跳楼了，名字我不提，你们知道我说谁。',
+       '但他同时在校外至少谈了三个：隔壁三中一个，职高一个，还有个QQ上认识的。聊天记录我当年全存了，云盘还在，怕被删。',
+       '三个时间线互相重叠，那种「宝贝」「想你了」的对话，我都不好意思贴出来。',
+       '最讽刺的是啥？他追那个同班女生，根本不是喜欢她。是那女生被班里几个人霸凌，他拿「她是我对象」当名义护着她。',
+       '说白了，他把「恋爱」当保护伞，把她圈在里面，外面爱谁谁。',
+       '她跳楼之后我才反应过来：她可能到死都不知道，他那些「爱」全是演的。',
+       '这帖子我预计活不长。截图在云盘，需要的我私发（仅限毕业生，别问为什么）。'],
+     replies:[
+       {n:'匿名吃瓜群众', t:'今天 16:11', text:'我焯……这要都是真的，那女生也太惨了，被蒙在鼓里蒙到死。'},
+       {n:'高三牲勿扰', t:'今天 16:13', text:'老哥你当年怎么不发啊，现在人都没了，说这些还有啥用……'},
+       {n:'2018届_老学长', t:'今天 16:15', text:'回复 高三牲勿扰：发了。2018年就有人发过，被秒删了。我云盘里存的就是当年的存档。这帖能活过今晚22:47，我再放截图。'},
+       {n:'摆烂先锋', t:'今天 16:18', text:'你们有没有想过一个问题：那个女生跳楼之前，是不是已经知道了这些？'},
+       {n:'深夜两点半的机房', t:'今天 16:20', text:'回复 摆烂先锋：……她要是知道了，那她那天晚上站在楼顶的时候，冲的可能就是这件事去的。'},
+       {n:'林同学的日记本', t:'今天 16:22', text:'他骗了她。她信了。灯灭了。'},
+       {n:'十三分之十二', t:'今天 16:24', text:'真相从来不可怕。可怕的是，你以为是真相的东西，是别人安排给你看的。'},
+       {n:'巡逻猫', t:'今天 16:26', badge:'吧务', text:'该帖涉及2018年已故人员，请勿过度消费，否则将锁定处理。'}
+     ]
+   }},
+  {key:'t10', flair:'ling', title:'【灵异】镇楼图警告：五楼那面墙上的「花纹」，和去年比是不是变多了？', author:'拍照的咸鱼',
+   time:'今天 15:12', rep:442, locked:false, digest:false, full:true, hot:442,
+   content:{
+     body:['上个月晚自习课间，我忍不住拍了五楼东侧那面墙。',
+       '去年我同桌也拍过一张，对比了一下，墙上的「花纹」好像变多了，多了几条，绕着灯管转了一圈。',
+       '图片发不上来，系统一直提示「文件已损坏」。我压了个缩略图也发不上来。',
+       '算了，反正那墙上的纹路，绝对不像普通的水渍。懂的人看一眼就懂。'],
+     replies:[
+       {n:'摆烂先锋', t:'今天 15:16', text:'无图言雕，楼主你这波属于是：图来了，图又走了[滑稽]'},
+       {n:'拍照的咸鱼', t:'今天 15:18', text:'回复 摆烂先锋：真不是我不发，是平台一直说文件损坏。我怀疑我手机摄像头都被什么东西盯上了[允悲]'},
+       {n:'玄学老登', t:'今天 15:20', text:'「文件损坏」。这话我听过一遍——2018年，监控里那段1.5秒的画面，官方说法也是「文件损坏」。'},
+       {n:'不信邪的理科生', t:'今天 15:22', text:'楼上，求你别再说2018了，我期末还要考物理，天天被你们PUA[允悲]'}
+     ]
+   }},
+  {key:'t11', flair:'qiu', title:'【求助】新生求助！社团招新到底在哪报名？被挤了一中午啥也没看到', author:'高一四班打工人',
+   time:'今天 14:58', rep:66, locked:false, digest:false, full:false},
+  {key:'j1', flair:'disc', title:'【资源】懂的进：2018年的女高中生手机数据镜像，全新未解锁，私聊看预览', author:'JECat',
+   time:'今天 14:03', rep:1003, locked:false, digest:false, full:true, hot:1003,
+   content:{
+     body:['标题敢写就不怕被封，懂的来，不懂的划走。',
+       '货：2018年一个女高中生手机的数据镜像，全套。相册、备忘录、短信、通话记录、浏览器历史，一次导出，原机原生态。',
+       '先说好：这货不是新的。是「某所学校」当年的遗物，内容清过一次（懂的都懂为什么要清）。',
+       '适合什么人，我不多说。预览私聊发，先款后货，嫌贵的勿扰。',
+       '（这帖是我重发的第4次了，前3次被删。删得越勤，说明东西越真，这个道理不用我教吧。）',
+       '楼下放了张锁屏截图，自己看。解不解得开，看你的本事。'],
+     replies:[
+       {n:'摆烂先锋', t:'今天 14:05', text:'？这种也敢发，管理员呢，救命[允悲]'},
+       {n:'JECat', t:'今天 14:07', text:'回复 摆烂先锋：删我一次我发一次，发到你们吧主亲自来求我下架[滑稽]'},
+       {n:'匿名吃瓜群众', t:'今天 14:09', text:'6，这种东西也敢买，你是真不怕手机里走出点啥'},
+       {n:'JECat', t:'今天 14:11', text:'回复 匿名吃瓜群众：怕什么，2018年的老东西了。再说我也没打算自己解，我就是个中间商。'},
+       {n:'深夜两点半的机房', t:'今天 14:14', text:'……JECat，你从哪儿搞的？是不是机房那个备份盘里拷出来的？你知道那是什么吗？'},
+       {n:'JECat', t:'今天 14:16', text:'回复 深夜两点半的机房：机房？不不不。我从一个老同事手里收的，说是当年从学校资料库流出来的。货是真的，钱到手走人，管那么多干嘛。'},
+       {n:'深夜两点半的机房', t:'今天 14:18', text:'回复 JECat：你那个「老同事」，是不是2018年清明节前辞职的。'},
+       {n:'JECat', t:'今天 14:19', text:'回复 深夜两点半的机房：…………你查户口啊？不聊了。'},
+       {n:'系统', t:'今天 22:47', sys:true, text:'（本帖已被系统自动锁定。重发第5次。）'}
+     ]
+   }},
+  {key:'t12', flair:'gong', title:'【吧务】【公告】关于近期「旧教学楼」「五楼」等话题的集中处理说明（必看）', author:'博雅中学吧主',
+   time:'今天 13:40', rep:502, locked:false, digest:false, full:true,
+   content:{
+     body:['近期本吧出现多起涉及「旧教学楼」「五楼」「地下室」「2018年事件」等内容的发帖。',
+       '经吧务组讨论，决定如下：',
+       '一、即日起，此类话题一律禁止新开帖，违者删帖。',
+       '二、历史相关帖子不再顶帖，见即沉。',
+       '三、转发未经证实的信息可能构成造谣，请吧友自重。',
+       '本吧主张理性、友善、健康的交流环境。也请个别吧友注意：网络不是法外之地，删掉的帖子和数据，属于校方与平台的管理范畴。',
+       '——博雅中学吧务组'],
+     replies:[
+       {n:'晚自习逃逸分子', t:'今天 13:45', text:'笑死，「属于校方与平台的管理范畴」——这话是哪个领导帮你写的？'},
+       {n:'巡逻猫', t:'今天 13:47', badge:'吧务', text:'回复 晚自习逃逸分子：@博雅中学吧主 该楼疑似引战，是否封禁？'},
+       {n:'博雅中学吧主', t:'今天 13:49', text:'回复 巡逻猫：先留观察。删太多反而引人注意。'},
+       {n:'匿名吃瓜群众', t:'今天 13:52', text:'？吧主你这话怎么听着不像在管吧，像在管「别让更多人知道」[允悲]'},
+       {n:'系统', t:'今天 22:47', sys:true, text:'（本帖已被系统自动锁定）'}
+     ]
+   }},
+  {key:'t13', flair:'disc', title:'【讨论】你们押今年的元旦晚会哪个班赢？我梭哈3班', author:'博雅冲浪选手',
+   time:'今天 12:33', rep:98, locked:false, digest:false, full:false},
+  {key:'t28', flair:'gong', title:'【吧务】【公告】关于「3号楼」「楼顶」等不实信息的集中说明（请勿传播）', author:'博雅中学吧主',
+   time:'今天 12:15', rep:334, locked:false, digest:false, full:true,
+   content:{
+     body:['近日，吧内出现多起关于「3号楼女生宿舍」「楼顶」「坠楼」等内容的发帖。经核实，均为不实信息。现集中说明如下：',
+       '1. 3号楼楼顶于本学期初已由我校合作单位「永固建筑维修队」完成安全封闭改造，不存在人员可自行上到楼顶的情况。',
+       '2. 所谓「坠楼」「人影」等，系个别吧友以讹传讹，请勿传播。',
+       '3. 我校教学秩序正常，校园一切安好。',
+       '同时，请个别账号停止在本吧发布、售卖与本主题相关的不实信息（包括但不限于所谓「数据镜像」）。删帖与封禁不是目的，维护清朗的网络环境才是。',
+       '——博雅中学吧务组'],
+     replies:[
+       {n:'晚自习逃逸分子', t:'今天 12:18', text:'笑死，「安全封闭改造」。2018年护栏叫「维护」，楼顶叫「改造」，地下室叫「安全隐患」。你们管得真宽。'},
+       {n:'巡逻猫', t:'今天 12:20', badge:'吧务', text:'回复 晚自习逃逸分子：已记录。再次提醒，请理性发言。'},
+       {n:'玄学老登', t:'今天 12:22', text:'越焊越出事。封条是贴给活人看的，楼上那位不认封条。'},
+       {n:'深夜两点半的机房', t:'今天 12:24', text:'「不存在人员可自行上到楼顶」——那2018年从上面掉下来的人，是怎么上去的？'},
+       {n:'匿名吃瓜群众', t:'今天 12:26', text:'楼上你是真不怕被封号啊，勇士[允悲]'}
+     ]
+   }},
+  {key:'t27', flair:'ling', title:'【灵异】昨晚22:47，有人从3号楼女生宿舍楼顶跳下来了！！', author:'夜猫子本猫',
+   time:'今天 12:05', rep:59, locked:false, digest:false, full:true,
+   content:{
+     body:['我知道这个帖子活不久，我尽量说得快、说得清楚。',
+       '昨晚22:47，我在宿舍楼值班室（学生会查寝，今天轮到我通宵）刷手机，忽然听到外面「咚」的一声。',
+       '很闷，像一大袋水泥砸在水泥地上。没有尖叫。什么声音都没有。',
+       '我扔下手机冲出去。3号楼楼下，路灯底下，干干净净，什么都没有。',
+       '我抬头看楼顶。楼顶边缘站着一个人，白裙子，就那样低头看着我。',
+       '然后她平移着，退回楼顶里面了。',
+       '今早我特意去问宿管阿姨，她说昨晚没人出事，楼顶门锁着，钥匙在她那儿。我又问了好几个宿舍，都说睡得很好，啥也没听见。',
+       '可那声「咚」，我到现在耳朵里还有。',
+       '谁看到了就帮我顶一下，别让它沉了。我谢谢你们。'],
+     replies:[
+       {n:'系统', t:'今天 22:47', sys:true, text:'（本帖已被系统自动锁定。原帖内容将被删除，仅保留标题。）'},
+       {n:'匿名吃瓜群众', t:'今天 12:10', text:'大哥你冷静点……我昨晚也醒了，是听到一声闷响，我还以为是楼上摔东西。你这……我不睡了。'},
+       {n:'不信邪的理科生', t:'今天 12:14', text:'如果真是从楼顶掉下来，落地大概1.7秒，人是叫不出来的。物理课代表跟你讲这个不是吓你，是告诉你：你听到的那个声音，可能不是它发出来的。'},
+       {n:'高三牲勿扰', t:'今天 12:16', text:'求求了，你们别在饭点发这个，我蹲坑刷到腿都软了[允悲]'}
+     ]
+   }},
+  {key:'t29', flair:'disc', title:'【讨论】我信楼主。昨晚我也在楼顶，我数了，楼下加楼顶，一共13个', author:'十三分之十二',
+   time:'今天 11:02', rep:522, locked:false, digest:false, full:true, hot:522,
+   content:{
+     body:['我信夜猫子那个帖。因为昨晚22:47，我也在3号楼楼顶。',
+       '不是我自己上去的。是「被请上去」的。你们就当我疯了吧。',
+       '我数了。楼下路灯底下站着的，加上楼顶站着的，一共十三个。',
+       '我数了两遍。都是十三。',
+       '可我们3号楼，总共十二个班。',
+       '第十三个，不是今晚才来的。它2018年就在了。它在等一个人，凑齐最后一个数。',
+       '你们要是不信，当我疯了。等2026年3月10号那天晚上，你们自己数。',
+       '（我不多说了，吧务盯着呢。这个帖活过今晚22:47，我再更。）'],
+     replies:[
+       {n:'高三牲勿扰', t:'今天 11:05', text:'「被请上去的」？？？大哥你翻译翻译什么叫「被请上去」，我害怕'},
+       {n:'摆烂先锋', t:'今天 11:07', text:'咱吧现在人均编剧是吧，十三个，你怎么不说是十三个我[滑稽]'},
+       {n:'十三分之十二', t:'今天 11:09', text:'回复 摆烂先锋：十三个「我」……你这句话，算说对了一半。'},
+       {n:'玄学老登', t:'今天 11:12', text:'十三分之十二，你终于说了一次「人话」。楼顶那个数，我和你数的一样。'},
+       {n:'匿名吃瓜群众', t:'今天 11:15', text:'2026年3月10号……等等，你们有谁算过，今天到那天，正好80天？？'},
+       {n:'十三分之十二', t:'今天 11:16', text:'80天。你算对了。'},
+       {n:'深夜两点半的机房', t:'今天 11:18', text:'你数得这么准，我倒是想问问：你是十三分之十二，还是被数掉的那一个？'}
+     ]
+   }},
+  {key:'t14', flair:'ling', title:'【灵异】挖坟考古：2018年3月10日那个「晚自习后失联」的帖子，为什么被秒删？', author:'考古学家',
+   time:'昨天 23:15', rep:633, locked:false, digest:false, full:true, hot:633,
+   content:{
+     body:['考古党来挖坟了，先自报家门：本人2018届老学长，当年事发那届的。',
+       '2018年3月10号，旧教学楼五楼，有个同学「晚自习后失联」，后来通报是「意外坠楼」，相关帖子当年被秒删。',
+       '今年是2025，七年了。我就想问一句：当年五楼的护栏，为什么到4月10号才「修复」？',
+       '护栏坏了一个月没人修，偏偏出事那天「坏」了？懂的都懂，不多说。',
+       '吧主别删，删了说明我说对了。'],
+     replies:[
+       {n:'博雅中学吧主', t:'昨天 23:16', text:'本吧为营造健康讨论环境，已删除该帖部分内容。请吧友不信谣不传谣，尊重逝者。'},
+       {n:'考古学家', t:'昨天 23:17', text:'回复 博雅中学吧主：您删得真快，5秒前刚发的。上班挺辛苦吧，大半夜还守着吧。'},
+       {n:'玄学老登', t:'昨天 23:19', text:'删帖只会让坟头草长得更快。贴吧没了还有微博，微博没了还有墙。那年的事，该知道的总会知道。'},
+       {n:'林同学的日记本', t:'昨天 22:47', text:'护栏是被人为拆掉的。'},
+       {n:'匿名吃瓜群众', t:'昨天 23:22', text:'楼上这位兄弟的ID有点东西……别吓我[允悲]'},
+       {n:'巡逻猫', t:'昨天 23:25', badge:'吧务', text:'【吧务提醒】本楼将锁定，请吧友移步其他讨论。'},
+       {n:'林同学的日记本', t:'昨天 22:47', text:'不用锁，我自己会走。灯要灭了。'}
+     ]
+   }},
+  {key:'t15', flair:'tu', title:'【吐槽】求求晚自习别再放那种会「啪嗒」掉下来的椅子了，我物理课代表都吓麻了', author:'物理课代表不许进',
+   time:'昨天 22:47', rep:143, locked:false, digest:false, full:false},
+  {key:'t16', flair:'qiu', title:'【求助】钱包丢了！蓝色，操场附近，捡到的好心人我请你吃食堂', author:'今天也差点迟到',
+   time:'昨天 22:05', rep:34, locked:false, digest:false, full:false},
+  {key:'t17', flair:'ling', title:'【灵异】【已锁定】匿名：我回来了，五楼的灯还亮着', author:'林同学的日记本',
+   time:'昨天 22:47', rep:0, locked:true, digest:false, full:true,
+   content:{
+     body:['我回来了。',
+       '灯还亮着。',
+       '你们数得到我吗？',
+       '注册于 2018年3月10日 22:47 · 最后活跃：今天 22:47'],
+     replies:[],
+     lockedNote:'本帖已锁定，无法回复。锁定时间：2025-12-19 22:47。锁定原因：不适用。'
+   }},
+  {key:'t30', flair:'ling', title:'【灵异】【已锁定】我回来了。楼下的灯，还是2018年那盏', author:'晚晴',
+   time:'昨天 22:47', rep:0, locked:true, digest:false, full:true,
+   content:{
+     body:['我回来了。',
+       '楼下的灯，还是2018年那盏。',
+       '他叫我在这里等他。我等了七年。',
+       '还有80天。那时候，他会来接我。',
+       '你们数得到我吗？',
+       '注册于 2018年3月10日 22:47 · 最后活跃：昨天 22:47'],
+     replies:[],
+     lockedNote:'本帖已锁定，无法回复。锁定时间：2025-12-19 22:47。锁定原因：不适用。'
+   }},
+  {key:'t18', flair:'disc', title:'【讨论】毕业照上到底几个人？我数了三遍都是13个，同学说只有12', author:'十三分之十二',
+   time:'昨天 21:19', rep:877, locked:false, digest:false, full:true, hot:877,
+   content:{
+     body:['我数了三遍。从校史长廊那排毕业照，到今年发下来的班级合照，都是13个人。',
+       '我问同桌：「是不是13个？」他愣了愣：「12个啊，你是不是眼花了？」',
+       '我又数了一遍，还是13。',
+       '然后数到第三遍的时候，照片最边上那个人，朝我笑了一下。',
+       '我确定我没看错。有人知道这是怎么回事吗？'],
+     replies:[
+       {n:'摆烂先锋', t:'昨天 21:22', text:'……这个帖子我点进来就想退出去，真的[允悲]'},
+       {n:'考古学家', t:'昨天 21:26', text:'兄弟，你说的这个我信。2018年那届毕业照，官方给的就是12人版本，但后来有人翻出老图，是13人。多出来那个人，就是当年「失联」的那位。'},
+       {n:'十三分之十二', t:'昨天 21:28', text:'回复 考古学家：那不是「多出来」。是把一个人「数掉了」。'},
+       {n:'深夜两点半的机房', t:'昨天 21:31', text:'你们有没有想过：不是照片里多了一个人，而是我们这群活人里面，少算了一个？'},
+       {n:'高三牲勿扰', t:'昨天 21:34', text:'别别别，我今晚还要去自习室，你们这样我还学得进去？[允悲]'},
+       {n:'匿名吃瓜群众', t:'昨天 21:36', text:'这楼我不敢爬了，先撤[允悲]'},
+       {n:'玄学老登', t:'昨天 21:40', text:'楼主，注意你ID的意思——十三分之十二。十三个人里，只有十二个是「人」。你这是在提醒谁？还是说，你就是那个被「数掉」的人？'},
+       {n:'（回复功能异常）', t:'昨天 22:47', sys:true, text:'（十三分之十二 未回复。该楼层数据为空白。）'}
+     ]
+   }},
+  {key:'t19', flair:'bai', title:'【表白】表白高三(1)班那个投三分的男生，你昨天那球让我心动了一节课', author:'恋爱脑修复中心',
+   time:'昨天 20:41', rep:156, locked:false, digest:false, full:false},
+  {key:'t20', flair:'disc', title:'【讨论】月考物理最后一题有人做出来吗？做完我直接物理外挂', author:'物理课代表不许进',
+   time:'2025-12-18', rep:92, locked:false, digest:false, full:false},
+  {key:'t21', flair:'disc', title:'【讨论】2018届老学长回来看看：三年了还有人记得五楼吗？（今天都2025了）', author:'2018届_老学长',
+   time:'2025-12-14', rep:154, locked:false, digest:false, full:false},
+  {key:'t22', flair:'qiu', title:'【求助】想转学，有学长学姐劝退吗？我先说，我们班班长会喷人', author:'匿名用户666',
+   time:'2025-12-16', rep:321, locked:false, digest:false, full:false},
+  {key:'t23', flair:'tu', title:'【吐槽】校长今天又在大门口站岗查手机，谁懂这种压迫感', author:'偷感很重的学生',
+   time:'2025-12-15', rep:280, locked:false, digest:false, full:false},
+  {key:'t24', flair:'ling', title:'【灵异】旧教学楼地下室那个入口，昨天好像又有人来「焊」了', author:'旧教学楼幽灵观察员',
+   time:'2025-12-14', rep:199, locked:false, digest:false, full:false},
+  {key:'n1', flair:'qiu', title:'【求助】食堂三楼的麻辣烫今天开了吗？昨天跑空了两趟，求今天去的同学说一声', author:'干饭王中王',
+   time:'今天 14:45', rep:42, locked:false, digest:false, full:false},
+  {key:'n2', flair:'bai', title:'【表白】表白今天下午第二节体育课在操场边捡球的高二女生，扎高马尾那个，你笑的那一下我三年不白活', author:'路过的学长',
+   time:'今天 14:12', rep:188, locked:false, digest:false, full:false},
+  {key:'n3', flair:'tu', title:'【吐槽】求英语老师别再让我背单词了，背一个忘一个，我人已经忘在3号楼了', author:'英语渣本渣',
+   time:'今天 13:58', rep:96, locked:false, digest:false, full:false},
+  {key:'n4', flair:'disc', title:'【讨论】今年元旦晚会你们班准备什么节目？我们班要跳科目三，我想死', author:'元旦晚会筹备人员',
+   time:'今天 13:40', rep:247, locked:false, digest:false, full:false},
+  {key:'n5', flair:'qiu', title:'【求助】高一的学长学姐有没有推荐的数学练习册？班主任让我买《五年高考三年模拟》但我怕做不完', author:'数学垫底选手',
+   time:'今天 12:56', rep:73, locked:false, digest:false, full:false},
+  {key:'n6', flair:'tu', title:'【吐槽】政教处查校服能不能别那么严格？我外套没拉拉链，被罚站了一整节课[微笑]', author:'不穿校服星人',
+   time:'今天 12:30', rep:164, locked:false, digest:false, full:false},
+  {key:'n7', flair:'bai', title:'【表白】表白小卖部阿姨，我今天忘带饭卡，阿姨让我先拿了东西明天再给，我爱死博雅小卖部了', author:'欠三块钱的好心人',
+   time:'今天 12:08', rep:112, locked:false, digest:false, full:false},
+  {key:'n8', flair:'disc', title:'【讨论】有没有人觉得新换的那批课桌椅坐着腰酸背痛？我坐了一周，腰已经不是自己的了', author:'腰椎间盘突出预备役',
+   time:'今天 11:42', rep:89, locked:false, digest:false, full:false},
+  {key:'n9', flair:'qiu', title:'【求助】谁丢了一个蓝色的保温杯？上面有动漫挂件，捡到大门口保安室了', author:'拾金不昧的路人',
+   time:'今天 10:59', rep:28, locked:false, digest:false, full:false},
+  {key:'n10', flair:'tu', title:'【吐槽】为什么周二要跑操？？？周一升旗、周二跑操，我一个礼拜还没开始人就没了', author:'跑操跑断腿',
+   time:'今天 10:15', rep:203, locked:false, digest:false, full:false},
+  {key:'n11', flair:'disc', title:'【讨论】你们都觉得食堂哪个窗口最坑？我投打饭窗口，一勺子菜半勺油', author:'食堂评论家',
+   time:'今天 09:47', rep:356, locked:false, digest:false, full:false},
+  {key:'n12', flair:'bai', title:'【表白】表白图书馆三楼靠窗那个戴眼镜的男生，你今天下午看的那本书我也看完了，你抬头看我的那一下，我心跳漏了一拍', author:'图书馆的猫',
+   time:'今天 09:20', rep:302, locked:false, digest:false, full:false},
+  {key:'n13', flair:'qiu', title:'【求助】有没有人知道医务室今天开不开？我发烧了，不敢回家，怕我妈骂我穿少了', author:'瑟瑟发抖的感冒选手',
+   time:'今天 08:50', rep:54, locked:false, digest:false, full:false},
+  {key:'n14', flair:'tu', title:'【吐槽】新教学楼的饮水机能不能修一下？一楼那台永远没热水，二楼那台烫到能褪毛', author:'喝口水好难',
+   time:'2025-12-19', rep:77, locked:false, digest:false, full:false},
+  {key:'n15', flair:'disc', title:'【讨论】今年冬季运动会取消了？有人听到内幕吗？班主任只说「另行通知」，另行到什么时候啊', author:'运动会期待星人',
+   time:'2025-12-19', rep:141, locked:false, digest:false, full:false},
+  {key:'n16', flair:'qiu', title:'【求助】有没有去年中考的学长学姐？我想知道博雅中考分数线大概多少，我弟今年要考，想参考一下', author:'操心的姐姐',
+   time:'2025-12-19', rep:61, locked:false, digest:false, full:false},
+  {key:'n17', flair:'bai', title:'【表白】表白高二(2)班那个弹钢琴的女生，元旦晚会彩排听到你弹了，我站在外面听哭了', author:'钢琴门外汉',
+   time:'2025-12-19', rep:215, locked:false, digest:false, full:false},
+  {key:'n18', flair:'tu', title:'【吐槽】为什么我们高二要补课到腊月二十三？？我妈都不让我回家过年了！[怒]', author:'补课补到崩溃',
+   time:'2025-12-18', rep:488, locked:false, digest:false, full:false},
+  {key:'n19', flair:'disc', title:'【讨论】你们宿舍晚上几点熄灯？我们宿管阿姨10点就拉闸，我作业还没写完啊救命', author:'熬夜写作业冠军',
+   time:'2025-12-18', rep:172, locked:false, digest:false, full:false},
+  {key:'n20', flair:'qiu', title:'【求助】谁能借我一本高一的物理书？我把自己的落家里了，我妈又出差没人给我送[允悲]', author:'忘带书大王',
+   time:'2025-12-18', rep:33, locked:false, digest:false, full:false},
+  {key:'n21', flair:'tu', title:'【吐槽】求求广播站别再放同一首歌了，我已经会唱了，真的', author:'被洗脑的耳朵',
+   time:'2025-12-17', rep:130, locked:false, digest:false, full:false},
+  {key:'n22', flair:'bai', title:'【表白】表白今天下午在旧教学楼三楼走廊帮我捡书的男生，我当时脑子一片空白连谢谢都忘了说，对不起！！！如果你看到了，请你喝奶茶！', author:'书掉一地的笨蛋',
+   time:'2025-12-17', rep:402, locked:false, digest:false, full:false},
+  {key:'n23', flair:'disc', title:'【讨论】新出的那个校服好看吗？我觉得还行，但我同桌说像保洁阿姨的制服，到底谁眼瞎', author:'校服好看党',
+   time:'2025-12-17', rep:256, locked:false, digest:false, full:false},
+  {key:'n24', flair:'qiu', title:'【求助】有没有人捡到一个黑色的钢笔？上面刻着「LX」两个字母，对我很重要，捡到的话我请吃一个月食堂二楼！！！', author:'LX的钢笔',
+   time:'2025-12-16', rep:149, locked:false, digest:false, full:false},
+  {key:'n25', flair:'tu', title:'【吐槽】今天数我们班人数，老师点名42个，我数了43个，老师瞪了我一眼，我现在怀疑我眼瞎，还是多了一个谁', author:'数人数数懵逼',
+   time:'2025-12-16', rep:98, locked:false, digest:false, full:true,
+   content:{
+     body:['今天班主任查人数，念名单，念完说：42人，齐了。',
+       '我当时坐第一排，跟着数，数完是43。',
+       '我举手说老师我数的43。',
+       '老师看了我一眼，没理我，继续上课。',
+       '下课我又数了一遍，42。',
+       '我就奇了怪了，上课那分钟，多出来的是谁。'],
+     replies:[
+       {n:'匿名吃瓜群众', t:'2025-12-16 18:22', text:'……是不是你把自己数了两遍[滑稽]'},
+       {n:'数人数数懵逼', t:'2025-12-16 18:25', text:'回复 匿名吃瓜群众：我发誓没有！我专门跳过自己数的！'},
+       {n:'十三分之十二', t:'2025-12-16 22:47', text:'你没数错。'},
+       {n:'物理课代表不许进', t:'2025-12-16 19:04', text:'兄弟你这个帖……大晚上看我有点麻。建议以后别数了，老师说多少就多少。'}
+     ]
+   }},
+  {key:'n26', flair:'disc', title:'【讨论】你们相信吗？我去年在这吧里存了个截图，今天找，帖子还在，我存的那张图没了。不是我删的，就是图没了，只剩个x', author:'旧截图收藏家',
+   time:'2025-12-15', rep:82, locked:false, digest:false, full:false},
+  {key:'n27', flair:'tu', title:'【吐槽】我QQ好友列表里有个人，我从来没加过，头像是白的，网名是空的，删也删不掉，今天他发了个说说：「今天几号」', author:'删不掉的好友',
+   time:'2025-12-14', rep:211, locked:false, digest:false, full:false},
+  {key:'n28', flair:'qiu', title:'【求助】有没有人知道3号楼女生宿舍去年封的那间房是几号？我刚才上楼，楼道里有一间房，门牌号被撕掉了，我问宿管阿姨她只说「不要靠近」', author:'住3号楼的小透明',
+   time:'2025-12-13', rep:167, locked:false, digest:false, full:false}
+];
+
+/* ---------- 渲染列表 ---------- */
+const flairCls = {ling:'f-ling', qiu:'f-qiu', disc:'f-disc', tu:'f-tu', bai:'f-bai', xuan:'f-xuan', gong:'f-gong'};
+const flairText = {ling:'灵异', qiu:'求助', disc:'讨论', tu:'吐槽', bai:'表白', xuan:'玄学', gong:'吧务'};
+
+function renderList(){
+  const el = document.getElementById('threadList');
+  let html = '';
+  threads.forEach(t=>{
+    let left = '';
+    if(t.pin) left += '<span class="pin-mark">置顶</span>';
+    if(t.digest) left += '<span class="dig-mark">精</span>';
+    if(t.locked) left += '<span class="lock-mark">锁</span>';
+    const meta = `<span class="flair ${flairCls[t.flair]}">${flairText[t.flair]}</span>` +
+                 `<span>${t.author}</span>` +
+                 `<span>${t.rep}回复</span>` +
+                 `<span>${t.time}</span>`;
+    const avc = avColor(t.author);
+    const dark = (avc==='#1f2329'||avc==='#4b5563');
+    html += `
+    <div class="thread" data-key="${t.key}" data-flair="${t.flair}" onclick="openThread('${t.key}')">
+      <div class="t-left">
+        <span class="t-av" style="background:${avc};${dark?'color:#9fc1ff;':''}">${t.author[0]||'?'}</span>
+        <div class="t-info">
+          <div class="t-title">${left}${t.title}</div>
+          <div class="t-meta">${meta}</div>
+        </div>
+      </div>
+      <div class="t-right">
+        <div class="t-rep">${t.rep.toLocaleString()}<small> 回复</small></div>
+        <div class="t-time">${t.time}</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+/* ---------- 热帖 ---------- */
+function renderHot(){
+  const hot = threads.filter(t=>t.hot).sort((a,b)=>b.hot-a.hot).slice(0,5);
+  document.getElementById('hotList').innerHTML = hot.map(t=>`
+    <div class="rank-row" style="cursor:pointer" onclick="openThread('${t.key}')">
+      <span class="rank-num top3">${t.hot}</span>
+      <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.title}</span>
+    </div>`).join('');
+}
+
+/* ---------- 弹窗 ---------- */
+function openThread(key){
+  const t = threads.find(x=>x.key===key);
+  if(!t) return;
+  document.getElementById('mTitle').textContent = t.title;
+  const body = document.getElementById('mBody');
+  const dark = avColor(t.author)==='#1f2329';
+  let html = `<div class="op-post">
+    <div class="op-top">
+      ${avatarEl(t.author,'op-av')}
+      <div>
+        <div class="op-name">${t.author} <span class="lz-badge">楼主</span></div>
+        <div class="op-meta"><span>${t.time}</span><span>·</span><span>${t.rep}回复</span><span>·</span><span>${t.locked?'已锁定':'未锁定'}</span></div>
+      </div>
+    </div>`;
+  if(t.full && t.content){
+    html += `<div class="op-content">${t.content.body.map(p=>escapeHtml(p)).join('\n')}</div>`;
+    if(t.content.lockedNote) html += `<div class="locked-note">${escapeHtml(t.content.lockedNote)}</div>`;
+    html += `</div>`;
+    if(t.content.replies && t.content.replies.length){
+      html += `<div style="margin-top:14px;font-size:13px;color:var(--sub)">全部回复（${t.content.replies.length}）</div>`;
+      t.content.replies.forEach((r,i)=>{
+        const floorN = i+1;
+        let avHtml = avatarEl(r.n, 'f-av');
+        let badge = r.badge ? `<span style="font-size:10px;padding:1px 5px;border-radius:3px;background:#eef2fe;color:#315efb;border:1px solid #c9d4fb;margin-left:6px">${r.badge}</span>` : '';
+        let sysColor = r.sys ? 'color:#b3202e;' : '';
+        html += `<div class="floor">
+          <div class="f-top-line">
+            ${avHtml}
+            <span class="f-name">${r.n}</span>${badge}
+            <span class="f-floor"><span class="f-time">${r.t}</span><span>${floorN}楼</span></span>
+          </div>
+          <div class="f-text" style="${sysColor}">${escapeHtml(r.text)}</div>
+        </div>`;
+      });
+    }
+  } else {
+    html += `<div class="blocked-note">该帖内容已被吧务屏蔽或由作者删除，仅保留标题。<br>最后访问：2025-12-20 22:47</div></div>`;
+  }
+  html += `<div class="reply-bar">
+    <input type="text" placeholder="友善发言，理性讨论……" onkeydown="if(event.key==='Enter'){alert('回复失败：您的账号因发布「未经证实的信息」被吧务暂时禁言。剩余禁言时间：22小时47分。');this.value='';}">
+    <button onclick="alert('回复失败：您的账号因发布「未经证实的信息」被吧务暂时禁言。剩余禁言时间：22小时47分。')">回复</button>
+  </div>`;
+  if(t.key==='j1'){
+    html += `<div style="margin-top:14px;padding:14px;background:#fdf6f5;border:1px dashed #e5c9c4;border-radius:6px;text-align:center">
+      <div style="font-size:12px;color:#b3202e;margin-bottom:10px">⚠ 未知来源数据包 · 解压后可能包含异常文件</div>
+      <a class="cipher-btn" href="苏晚晴的手机.html" target="byzx_phone" style="margin-top:0">接收数据包 · 解压并打开</a>
+      <div style="font-size:11px;color:var(--sub);margin-top:10px">（你点了「接收」，屏幕暗了一下。一个新的窗口弹了出来——里面，是别人的手机。它已经很久没亮过了。）</div>
+    </div>`;
+  }
+  body.innerHTML = html;
+  document.getElementById('mask').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('mask').classList.remove('show');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ---------- 交互 ---------- */
+function signIn(){
+  const btn = document.getElementById('signBtn');
+  btn.textContent = '今日已签到 · 连续37天';
+  btn.style.opacity = '.7';
+  setTimeout(()=>{ if(btn.textContent.indexOf('连续')>-1) btn.textContent='已签到'; }, 600);
+}
+
+/* 帖子数活体跳动 */
+let postCount = 18904;
+setInterval(()=>{
+  postCount++;
+  document.getElementById('postNum').textContent = postCount.toLocaleString();
+}, 8000);
+
+/* ---------- 叙事沉浸：自动诡异事件 ---------- */
+const _creepyKeys = ['t1','t2','t25','t24','t5','t6','t26','t29','t14','t18','t17','t30','n25','n27','n28','t7','t10'];
+const _viewedThreads = new Set();
+const _originalThreadTitle = {};
+threads.forEach(t=>{ _originalThreadTitle[t.key]=t.title; });
+
+/* 每次打开帖子都算已浏览 */
+const _origOpenThread = openThread;
+openThread = function(key){
+  _viewedThreads.add(key);
+  localStorage.setItem('byzx_viewed', JSON.stringify(Array.from(_viewedThreads)));
+  _origOpenThread(key);
+  checkHorrorLevel();   // 行为驱动：看帖升级恐怖
+};
+/* 读取已浏览记录 */
+try{
+  const _v = JSON.parse(localStorage.getItem('byzx_viewed')||'[]');
+  _v.forEach(k=>_viewedThreads.add(k));
+}catch(e){}
+
+/* 2. 行为驱动的恐怖分级（取代时间倒计时）
+      浏览灵异帖 / 解开手机密码 → 页面逐级变恐怖
+      Lv1: 看 1+ 灵异帖   → 顶栏时间标签微黄、头像偶尔空白（已有）
+      Lv2: 看 3+ 灵异帖   → 普通帖开始消失（已有）+ 顶栏偏暗
+      Lv3: 解开手机PIN 或 看 5+灵异帖 → 全局偏冷红、背景发暗、标题偶现红字
+      Lv4: 解开手机PIN 且 看过 t17(林晓日记) 且 看过 t30(晚晴) → 触发 22:47 高潮
+*/
+let _horrorLv = 0;
+const _phoneUnlockedKey = 'byzx_phone_unlocked';
+
+function phoneUnlocked(){
+  return localStorage.getItem(_phoneUnlockedKey) === '1';
+}
+function creepyViewedCount(){
+  return _creepyKeys.filter(k=>_viewedThreads.has(k)).length;
+}
+
+function checkHorrorLevel(){
+  const cv = creepyViewedCount();
+  const pu = phoneUnlocked();
+  let lv = 0;
+  if(cv >= 1) lv = 1;
+  if(cv >= 3) lv = 2;
+  if(pu || cv >= 5) lv = 3;
+  // Lv4 高潮：手机解锁 + 看过林晓日记 + 看过晚晴
+  if(pu && _viewedThreads.has('t17') && _viewedThreads.has('t30')) lv = 4;
+  if(lv > _horrorLv){
+    _horrorLv = lv;
+    applyHorrorLevel(lv);
+    if(lv === 4 && !window._passed2247){
+      window._passed2247 = true;
+      trigger2247Event();
+    }
+  }
+  checkPlotHorror();   // 剧情门控：浏览 / 解锁手机 / 解开备忘 → 逐层推进氛围
+}
+
+function applyHorrorLevel(lv){
+  // 主题固定为原始样式：不随浏览/解锁改变配色
+  document.body.classList.remove('h1','h2','h3','h4');
+  const t = document.getElementById('simTime');
+  if(t) t.classList.remove('warn','danger','dead');
+}
+
+/* ---------- 剧情门控的恐怖氛围（随进度推进，各触发一次） ---------- */
+const _forumLoadAt = Date.now();
+/* 看过 3+ 灵异帖：删帖记录顶部多一条「系统 22:47」动态删帖 */
+function plotGate_browsed(){
+  if(window._plotBrowsed) return;
+  if(creepyViewedCount() < 3) return;   // 持久进度：刷新后按已看数量重新铺上红字
+  window._plotBrowsed = true;
+  const ul = document.querySelector('.del-log');
+  if(ul && !ul.querySelector('li[data-fx="browsed"]')){
+    const li = document.createElement('li');
+    li.setAttribute('data-fx','browsed');
+    li.innerHTML = '<span style="color:#b3202e">（刚刚）</span> <span class="t">22:47</span> 删帖：〈你正在看的这一条〉 <span class="sys">系统</span>';
+    ul.insertBefore(li, ul.firstChild);
+  }
+  console.log('%c[氛围] 删帖记录多了一条：〈你正在看的这一条〉','color:#b3202e');
+  pulseFx();
+}
+/* 手机已解锁：顶栏「消息」亮红点，弹出【未知设备】私信 */
+function plotGate_unlocked(){
+  if(window._plotUnlocked) return;
+  if(!phoneUnlocked()) return;
+  if((+localStorage.getItem('byzx_phone_unlocked_at')||0) < _forumLoadAt) return;  // 只响应本次进入后新解锁
+  window._plotUnlocked = true;
+  console.log('%c[氛围] 未知设备的私信送达。','color:#722ed1');
+  pulseFx();
+  const m = document.getElementById('gMsg');
+  if(m){
+    const b = document.createElement('i');
+    b.style.cssText='display:inline-block;width:7px;height:7px;border-radius:50%;background:#ff2d55;margin-left:3px;vertical-align:1px';
+    m.appendChild(b);
+  }
+  setTimeout(()=>{
+    if(window._plotMsgShown) return;
+    window._plotMsgShown = true;
+    const c = document.createElement('div');
+    c.style.cssText='position:fixed;right:16px;bottom:16px;z-index:300;background:rgba(12,18,32,.95);color:#eef1f5;border:1px solid rgba(255,45,85,.45);border-radius:8px;padding:16px 18px;font-size:13px;line-height:1.9;max-width:320px;box-shadow:0 12px 40px rgba(0,0,0,.6)';
+    c.innerHTML = `
+      <div style="font-size:11px;color:#5a6680;letter-spacing:3px;margin-bottom:8px">来自【未知设备】· 22:47</div>
+      <div style="color:#c88eb0">
+        你解锁了那台手机。<br>
+        它隔着屏幕，看见你了。<br>
+        相册最后那张强光，是你拍的，还是它拍的？<br>
+        <b style="color:#ff7ba9">「别照镜子。」</b>
+      </div>
+      <div style="margin-top:12px;text-align:right"><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:1px solid #722ed1;color:#d0a8f0;padding:4px 14px;border-radius:4px;cursor:pointer;font-size:11px">关闭</button></div>`;
+    document.body.appendChild(c);
+    pulseFx();
+  }, 2200);
+}
+/* 上锁备忘已解开：p3 时间线帖追加一条「十三分之十二」的 22:47 回复 */
+function plotGate_note(){
+  if(window._plotNote) return;
+  if(localStorage.getItem('byzx_note_unlocked') !== '1') return;   // 持久进度：刷新后重新补上那条回复
+  window._plotNote = true;
+  console.log('%c[氛围] 十三分之十二在时间线里补了一楼。','color:#b3202e');
+  pulseFx();
+  const p3 = threads.find(x=>x.key==='p3');
+  if(p3 && p3.content && p3.content.replies){
+    const has = p3.content.replies.some(r=>r.sys);
+    if(!has){
+      p3.content.replies.push({n:'十三分之十二', t:'今天 22:47', text:'你读到那篇「上锁的」了。那就别再往下翻了。2026-03-10，它在等一个看过那张照片的人。'});
+    }
+  }
+}
+function checkPlotHorror(){
+  plotGate_browsed();
+  plotGate_unlocked();
+  plotGate_note();
+  applyFx();
+}
+
+/* 当前解密进度 → 0~1 强度 */
+function sndI(){
+  let n = 0;
+  try{
+    n += (JSON.parse(localStorage.getItem('byzx_viewed')||'[]')).length * 0.4;
+    n += (JSON.parse(localStorage.getItem('byzx_phone_viewed')||'[]')).length * 0.6;
+    if(localStorage.getItem('byzx_phone_unlocked')==='1') n += 2;
+    if(localStorage.getItem('byzx_note_unlocked')==='1') n += 2;
+  }catch(e){}
+  return Math.min(1, n/10);
+}
+/* 页面氛围：暗角/噪点随进度加重，关键节点闪红 */
+function applyFx(){
+  const fx = document.getElementById('fx');
+  if(!fx) return;
+  fx.style.opacity = (0.04 + sndI()*0.5).toFixed(3);
+}
+function pulseFx(){
+  const fx = document.getElementById('fx');
+  if(!fx) return;
+  fx.classList.add('pulse');
+  setTimeout(()=>fx.classList.remove('pulse'), 900);
+}
+
+/* 页面加载时初始化恐怖等级（读取已浏览记录 + 手机解锁信号） */
+function initHorror(){
+  const cv = creepyViewedCount();
+  const pu = phoneUnlocked();
+  let lv = 0;
+  if(cv >= 1) lv = 1;
+  if(cv >= 3) lv = 2;
+  if(pu || cv >= 5) lv = 3;
+  if(pu && _viewedThreads.has('t17') && _viewedThreads.has('t30')) lv = 4;
+  _horrorLv = lv;
+  applyHorrorLevel(lv);
+  if(lv === 4 && !window._passed2247){
+    window._passed2247 = true;
+    trigger2247Event();
+  }
+}
+/* 轮询：用户可能在新标签页解锁了手机，这里每隔几秒读一次 localStorage */
+setInterval(checkHorrorLevel, 4000);
+/* 监听跨标签页 storage 变化，立即响应 */
+window.addEventListener('storage', function(e){
+  if(e.key === _phoneUnlockedKey && e.newValue === '1'){
+    checkHorrorLevel();
+  }
+});
+initHorror();
+checkPlotHorror();   // 进入页面即检查一次：已有进度则立即推进氛围
+
+function trigger2247Event(){
+  pulseFx();
+  setTimeout(pulseFx, 700);
+  // 静态时间一次性跳到 22:47（不再倒计时，而是"它来了，时间就停在这"）
+  const t = document.getElementById('simTime');
+  if(t){
+    t.textContent = '22:47';
+    t.classList.remove('warn','danger','dead');
+  }
+  // 批量把灵异帖标记为「系统已锁定」并加 22:47 回复
+  _creepyKeys.forEach(k=>{
+    const t = threads.find(x=>x.key===k);
+    if(t && !t.locked){
+      t.locked = true;
+      if(t.full && t.content && t.content.replies){
+        const hasSys = t.content.replies.some(r=>r.sys);
+        if(!hasSys){
+          t.content.replies.push({n:'系统', t:'今天 22:47', sys:true, text:'（本帖内容含有未经证实的校园安全信息，已由校方协同平台自动锁定。楼层数据自 22:47 起停止同步。）'});
+        }
+      }
+    }
+  });
+  renderList();
+  // 帖子数瞬间跳 2247（视觉冲击）
+  postCount = 22470;
+  document.getElementById('postNum').textContent = postCount.toLocaleString();
+  // 控制台大字警告
+  console.log('%c『 22:47 』','color:#ff2d55;font-size:26px;font-weight:800');
+  console.log('%c它醒了。你数到它了吗？','color:#b3202e;font-size:14px');
+}
+
+/* 彩蛋：点帖子数5次 → 倒计时 */
+let clickCount = 0;
+let _clickedCountdown = false;
+document.getElementById('postNum').addEventListener('click', function(){
+  clickCount++;
+  if(clickCount>=5){
+    document.getElementById('countdown').style.display='block';
+    _clickedCountdown = true;
+    clickCount=0;
+    localStorage.setItem('byzx_cd', '1');
+  }
+});
+if(localStorage.getItem('byzx_cd')==='1'){
+  try{ document.getElementById('countdown').style.display='block'; }catch(e){}
+}
+const _gameNow = Date.parse('2025-12-20T22:47:00');
+const _target   = Date.parse('2026-03-10T22:47:00');
+const _totalMs  = _target - _gameNow;
+const _pageLoad = Date.now();
+function tickCountdown(){
+  const diff = Math.max(0, _totalMs - (Date.now() - _pageLoad));
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor(diff%86400000/3600000);
+  const m = Math.floor(diff%3600000/60000);
+  const s = Math.floor(diff%60000/1000);
+  document.getElementById('cdTime').textContent = `${d}天 ${h}时 ${m}分 ${s}秒`;
+}
+setInterval(tickCountdown, 1000); tickCountdown();
+
+
+/* 控制台留言 */
+console.log('%c你打开了这个论坛。你也想看看五楼吗？','color:#e64b3b;font-size:14px');
+console.log('%cCAM13 · 信号正常 · 正在上传……','color:#722ed1;font-size:12px');
+console.log('%c晚晴：晴转阴。她数得到你。还有80天。','color:#9fc1ff;font-size:12px');
+console.log('%cJECat · 数据包已就绪，收件人不明。','color:#45506b;font-size:12px');
+
+/* 点击遮罩关闭 */
+document.getElementById('mask').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+
+renderList();
+renderHot();
+</script>
+</body>
+</html>

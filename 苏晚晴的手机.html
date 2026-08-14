@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据镜像 · 2018</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(1100px 700px at 50% 18%,#151b29 0%,#0a0d15 55%,#05070d 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+    overflow:hidden;
+  }
+  .stage{display:flex;flex-direction:column;align-items:center}
+  .wrap{display:flex;flex-direction:column;align-items:center;gap:20px;transform-origin:center center}
+  /* ---------- 机身 ---------- */
+  .phone{
+    width:390px;height:844px;border-radius:58px;
+    background:linear-gradient(145deg,#3b404c 0%,#14161d 45%,#0b0d12 100%);
+    box-shadow:
+      0 0 0 5px #1a1d24,
+      0 0 0 6px rgba(255,255,255,.05),
+      0 44px 130px rgba(0,0,0,.85),
+      inset 0 0 0 2px rgba(255,255,255,.05);
+    padding:12px;position:relative;flex-shrink:0;
+  }
+  .phone .sb{position:absolute;background:#1d2027;width:4px;border-radius:3px}
+  .phone .sb.power{right:-4px;top:230px;height:100px}
+  .phone .sb.vup{left:-4px;top:190px;height:66px}
+  .phone .sb.vdn{left:-4px;top:268px;height:66px}
+  .screen{
+    width:100%;height:100%;border-radius:46px;overflow:hidden;
+    background:#000;position:relative;
+  }
+  .cam{
+    position:absolute;top:13px;left:50%;transform:translateX(-50%);
+    width:13px;height:13px;border-radius:50%;background:#04050a;z-index:12;
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.10), 0 0 0 3px rgba(255,255,255,.03);
+  }
+  /* 少女感壁纸：浅粉渐变 + 白色小心点点 + 柔光 */
+  .wp{background-color:#ffc2d4;background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3E%3Cpath d='M21 32 C10 24 4 17 4 10.5 C4 5.5 8 3.5 12 5.5 C16 7.5 19 12 21 15 C23 12 26 7.5 30 5.5 C34 3.5 38 5.5 38 10.5 C38 17 32 24 21 32 Z' fill='white' opacity='0.15'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 22% 30%, rgba(255,255,255,.5) 0 24px, transparent 28px),
+    radial-gradient(circle at 78% 24%, rgba(255,255,255,.38) 0 16px, transparent 20px),
+    radial-gradient(circle at 52% 66%, rgba(255,255,255,.34) 0 12px, transparent 16px),
+    linear-gradient(165deg,#ffdce7 0%,#ffc3d5 45%,#f6ddff 100%)}
+  /* ---------- 屏幕内容 ---------- */
+  .p-screen{position:absolute;inset:0;display:flex;flex-direction:column;background:#0b0d14}
+  .p-status{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;font-size:13px;color:#8c4a6c;letter-spacing:.5px;position:relative;z-index:8;flex-shrink:0;padding-top:4px;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.08))}
+  .st-right{display:flex;align-items:center;gap:6px;font-size:12px}
+  .sig{letter-spacing:1px;color:#8c4a6c}
+  .bat{display:inline-block;padding:1px 6px;border:1px solid #d9a0b6;border-radius:3px;font-size:10px;line-height:1.3;color:#a56a86}
+  /* 开机 */
+  .boot{position:absolute;inset:0;background:#000;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .5s}
+  .boot .word{font-family:"Arial",sans-serif;font-size:26px;color:#eef1f5;letter-spacing:6px;font-weight:300}
+  .boot .bar{width:56px;height:3px;background:#3a5bd9;border-radius:2px;animation:bootbar 1.1s ease-in-out}
+  .boot .hint{font-size:11px;color:#5a6680;letter-spacing:2px}
+  @keyframes bootbar{0%{width:0;opacity:0}60%{width:56px;opacity:1}100%{opacity:0}}
+  /* ---------- 锁屏 ---------- */
+  .lock{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:64px;position:relative;overflow:hidden}
+  .lock::before{content:"博学雅行";position:absolute;right:-30px;top:210px;font-size:96px;font-weight:800;color:rgba(190,110,150,.12);letter-spacing:4px;transform:rotate(90deg)}
+  .lock::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 14%,rgba(255,255,255,.4),transparent 55%)}
+  .lock-time{font-size:56px;font-weight:400;color:#a13d68;letter-spacing:2px;z-index:1;font-family:"DIN Alternate","Arial",sans-serif;text-shadow:0 2px 10px rgba(255,255,255,.4)}
+  .lock-date{font-size:13px;color:#c4769a;margin-top:4px;z-index:1}
+  .lock-notif{width:80%;background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.95);border-radius:16px;padding:11px 15px;margin-top:20px;z-index:1;backdrop-filter:blur(2px);box-shadow:0 4px 14px rgba(200,120,150,.18)}
+  .lock-notif .ln-t{font-size:10px;color:#d089a8;margin-bottom:4px}
+  .lock-notif .ln-c{font-size:13px;color:#6b4257;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lock-fp{margin-top:22px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1;color:#e06a9c;box-shadow:0 3px 10px rgba(200,120,150,.2)}
+  .lock-fp:hover{background:rgba(255,255,255,.95)}
+  .lock-fp svg{width:22px;height:22px}
+  .lock-hint{font-size:12px;color:#c4769a;margin-top:16px;z-index:1;letter-spacing:3px}
+  .pin-dots{display:flex;gap:14px;margin-top:18px;z-index:1}
+  .pin-dots i{width:13px;height:13px;border-radius:50%;border:1.5px solid #e6aac6;background:rgba(255,255,255,.4)}
+  .pin-dots i.on{background:#ff7ba9;border-color:#ff7ba9}
+  .pin-pad{display:grid;grid-template-columns:repeat(3,66px);gap:14px;margin-top:28px;z-index:1}
+  .pin-pad button{height:58px;border-radius:50%;border:none;background:rgba(255,255,255,.68);color:#a13d68;font-size:24px;cursor:pointer;font-family:inherit;box-shadow:0 2px 6px rgba(200,120,150,.14)}
+  .pin-pad button:hover{background:rgba(255,255,255,.95)}
+  .pin-pad button.dim{font-size:14px;color:#c68ba2}
+  .pin-err{font-size:11px;color:#ff5d7e;margin-top:12px;min-height:14px;z-index:1;line-height:1.5}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+  .shake{animation:shake .32s}
+  /* ---------- 主屏 ---------- */
+  .home{flex:1;display:flex;flex-direction:column;padding:18px 18px 16px}
+  .home-bar{display:flex;justify-content:space-between;font-size:12px;color:#7a4661;margin-bottom:16px}
+  .home-search{height:38px;background:rgba(255,255,255,.6);border-radius:20px;display:flex;align-items:center;gap:8px;padding:0 16px;color:#a56a86;font-size:14px;flex-shrink:0;margin-bottom:20px;box-shadow:0 2px 8px rgba(200,120,150,.12)}
+  .app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px}
+  .app{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+  .app .ic{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(150deg,#ffffff,#ffe9f2);border:1px solid rgba(255,255,255,.9);box-shadow:0 3px 8px rgba(200,120,150,.25)}
+  .app span{font-size:11px;color:#7a4a66;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+  .app:active .ic{transform:scale(.92);transition:transform .1s}
+  .home-dots{display:flex;justify-content:center;gap:6px;padding-top:14px;flex-shrink:0}
+  .home-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6)}
+  .home-dots i.on{background:#ff7ba9;width:17px;border-radius:3px}
+  .home-dock{margin-top:auto;display:flex;justify-content:center;align-items:center;gap:28px;background:rgba(255,255,255,.55);border-radius:28px;padding:9px 22px;box-shadow:0 3px 10px rgba(200,120,150,.15)}
+  .ic.tx{font-size:22px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+  /* ---------- 应用 ---------- */
+  .appview{flex:1;background:#fff6f9;display:flex;flex-direction:column;overflow:hidden}
+  .appview-head{height:48px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#ffffff;border-bottom:1px solid #f6dde9;flex-shrink:0}
+  .appview-head .t{font-size:15px;color:#8c3f63;flex:1;text-align:center}
+  .appview-head .bk{font-size:15px;color:#ff7ba9;cursor:pointer;min-width:26px;background:none;border:none;padding:4px}
+  .appview-head .bk.none{visibility:hidden}
+  .appview-body{flex:1;overflow-y:auto;padding:12px}
+  .ph-item{display:flex;flex-direction:column;gap:4px;padding:13px 12px;border-bottom:1px solid #f6dde9;cursor:pointer}
+  .ph-item:hover{background:#ffeaf2}
+  .ph-item .n{font-size:14px;color:#6b4257}
+  .ph-item .d{font-size:12px;color:#c68ba2}
+  .ph-item .c{font-size:13px;color:#9a6b82;line-height:1.6}
+  .ph-thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .ph-thumbs .t{aspect-ratio:1;border-radius:9px;background:linear-gradient(150deg,#ffffff,#ffeaf2);border:1px solid #f6dde9;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;color:#d9a0b6;box-shadow:0 2px 6px rgba(200,120,150,.12);position:relative;overflow:hidden}
+  .ph-thumbs .t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ph-view{display:flex;flex-direction:column;gap:12px;padding:6px}
+  .ph-view .big{aspect-ratio:4/3;border-radius:10px;background:linear-gradient(160deg,#ffeaf2,#fff);display:flex;align-items:center;justify-content:center;font-size:46px;border:1px solid #f6dde9;color:#d0a0b4;box-shadow:0 2px 8px rgba(200,120,150,.12);position:relative;overflow:hidden}
+  .ph-view .big img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ph-del{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#b9a7af;font-size:12px;letter-spacing:1px;line-height:1.5;text-align:center;padding:6px}
+  .ph-del b{font-size:26px;font-weight:400;color:#c8b6be;line-height:1}
+  .ph-del em{font-style:normal;font-size:11px;color:#cbbcc3}
+  .ph-view .cap{font-size:14px;color:#6b4257;line-height:1.8}
+  .ph-view .note{font-size:13px;color:#9a6b82;background:#fff;padding:12px;border-radius:8px;border-left:3px solid #ff7ba9;line-height:1.7;box-shadow:0 1px 4px rgba(200,120,150,.1)}
+  /* ---------- 微信 · 2018 ---------- */
+  .wx-body{flex:1;background:#fff;display:flex;flex-direction:column;overflow:hidden}
+  .wx-search{margin:10px 12px;background:#f0f0f0;border-radius:6px;height:32px;display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-size:13px;flex-shrink:0}
+  .wx-list{flex:1;overflow-y:auto}
+  .wx-row{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer}
+  .wx-row:active{background:#f0f0f0}
+  .wx-row + .wx-row{border-top:1px solid #f2f2f2}
+  .wx-ava{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:600;flex-shrink:0}
+  .wx-ava.sm{width:32px;height:32px;border-radius:6px;font-size:14px}
+  .wx-mid{flex:1;min-width:0}
+  .wx-row-n{font-size:15px;color:#111}
+  .wx-row-p{font-size:12px;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+  .wx-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+  .wx-tm{font-size:10px;color:#bbb}
+  .wx-badge{background:#f43530;color:#fff;font-size:10px;min-width:16px;height:16px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  .wx-chat{flex:1;background:#ededed;display:flex;flex-direction:column;overflow:hidden}
+  .wx-scroll{flex:1;overflow-y:auto;padding:6px 0 12px}
+  .wx-date{align-self:center;font-size:11px;color:#8a8a8a;margin:8px 0 2px;background:rgba(0,0,0,.05);padding:2px 8px;border-radius:4px}
+  .wx-msg{display:flex;align-items:flex-start;gap:8px;padding:5px 14px}
+  .wx-msg.me{flex-direction:row-reverse}
+  .wx-bub{position:relative;max-width:76%;padding:9px 12px;border-radius:6px;font-size:14px;line-height:1.55;word-break:break-word;white-space:pre-wrap}
+  .wx-bub::after{content:"";position:absolute;top:10px;width:7px;height:7px;transform:rotate(45deg)}
+  .wx-bub.me{background:#95ec69;color:#111}
+  .wx-bub.me::after{right:-3px;background:#95ec69}
+  .wx-bub.them{background:#fff;color:#111}
+  .wx-bub.them::after{left:-3px;background:#fff}
+  .wx-bub.voice{display:flex;align-items:center;gap:6px;width:120px}
+  .wx-vicon{color:#8a8a8a;font-size:12px}
+  .wx-bub.me .wx-vicon{color:#5c8f3a}
+  .wx-vlen{font-size:12px;color:#555;margin-left:auto}
+  .wx-ic{font-size:18px;line-height:1}
+  .wx-input{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f7f7f7;border-top:1px solid #ddd;color:#555;font-size:16px}
+  .wx-box{flex:1;height:32px;background:#fff;border-radius:5px;border:1px solid #dcdcdc;display:flex;align-items:center;padding:0 12px;color:#b0b0b0;font-size:13px}
+  .bub{max-width:80%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.6;word-break:break-word;white-space:pre-wrap}
+  .bub.me{align-self:flex-end;background:linear-gradient(135deg,#ff8fb0,#ff6f98);color:#fff;border-bottom-right-radius:5px;box-shadow:0 2px 6px rgba(255,120,160,.3)}
+  .bub.them{align-self:flex-start;background:#ffffff;color:#6b4257;border:1px solid #f6dde9;border-bottom-left-radius:5px}
+  .voice-item{display:flex;align-items:center;gap:12px;padding:13px 10px;border-bottom:1px solid #f6dde9;cursor:pointer}
+  .voice-item:hover{background:#ffeaf2}
+  .voice-item .play{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff8fb0,#ff6f98);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+  .voice-item .n{font-size:14px;color:#6b4257}
+  .voice-item .d{font-size:12px;color:#c68ba2;margin-left:auto}
+  .voice-text{font-size:14px;color:#7a4a66;line-height:1.8;background:#fff;padding:14px;border-radius:8px;margin-top:12px;white-space:pre-wrap;border:1px solid #f6dde9}
+  .cipher{font-size:14px;color:#d0588e;line-height:2;word-break:break-word}
+  .cipher .n{color:#e9a9c6}
+  .cipher-btn{margin-top:12px;display:inline-block;padding:9px 18px;background:#ff7ba9;color:#fff;border:none;border-radius:7px;font-size:13px;cursor:pointer;font-family:inherit}
+  .cipher-btn:hover{background:#f26796}
+  .lock-note{font-size:13px;color:#8a5a74;background:#fff;border:1px dashed #f2b6cf;padding:14px;border-radius:8px;display:flex;flex-direction:column;gap:10px;line-height:1.7}
+  .lock-note input{width:130px;height:32px;background:#fff6f9;border:1px solid #f2b6cf;border-radius:6px;color:#6b4257;font-size:14px;text-align:center;outline:none}
+  .note-tag{font-size:11px;color:#e05a92;background:rgba(255,123,169,.12);border:1px solid rgba(255,123,169,.35);padding:1px 7px;border-radius:3px;margin-left:6px}
+  /* 密聊 */
+  .mystery-body{padding:0;display:flex;flex-direction:column}
+  .m-thread{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+  .m-options{flex-shrink:0;padding:12px 14px 16px;display:flex;flex-direction:column;gap:8px;background:#fff;border-top:1px solid #f6dde9}
+  .m-opt{width:100%;padding:11px 14px;border-radius:20px;border:1px solid #ffc3d9;background:#fff;color:#8c3f63;font-size:13px;cursor:pointer;text-align:center;font-family:inherit}
+  .m-opt:hover{background:#ffeaf2}
+  .bub.typing{color:#c68ba2;font-size:12px;font-style:italic}
+  /* ---------- 底部导航 ---------- */
+  .p-nav{height:46px;background:rgba(255,255,255,.88);border-top:1px solid #f6dde9;display:flex;align-items:center;justify-content:space-around;flex-shrink:0;z-index:10}
+  .nv{background:none;border:none;color:#d06a96;width:60px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+  .nv:hover{color:#8c3f63}
+  .nv svg{width:22px;height:22px}
+  .nv.press{opacity:.5}
+  /* ---------- 浮层 ---------- */
+  .p-toast{position:absolute;top:52px;left:50%;transform:translateX(-50%);background:rgba(82,34,60,.95);color:#ffeaf2;font-size:13px;padding:9px 18px;border-radius:20px;border:1px solid rgba(255,255,255,.2);opacity:0;transition:opacity .25s;pointer-events:none;z-index:20;white-space:nowrap;max-width:88%;overflow:hidden;text-overflow:ellipsis;box-shadow:0 8px 24px rgba(60,20,40,.5)}
+  .p-toast.show{opacity:1}
+  /* ---------- 页眉回帖 ---------- */
+  .back{position:fixed;top:20px;left:22px;color:#8a94a0;font-size:13px;text-decoration:none;letter-spacing:1px;z-index:50}
+  .back:hover{color:#dfe3ea}
+  .cap{color:#b07a96;font-size:12px;text-align:center;letter-spacing:2px;line-height:1.9}
+  .cap b{color:#d06a96;font-weight:600}
+  /* ---------- 氛围叠加层：暗角 + 噪点 + 扫描线，随进度加重 ---------- */
+  .fx{position:fixed;inset:0;pointer-events:none;z-index:150;opacity:0;transition:opacity 1.4s}
+  .fx-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 52%,rgba(4,7,16,.72) 100%)}
+  .fx-grain{position:absolute;inset:-20%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");opacity:.16;animation:fxgrain .4s steps(3) infinite}
+  .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
+  .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
+  @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* ---------- 晚晴上线：信号断裂 + 红色诡谲 ---------- */
+  @keyframes wxFlick{0%,86%{opacity:1}87%{opacity:.12}90%{opacity:1}91%{opacity:.22}95%{opacity:1}}
+  @keyframes wxTxtGlitch{0%,24%,100%{transform:none;filter:none}26%{transform:translate(1px,-1px) skewX(-4deg)}29%{transform:translate(-1px,1px)}32%{transform:none;filter:none}58%{transform:translate(0,1px)}61%{transform:none}}
+  .fx-static{position:fixed;inset:0;z-index:160;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.8'/%3E%3C/svg%3E");opacity:0;mix-blend-mode:screen}
+  .wx-flick{animation:wxFlick .7s steps(1) 2}
+  /* 晚晴把壁纸换成了她那张图 */
+  @keyframes wxWall{0%{opacity:0;transform:scale(1.08)}28%{opacity:.92}46%{opacity:.35}68%{opacity:.85}100%{opacity:0;transform:scale(1.02)}}
+  .fx-wall{position:fixed;inset:0;z-index:161;pointer-events:none;background:#000 url("img/NeedImg/IMG_0400.png") center/cover no-repeat;opacity:0}
+  .wp.wanqing{background-color:#000;background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url("img/NeedImg/IMG_0400.png");background-size:cover;background-position:center}
+  .bub.wanqing{background:linear-gradient(180deg,#3a0f16,#20060b);border:1px solid rgba(255,70,100,.55);color:#ffc1ce;box-shadow:0 0 16px rgba(255,40,70,.35),inset 0 0 12px rgba(255,40,70,.12);animation:wxTxtGlitch 5s steps(1) infinite}
+  /* ---------- 监控视角结局 ---------- */
+  @keyframes recblink{0%,55%{opacity:1}56%,100%{opacity:.12}}
+  @keyframes peZoom{from{transform:scale(1)}to{transform:scale(1.07)}}
+  @keyframes peJitter{0%,100%{transform:translate(0,0)}92%{transform:translate(0,0)}94%{transform:translate(-1px,1px)}96%{transform:translate(1px,-1px)}}
+  .pe-cam{position:absolute;inset:0;background:#000;opacity:0;transition:opacity 1.3s}
+  .pe-cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08) brightness(.95)}
+  .pe-cam img.zoom{animation:peZoom 10s ease forwards,peJitter 7s steps(1) 1}
+  .pe-hud{position:absolute;top:18px;left:20px;display:flex;align-items:center;gap:12px;color:#d7d7d7;font-size:13px;letter-spacing:1px;font-family:Consolas,Menlo,monospace;text-shadow:0 1px 4px rgba(0,0,0,.9);z-index:3}
+  .pe-hud .pe-rec{color:#ff3b3b;display:flex;align-items:center;gap:6px}
+  .pe-hud .pe-rec i{width:10px;height:10px;border-radius:50%;background:#ff3b3b;animation:recblink 1.2s infinite}
+  .pe-time{position:absolute;bottom:24px;right:24px;color:#e8e8e8;font-size:16px;letter-spacing:1px;font-family:Consolas,Menlo,monospace;text-shadow:0 1px 6px rgba(0,0,0,.9);z-index:3}
+  .pe-time b{color:#ff5d7e}
+  .pe-gz{position:absolute;top:18px;right:20px;color:#ff7a5c;font-size:12px;letter-spacing:2px;text-shadow:0 0 10px rgba(255,60,40,.45);z-index:3}
+  .pe-cap{position:absolute;left:0;right:0;bottom:86px;text-align:center;color:#eee;font-size:15px;letter-spacing:2px;line-height:2.1;opacity:0;transition:opacity 1s;text-shadow:0 2px 10px #000;z-index:3}
+  .pe-cap b{color:#ff7ba9}
+  .pe-reset{position:absolute;left:50%;transform:translateX(-50%);bottom:34px;opacity:0;transition:opacity 1.5s;z-index:3}
+  .pe-reset button{background:none;border:1px solid #722ed1;color:#d0a8f0;padding:9px 24px;border-radius:4px;cursor:pointer;font-size:12px;letter-spacing:2px;font-family:"Microsoft YaHei",sans-serif}
+  .pe-title{position:absolute;top:20px;left:0;right:0;text-align:center;font-size:11px;color:#5a6680;letter-spacing:4px;opacity:0;transition:opacity 1.2s}
+  /* ---------- 八字 · 玄机（中国风恐怖） ---------- */
+  .bz{position:relative;flex:1;display:flex;flex-direction:column;padding:18px 16px;overflow-y:auto;
+    background:radial-gradient(130% 95% at 50% 0%,#24140c 0%,#0e0805 55%,#050302 100%);color:#e8d8c8}
+  .bz::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.05;pointer-events:none}
+  .bz::after{content:"封";position:absolute;top:34px;right:-8px;font-size:120px;font-weight:900;color:rgba(160,30,30,.13);transform:rotate(90deg);pointer-events:none}
+  .bz .bz-tag{font-size:13px;color:#c9b48a;letter-spacing:5px;text-align:center;margin-bottom:8px}
+  .bz .bz-sub{font-size:11px;color:#9b8260;text-align:center;line-height:1.9;margin-bottom:16px;letter-spacing:1px}
+  .bz-form{display:flex;flex-direction:column;gap:9px;position:relative;z-index:1}
+  .bz-form .frow{display:flex;align-items:center;gap:10px;font-size:13px;color:#d8c6a8}
+  .bz-form .frow span{width:42px;text-align:right;letter-spacing:2px}
+  .bz-form input,.bz-form select{flex:1;background:rgba(40,20,12,.62);border:1px solid #7a2a1c;color:#f0ddc8;padding:8px;border-radius:3px;text-align:center;font-family:inherit;outline:none}
+  .bz-form input:focus,.bz-form select:focus{border-color:#b05030}
+  .bz-go{margin-top:14px;padding:11px;background:#7a1f1f;color:#ffe3c8;border:1px solid #b05030;border-radius:3px;letter-spacing:8px;cursor:pointer;font-family:inherit;font-size:14px}
+  .bz-go:hover{background:#8a2626}
+  .bz-tip{margin-top:14px;font-size:10px;color:#6e5a40;letter-spacing:1px;text-align:center;line-height:1.8;position:relative;z-index:1}
+  .bz-warn{color:#d08a6a;font-size:12px;text-align:center;padding:14px 0;letter-spacing:1px}
+  .bz-divider{margin:18px 0 10px;text-align:center;font-size:11px;color:#a08a50;letter-spacing:8px}
+  .bz-pan{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+  .bz-pan .pl{width:58px;height:66px;border:1px solid #a08a50;background:rgba(34,18,10,.55);color:#f0ddc8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:18px;letter-spacing:2px;border-radius:2px}
+  .bz-pan .pl small{font-size:9px;color:#c9b48a;letter-spacing:1px}
+  .bz-pan .pl.hi{border-color:#c05038;box-shadow:0 0 12px rgba(200,60,40,.35)}
+  .bz-wx{font-size:11px;color:#a08a50;text-align:center;letter-spacing:2px;margin-bottom:10px}
+  .bz-yu{font-size:12px;color:#e0b8a0;text-align:center;line-height:2;letter-spacing:1px;padding:0 8px}
+  .bz-ming{margin:14px 0;padding:14px;border:1px dashed #c05038;background:rgba(120,20,15,.18);border-radius:3px;text-align:center;font-size:12px;color:#f0c8b0;line-height:2.2;letter-spacing:1px}
+  .bz-ming b{color:#ff7a5c}
+  .bz-num{margin-top:6px;font-size:20px;letter-spacing:3px;color:#fff}
+  .bz-num b{color:#ff7a5c;font-size:24px}
+  .bz-hint{font-size:10px;color:#8a6a4a;margin-top:6px;letter-spacing:1px}
+  .bz-tbl-t{margin-top:14px;font-size:10px;color:#a08a50;letter-spacing:4px;text-align:center;margin-bottom:6px}
+  .bz-table{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;position:relative;z-index:1}
+  .bz-table span{font-size:9px;color:#b9a880;text-align:center;padding:2px 0;border:1px solid rgba(160,138,80,.16)}
+  .bz-table span.hl{color:#ff7a5c;border-color:#ff7a5c;background:rgba(255,80,50,.14);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- 氛围叠加层：暗角 + 噪点 + 扫描线（随进度加重） -->
+<div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+
+<a class="back" href="博雅中学吧.html">← 返回贴吧</a>
+
+<div class="stage">
+  <div class="wrap" id="wrap">
+    <div class="phone" id="phone">
+      <div class="sb power"></div>
+      <div class="sb vup"></div>
+      <div class="sb vdn"></div>
+      <div class="screen">
+        <div class="cam"></div>
+        <div class="boot" id="boot">
+          <div class="word">android</div>
+          <div class="bar"></div>
+          <div class="hint">正在开机 · 请勿关闭</div>
+        </div>
+        <div class="p-screen">
+          <div class="p-status"><span>22:47</span><span class="st-right"><span class="sig">▂▄▆</span><span>4G</span><span class="bat">90%</span></span></div>
+          <!-- 锁屏 -->
+          <div class="lock wp" id="pLock">
+            <div class="lock-time">22:47</div>
+            <div class="lock-date">4月5日 星期四 · 清明</div>
+            <div class="lock-notif">
+              <div class="ln-t">微信 · 朋友B  刚刚</div>
+              <div class="ln-c">姐妹你看贴吧了吗！！就你那个「对象」，他…</div>
+            </div>
+            <div class="lock-fp" onclick="toast('指纹识别失败 · 请使用密码')" title="指纹"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 10a3.5 3.5 0 0 1 3.5 3.5c0 1.4-.3 2.8-.8 4M12 10a3.5 3.5 0 0 0-3.5 3.5c0 1.4.3 2.8.8 4M12 10v3M6.8 13.6A5.5 5.5 0 0 1 12 7.5M17.2 13.6A5.5 5.5 0 0 0 12 7.5M12 7.5V5M9.8 21c.6-1.6.9-3.3.9-4.9M14.2 21c-.6-1.6-.9-3.3-.9-4.9M12 21c.6-1.6.9-3.3.9-4.9M12 21c-.6-1.6-.9-3.3-.9-4.9M7.8 18.8c.7-1.7 1.1-3.5 1.1-5.2M16.2 18.8c-.7-1.7-1.1-3.5-1.1-5.2"/></svg></div>
+            <div class="lock-hint">输入密码</div>
+            <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="pin-pad" id="pinPad"></div>
+            <div class="pin-err" id="pinErr"></div>
+          </div>
+          <!-- 主屏 -->
+          <div class="home wp" id="pHome" style="display:none">
+            <div class="home-bar"><span>4月5日 星期四</span><span class="st-right"><span class="sig">▂▄▆</span><span>4G</span><span class="bat">90%</span></span></div>
+            <div class="home-search">🔍  搜索应用与联系人</div>
+            <div class="app-grid" id="appGrid"></div>
+            <div class="home-dots"><i class="on"></i><i></i></div>
+            <div class="home-dock" id="dock"></div>
+          </div>
+          <!-- 应用 -->
+          <div class="appview" id="pApp" style="display:none"></div>
+          <!-- 底部导航栏 -->
+          <div class="p-nav">
+            <button class="nv" onclick="navBtn(this);navBack()" title="返回"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="nv" onclick="navBtn(this);navHome()" title="主页"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+            <button class="nv" onclick="navBtn(this);navRecents()" title="最近任务"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cap">数据镜像 · <b>只读</b><br>这台手机自 2018-04-05 22:47 之后，再没有亮过。</div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   手机镜像（苏晚晴遗物 · 2018年女高中生）
+   PIN：180310（2018-03-10，林晓坠楼那天）  备忘锁：2247（22:47）
+   ============================================================ */
+/* 进度持久化：刷新不丢；关闭窗口/重启浏览器才重置（与贴吧共用会话标记） */
+try{
+  if(!sessionStorage.getItem('byzx_sess')){
+    Object.keys(localStorage).forEach(k=>{ if(k.indexOf('byzx')===0) localStorage.removeItem(k); });
+    sessionStorage.setItem('byzx_sess','1');
+  }
+}catch(e){}
+const PHONE_PIN  = '180310';
+const PHONE_PIN2 = '2247';
+let phonePin = '';
+let currentApp = 'photos';
+let appLevel  = 0;
+let unlocked  = false;
+let pinWrong  = 0;
+let noteWrong = 0;
+
+const P = {
+  photos:[
+    {name:'IMG_0471.jpg', date:'2018-03-28', cap:'事发地地面。走廊那片黑色的图案，昨天还没有，今天又自己长出来了。', note:'备注：它又出现了。'},
+    {name:'IMG_0472.jpg', date:'2018-03-31', cap:'宿舍窗台。黑布、一碗水、水面上浮着的铜钱。', note:'备注：奶奶说，水要对着北。'},
+    {name:'IMG_0477.jpg', date:'2018-04-01', cap:'走廊尽头。画面糊成一片白光，中间隐约有个人形。', note:'备注：我喊了它，它回头了。我没敢看它的脸。'},
+    {name:'IMG_0499.jpg', date:'2018-04-03', cap:'3号楼楼下。路灯下的地面，干干净净。', note:'备注：今晚它不在。'},
+    {name:'IMG_0512.jpg', date:'2018-04-05', cap:'最后一张。对着地面拍的，只有一片强光和无数道纹路。', note:'备注：它让我看清楚。我看清了。'}
+  ],
+  notes:[
+    {t:'封印清单（奶奶教的）', d:'2018-03-26', body:'奶奶说，封东西要看时辰：丑时之后、寅时之前，面向正南。\n工具：黑布七尺、朱砂、铜钱十二枚（第十三枚，奶奶说那是给那东西留的位子）、一碗清水，水要对北。\n刻符：地面上的图，照原样描一遍，最后一笔要断——断口朝着地下室东墙。\n做完，要在节点上待满四十九分钟。\n——第一遍我照做了。第二天，图又自己长出来了。它长得比我快。'},
+    {t:'奶奶的话', d:'2018-03-29', body:'奶奶问我到底看见了什么。我说：地面上有图，晚上会自己多几笔。\n奶奶抽了一整夜的烟，早上跟我说：有些门，开过就关不上了。你走吧，别待在那学校。\n我没走。'},
+    {t:'舍友', d:'2018-04-02', body:'她们把我床底下的东西扔了。黑布、铜钱、那碗水。说是「晦气」。\n我没哭。我知道她们怕的不是我，是那些东西。\n可工具没了，我拿什么封。'},
+    {t:'他', d:'2018-04-04', body:'她们给我看了截图。三中一个，职高一个，还有一个我连名字都没听过。\n他说过，只喜欢我一个。\n原来全是我一厢情愿。他保护我，只是怕我被霸凌的事闹大，或者，觉得我可怜。\n他从来不爱我。'},
+    {t:'上锁的备忘', d:'2018-04-05', lock:'2247', body:'他骗了我。工具也没了。\n奶奶说，门开过就关不上了。我没能封住它。\n它说，八年后它会回来。到那天，它要借我的眼睛，看这个世界。\n别让人查地下室。\n对不起。\n我跳下去，会不会正好关上门？\n我不知道。但总得有人试。'},
+    {t:'损坏的数据', d:'2018-04-05', cipher:true, clean:'我没能封住它。它在地下。八年后会回来。', noise:'我22:47没22:47能22:47封22:47住22:47它22:47它22:47在22:47地22:47下22:47八22:47年22:47后22:47会22:47回22:47来'},
+    {t:'生辰', d:'2018-04-04', body:'奶奶说我落地那会儿，天刚亮。\n庚辰年，甲申月，甲辰日，辰时。\n她说我命里缺水缺火，五行不全，是个「破命」。\n那时我还笑：破命的人，鬼都不愿意要。\n现在我不笑了。\n它好像，就是冲着破命的人来的。'}
+  ],
+  wx:[
+    {c:'奶奶', ava:'奶', bg:'linear-gradient(135deg,#e8a87c,#d97a4a)', tm:'3月28日', last:'（语音）', badge:'1', lines:[
+      {me:false,date:'2018年3月26日 深夜', text:'你天天蹲地上描什么？描一天，命少一天，你知不知道。'},
+      {me:true,text:'奶奶，我要把它封住。'},
+      {me:false,text:'你封不住。它比我老。你走。'},
+      {me:true,text:'我走了，它就跟着我。'},
+      {me:true,date:'2018年3月28日 深夜', text:'奶奶，我是辰时生的吧？你总说我落地那会儿天刚亮。'},
+      {me:false,text:'庚辰年，甲申月，甲辰日，辰时。命是破命，八字奶奶算不全。'},
+      {me:true,text:'奶奶，它是不是就冲我这种命来的。'},
+      {me:false,voice:true,text:'语音', len:'12″'}
+    ]},
+    {c:'舍友A', ava:'舍', bg:'linear-gradient(135deg,#ff9ec0,#ff6f9e)', tm:'4月2日', last:'好。', lines:[
+      {me:false,date:'2018年4月2日 20:41', text:'你床头那些黑乎乎的东西，赶紧弄走，吓死人了。'},
+      {me:true,text:'你们别动。'},
+      {me:false,text:'谁要动你的。就你天天半夜爬起来，全宿舍都睡不好。再这样我们找宿管了。'},
+      {me:true,text:'好。'}
+    ]},
+    {c:'朋友B', ava:'友', bg:'linear-gradient(135deg,#7fc0ff,#4f9ff0)', tm:'4月5日', last:'你没事吧？', badge:'1', lines:[
+      {me:false,date:'2018年4月4日 22:30', text:'姐妹你看贴吧了吗！！'},
+      {me:false,text:'就你那个「对象」，他在外面谈了仨！三中那个都开房了，我同学亲眼看见的！'},
+      {me:false,text:'截图发你了，你自己看。'},
+      {me:true,text:'……'},
+      {me:false,text:'你俩不是在谈吗？你知不知道？？'},
+      {me:true,text:'嗯。我知道了。'},
+      {me:false,date:'2018年4月5日 22:41', text:'你没事吧？怎么不回消息？我错了，我不该跟你说那些……'}
+    ]}
+  ],
+  web:[
+    {t:'封 风水 方法', u:'baidu.com/s?wd=封+风水+方法'},
+    {t:'符文 图案 地面 自己出现', u:'baidu.com/s?wd=符文+地面+自己出现'},
+    {t:'博雅中学 旧教学楼 地下室', u:'baidu.com/s?wd=博雅中学+地下室'},
+    {t:'归返 什么意思', u:'baidu.com/s?wd=归返'},
+    {t:'2018年3月10日 22:47', u:'baidu.com/s?wd=2018年3月10日+22:47'},
+    {t:'坐标 地下室 东墙', u:'baidu.com/s?wd=坐标+东墙'}
+  ],
+  voice:[
+    {n:'录音 2018-04-05 22:40', d:'0:37', text:'（声音很轻）南……北……奶奶教的，我都记不清了。工具没了，图还在长。\n（停顿）其实我知道封不住的。可我不甘心。'},
+    {n:'录音 2018-04-05 22:45', d:'1:02', text:'（带着哭腔，开始念）……以血气为引，以节点为道……\n（突然停下）我不念了。念给谁听。'}
+  ]
+};
+const APPS = [
+  {id:'photos', txt:'相', bg:'linear-gradient(135deg,#ffa8c0,#ff7ba9)', t:'相册'},
+  {id:'notes',  txt:'记', bg:'linear-gradient(135deg,#c3a8f0,#9a7be0)', t:'备忘录'},
+  {id:'wx',     txt:'微', bg:'linear-gradient(135deg,#2cd14c,#0fae35)', t:'微信'},
+  {id:'web',    txt:'网', bg:'linear-gradient(135deg,#7fc0ff,#4f9ff0)', t:'浏览器'},
+  {id:'voice',  txt:'录', bg:'linear-gradient(135deg,#ffc98f,#ffab5e)', t:'语音'},
+  {id:'clock',  txt:'时', bg:'linear-gradient(135deg,#e0a8f0,#c97be0)', t:'时钟'},
+  {id:'qq', txt:'Q', bg:'linear-gradient(135deg,#20b7f5,#0a97e0)', t:'QQ', fn:false},
+  {id:'tieba', txt:'贴', bg:'linear-gradient(135deg,#6f8ef0,#3f63e0)', t:'贴吧', fn:false},
+  {id:'meitu', txt:'美', bg:'linear-gradient(135deg,#ff9ec0,#ff6f9e)', t:'美图秀秀', fn:false},
+  {id:'bili', txt:'B', bg:'linear-gradient(135deg,#ff84a8,#fb7299)', t:'哔哩哔哩', fn:false},
+  {id:'novel', txt:'文', bg:'linear-gradient(135deg,#f6b96e,#ef9b4a)', t:'小说', fn:false},
+  {id:'taobao', txt:'淘', bg:'linear-gradient(135deg,#ff7a54,#ff5000)', t:'淘宝', fn:false},
+  {id:'redbook', txt:'红', bg:'linear-gradient(135deg,#ff5c5c,#ff2442)', t:'小红书', fn:false},
+  {id:'music', txt:'♪', bg:'linear-gradient(135deg,#3cd482,#26b877)', t:'QQ音乐', fn:false},
+  {id:'call', txt:'话', bg:'linear-gradient(135deg,#42c96a,#2aa95a)', t:'电话', fn:false},
+  {id:'mystery', txt:'密', bg:'linear-gradient(135deg,#b39ddb,#7c5ce0)', t:'密聊'},
+  {id:'camera', txt:'拍', bg:'linear-gradient(135deg,#63d6f0,#2cb6de)', t:'相机', fn:false},
+  {id:'weather', txt:'晴', bg:'linear-gradient(135deg,#7fc8f5,#4f9fe0)', t:'天气', fn:false},
+  {id:'bazi', txt:'卦', bg:'linear-gradient(135deg,#8a2626,#3c0f0f)', t:'八字'},
+  {id:'game', txt:'游', bg:'linear-gradient(135deg,#ffb86b,#f5a05a)', t:'游戏', fn:false}
+];
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function appIcon(a){
+  if(a.txt) return `<div class="ic tx" style="background:${a.bg}">${a.txt}</div>`;
+  return `<div class="ic">${a.ic}</div>`;
+}
+function toast(msg){
+  let el = document.getElementById('pToast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'pToast';
+    el.className = 'p-toast';
+    document.querySelector('.p-screen').appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+function navBtn(btn){
+  btn.classList.add('press');
+  setTimeout(()=>btn.classList.remove('press'), 120);
+}
+/* 锁屏状态下，导航键不响应——不绕过密码 */
+function navHome(){
+  if(!unlocked){ toast('请先解锁手机'); return; }
+  showHome();
+}
+function goBack(){
+  if(appLevel>=1){ backToApp(); } else { showHome(); }
+}
+function navBack(){
+  if(!unlocked){ toast('请先解锁手机'); return; }
+  if(document.getElementById('pApp').style.display!=='flex') return;
+  goBack();
+}
+function navRecents(){
+  if(!unlocked){ toast('请先解锁手机'); return; }
+  toast('（镜像中不包含最近任务）');
+}
+function renderPinDots(){
+  document.querySelectorAll('#pinDots i').forEach((d,i)=>{ d.classList.toggle('on', i < phonePin.length); });
+}
+function pinKey(k){
+  if(k==='del'){ phonePin = phonePin.slice(0,-1); }
+  else if(k==='ok'){ checkPin(); }
+  else if(phonePin.length < 6){ phonePin += k; }
+  renderPinDots();
+  if(phonePin.length===6) setTimeout(checkPin, 260);
+}
+function checkPin(){
+  if(phonePin===PHONE_PIN){
+    pinWrong = 0;
+    document.getElementById('pinErr').textContent='';
+    unlocked = true;
+    localStorage.setItem('byzx_phone_unlocked','1');  // 信号：手机已解锁，贴吧端读取后升级恐怖
+    localStorage.setItem('byzx_phone_unlocked_at', String(Date.now()));
+    showHome();
+    pulseFx();
+  } else {
+    pinWrong++;
+    const hint = pinWrong>=4 ? ' · 提示：20180310' : (pinWrong>=3 ? ' · 提示：和三月十日有关' : '');
+    document.getElementById('pinErr').textContent='密码错误' + hint;
+    const phone = document.getElementById('phone');
+    phone.classList.remove('shake');
+    void phone.offsetWidth;
+    phone.classList.add('shake');
+    phonePin='';
+    renderPinDots();
+  }
+}
+function showHome(){
+  unlocked = true;
+  document.title = '数据镜像 · 苏晚晴的手机';
+  document.getElementById('pLock').style.display='none';
+  document.getElementById('pHome').style.display='flex';
+  document.getElementById('pApp').style.display='none';
+  document.getElementById('appGrid').innerHTML = APPS.map(a=>
+    `<div class="app" onclick="openApp('${a.id}')">${appIcon(a)}<span>${a.t}</span></div>`).join('');
+  document.getElementById('dock').innerHTML = ['photos','notes','wx'].map(id=>{
+    const a = APPS.find(x=>x.id===id);
+    return `<div class="app" onclick="openApp('${id}')">${appIcon(a)}<span>${a.t}</span></div>`;
+  }).join('');
+  setTimeout(checkPhoneEnding, 80);   // 回主屏时也检查一次结局入口
+}
+function appHead(title, right){
+  return `<div class="appview-head"><span class="bk" onclick="goBack()">‹</span><span class="t">${title}</span>${right || '<span class="bk none"> </span>'}</div>`;
+}
+function backToApp(){ openApp(currentApp); }
+function openApp(id){
+  const a = APPS.find(x=>x.id===id);
+  if(a && a.fn===false) return;
+  currentApp = id;
+  appLevel = 0;
+  document.getElementById('pHome').style.display='none';
+  const body = document.getElementById('pApp');
+  body.style.display='flex';
+  if(id==='photos') renderPhotos();
+  else if(id==='notes') renderNotes();
+  else if(id==='wx') renderWx();
+  else if(id==='web') renderWeb();
+  else if(id==='voice') renderVoice();
+  else if(id==='clock') renderClock();
+  else if(id==='bazi') renderBazi();
+  else if(id==='mystery') renderMystery();
+}
+function renderPhotos(){
+  document.getElementById('pApp').innerHTML = appHead('相册') + `<div class="appview-body">
+    <div class="ph-thumbs">${P.photos.map((p,i)=>`
+      <div class="t" onclick="viewPhoto(${i})"><img src="img/NeedImg/${p.name}" onerror="this.style.display='none'" alt=""><span class="ph-del">图片已被删除</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+function viewPhoto(i){
+  appLevel = 1;
+  const p = P.photos[i];
+  document.getElementById('pApp').innerHTML = appHead('照片') + `<div class="appview-body">
+    <div class="ph-view">
+      <div class="big"><img src="img/NeedImg/${p.name}" onerror="this.style.display='none'" alt=""><span class="ph-del"><b>✕</b>图片已被删除<em>原图已从设备中移除</em></span></div>
+      <div style="font-size:12px;color:#a56a86">${p.name} · ${p.date}</div>
+      <div class="cap">${escapeHtml(p.cap)}</div>
+      <div class="note">${escapeHtml(p.note)}</div>
+    </div>
+  </div>`;
+}
+function renderNotes(){
+  document.getElementById('pApp').innerHTML = appHead('备忘录') + `<div class="appview-body">
+    ${P.notes.map((n,i)=>`
+      <div class="ph-item" onclick="viewNote(${i})">
+        <div class="n">${n.t}${n.lock?'<span class="note-tag">🔒 已上锁</span>':''}${n.cipher?'<span class="note-tag">⚠ 数据损坏</span>':''}</div>
+        <div class="d">${n.d}</div>
+      </div>`).join('')}
+  </div>`;
+}
+function viewNote(i){
+  appLevel = 1;
+  const n = P.notes[i];
+  const body = document.getElementById('pApp');
+  if(n.lock){
+    body.innerHTML = appHead('上锁的备忘') + `<div class="appview-body">
+      <div class="lock-note">
+        <div>此备忘已上锁。请输入密码解锁。</div>
+        <div style="display:flex;gap:8px;align-items:center"><input id="notePin" maxlength="4" placeholder="4位密码" onkeydown="if(event.key==='Enter')tryNotePin()"><button class="cipher-btn" onclick="tryNotePin()" style="margin-top:0">解锁</button></div>
+        <div id="notePinErr" style="font-size:11px;color:#ff8a80;min-height:12px;line-height:1.5"></div>
+      </div>
+    </div>`;
+    return;
+  }
+  if(n.cipher){
+    body.innerHTML = appHead('损坏的数据') + `<div class="appview-body">
+      <div class="cipher" id="cipherText">${escapeHtml(n.noise)}</div>
+      <div style="margin-top:6px;font-size:11px;color:#6f7a90">（文件部分字节损坏，混入了未知来源的数据。占位数字似乎是同一条时间戳。）</div>
+      <button class="cipher-btn" onclick="fixCipher()">修复损坏数据</button>
+      <div class="cipher" id="cipherClean" style="display:none;margin-top:14px">${escapeHtml(n.clean)}</div>
+    </div>`;
+    return;
+  }
+  body.innerHTML = appHead('备忘') + `<div class="appview-body">
+    <div style="font-size:14px;color:#5c3048;font-weight:600;margin-bottom:4px">${escapeHtml(n.t)}</div>
+    <div style="font-size:11px;color:#c68ba2;margin-bottom:12px">${n.d}</div>
+    <div style="font-size:13px;color:#4a2a3c;line-height:1.9;white-space:pre-wrap">${escapeHtml(n.body)}</div>
+  </div>`;
+}
+function tryNotePin(){
+  const v = document.getElementById('notePin').value;
+  if(v===PHONE_PIN2){
+    noteWrong = 0;
+    localStorage.setItem('byzx_note_unlocked','1');  // 信号：备忘锁已解开，贴吧端读取后升级恐怖
+    localStorage.setItem('byzx_note_unlocked_at', String(Date.now()));
+    const n = P.notes.find(x=>x.lock);
+    document.getElementById('pApp').innerHTML = appHead('上锁的备忘') + `<div class="appview-body">
+      <div style="font-size:14px;color:#5c3048;font-weight:600;margin-bottom:12px">上锁的备忘</div>
+      <div style="font-size:13px;color:#4a2a3c;line-height:1.9;white-space:pre-wrap">${escapeHtml(n.body)}</div>
+    </div>`;
+    pulseFx();
+  } else {
+    noteWrong++;
+    const h = noteWrong>=4 ? '提示：2247' : (noteWrong>=3 ? '提示：和22:47有关' : '');
+    document.getElementById('notePinErr').textContent = '密码错误' + (h?' · '+h:'');
+  }
+}
+function fixCipher(){
+  const src = document.getElementById('cipherText');
+  const dst = document.getElementById('cipherClean');
+  if(!src || !dst) return;
+  src.style.opacity = '.7';
+  // 逐字"修复"动画：noise里的22:47被逐个剥离，clean被逐个填入
+  const noise = src.textContent || '';
+  const clean = dst.textContent || '';
+  dst.style.display = 'block';
+  dst.style.color = '#c88eb0';
+  dst.innerHTML = '';
+  let i = 0;
+  (function step(){
+    if(i < clean.length){
+      dst.innerHTML += escapeHtml(clean[i]);
+      // 同时noise逐个消失
+      if(i*5 < noise.length){
+        src.innerHTML = escapeHtml(noise.substring(i*5));
+      }
+      i++;
+      setTimeout(step, 140);
+    } else {
+      dst.innerHTML += `<br><br><span style="font-size:11px;color:#6f7a90;letter-spacing:3px">——它还在写。它写了七年。</span>`;
+      _markViewed('cipher_fixed');
+      pulseFx();
+    }
+  })();
+}
+
+/* ---------- 浏览进度追踪 & 手机端结局 ---------- */
+const _viewed = new Set();
+function _markViewed(k){
+  _viewed.add(k);
+  localStorage.setItem('byzx_phone_viewed', JSON.stringify(Array.from(_viewed)));
+  // 每次 mark 后检查结局
+  setTimeout(checkPhoneEnding, 80);
+  applyFx();
+}
+try{
+  JSON.parse(localStorage.getItem('byzx_phone_viewed')||'[]').forEach(k=>_viewed.add(k));
+}catch(e){}
+/* 晚晴出现过 → 壁纸保持为她那张图（刷新不还原） */
+if(_viewed.has('mystery_end')){
+  const _h0 = document.getElementById('pHome');
+  if(_h0) _h0.classList.add('wanqing');
+}
+const _origViewPhoto = viewPhoto;
+viewPhoto = function(i){
+  _markViewed('photo_'+i);
+  _origViewPhoto(i);
+};
+const _origViewNote  = viewNote;
+viewNote = function(i){
+  const n = P.notes[i];
+  if(!n.lock && !n.cipher) _markViewed('note_'+i);
+  if(n.cipher) _markViewed('note_'+i);   // 损坏数据这篇打开即计入进度（否则结局计数永远差 1）
+  _origViewNote(i);
+};
+const _origTryNotePin = tryNotePin;
+tryNotePin = function(){
+  const v = document.getElementById('notePin').value;
+  if(v===PHONE_PIN2){ _markViewed('note_locked'); }
+  _origTryNotePin();
+};
+const _origViewWx = viewWx;
+viewWx = function(i){ _markViewed('wx_'+i); _origViewWx(i); };
+const _origViewVoice = viewVoice;
+viewVoice = function(i){ _markViewed('voice_'+i); _origViewVoice(i); };
+const _origOpenApp = openApp;
+openApp = function(id){
+  if(id==='web') _markViewed('web');
+  if(id==='clock') _markViewed('clock');
+  if(id==='mystery') _markViewed('mystery');
+  _origOpenApp(id);
+};
+/* 密聊末尾变声：用户到 end 之后追加一段「JECat掉线→苏晚晴上线」 */
+const _origMNode = mNode;
+let _wanqingTriggered = false;
+mNode = function(id){
+  _origMNode(id);
+  if(id==='exit' && !_wanqingTriggered){
+    _wanqingTriggered = true;
+    _markViewed('mystery_end');
+    wanqingFx();
+    setTimeout(()=>{
+      mTyping(true);
+      setTimeout(()=>{
+        mTyping(false);
+        // 联系人名字变色
+        try{
+          const head = document.querySelector('.appview-head .t');
+          if(head) head.innerHTML = '晚晴 <span style="color:#ff7ba9;font-size:10px;padding:2px 6px;border:1px solid #f3b0bf;border-radius:3px">未知设备</span>';
+        }catch(e){}
+        mMsg('wanqing', '……你把手机翻完了？');
+        mMsg('wanqing', '他给你的图，数了吗？');
+        mMsg('wanqing', '别去地下室。别。');
+        mMsg('wanqing', '我从上面跳下来的时候，门没关上。它抓着我的脚，拉我……');
+        mMsg('wanqing', '它要借我的眼睛看八年后的今天。');
+        mMsg('wanqing', '八年后的今天，就是——');
+        const opt = document.getElementById('mOptions');
+        if(opt){
+          opt.innerHTML = `<button class="m-opt" onclick="wanqingReply()">（八年后的今天，是 2026 年 3 月 10 号，对吗？）</button>`;
+        }
+      }, 900);
+    }, 800);
+  }
+};
+function wanqingReply(){
+  mMsg('me', '（八年后的今天，是 2026 年 3 月 10 号，对吗？）');
+  document.getElementById('mOptions').innerHTML = '';
+  setTimeout(()=>{
+    mTyping(true);
+    setTimeout(()=>{
+      mTyping(false);
+      mMsg('wanqing', '……你知道。');
+      mMsg('wanqing', '那你也应该知道了。');
+      mMsg('wanqing', '今天，是它数到的最后一天。');
+      mMsg('wanqing', '我数了八年。数到第四十二个的时候，它停了。');
+      mMsg('wanqing', '它在等你，数第四十三个。');
+      setTimeout(triggerPhoneEnding, 2200);
+    }, 1300);
+  }, 500);
+}
+/* 手机端悲观结局触发条件：
+   5 相册 + 7 备忘（含上锁+损坏修复；生辰为可选线索不计数）+ 3 微信 + 2 录音 + 浏览器 + 时钟闹钟 + 密聊完变晚晴 */
+function checkPhoneEnding(){
+  if(window._phoneEndingShown) return;
+  const all =
+    ['photo_0','photo_1','photo_2','photo_3','photo_4',
+     'note_0','note_1','note_2','note_3','note_locked','note_5','cipher_fixed',
+     'wx_0','wx_1','wx_2',
+     'voice_0','voice_1',
+     'web','clock_alarm','mystery_end'].filter(k=>_viewed.has(k)).length;
+  // 只展示一次"继续看下去"按钮，在主屏多次 return home 时触发
+  if(all >= 20 && !document.getElementById('phoneEndingHint')){
+    const wrap = document.getElementById('pHome');
+    if(wrap && wrap.style.display!=='none'){
+      const d = document.createElement('div');
+      d.id = 'phoneEndingHint';
+      d.style.cssText='margin-top:16px;padding:10px 12px;background:rgba(255,123,169,.18);border:1px dashed #ff7ba9;border-radius:10px;font-size:12px;color:#c0355c;text-align:center;cursor:pointer;backdrop-filter:blur(2px)';
+      d.innerHTML = `（这台手机你翻了很久了……它的屏幕一直没熄。点这里：「让它熄屏」。）`;
+      d.addEventListener('click', triggerPhoneEnding);
+      wrap.appendChild(d);
+    }
+  }
+}
+function triggerPhoneEnding(){
+  if(window._phoneEndingShown) return;
+  window._phoneEndingShown = true;
+  pulseFx();
+  setTimeout(pulseFx, 700);
+  const stage = document.createElement('div');
+  stage.style.cssText='position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;color:#eef1f5;font-family:"Microsoft YaHei","PingFang SC",sans-serif;flex-direction:column;gap:18px;padding:40px;text-align:center;overflow:hidden';
+  stage.innerHTML = `
+    <canvas id="peStatic" style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;filter:grayscale(1) contrast(1.4);z-index:2"></canvas>
+    <div class="pe-cam" id="peCam">
+      <img id="peImg" src="img/NeedImg/IMG_0401.jpg" alt="">
+      <div class="fx-scan" style="position:absolute;inset:0;z-index:1"></div>
+      <div class="fx-vig" style="position:absolute;inset:0;z-index:1"></div>
+      <div class="pe-hud"><span class="pe-rec"><i></i>REC</span><span>CAM13 · 五楼东走廊</span></div>
+      <div class="pe-gz">癸亥日 · 亥时 · 阴</div>
+      <div class="pe-time" id="peTime">2025-12-20 22:47:<b>40</b></div>
+    </div>
+    <div class="pe-title" id="peTitle">—— 手机镜像结局 · 借我一双眼睛 ——</div>
+    <div class="pe-cap" id="peCap"></div>
+    <div class="pe-reset" id="peReset"><button onclick="Object.keys(localStorage).forEach(function(k){if(k.indexOf('byzx')===0)localStorage.removeItem(k)});location.reload()">［ 拔下数据线，重来 ］</button></div>`;
+  document.body.appendChild(stage);
+  /* 摄像机噪点（监控实时画面） */
+  const cv = document.getElementById('peStatic');
+  if(cv && cv.getContext){
+    try{
+      const c2 = cv.getContext('2d');
+      cv.width = Math.floor(window.innerWidth/2);
+      cv.height = Math.floor(window.innerHeight/2);
+      (function noise(){
+        const im = c2.createImageData(cv.width, cv.height);
+        const d = im.data;
+        for(let i=0;i<d.length;i+=4){
+          const v = Math.random()*255|0;
+          d[i]=v; d[i+1]=v; d[i+2]=v; d[i+3]=255;
+        }
+        c2.putImageData(im, 0, 0);
+        requestAnimationFrame(noise);
+      })();
+    }catch(e){}
+  }
+  /* 监控视角结局分镜 */
+  const cam = document.getElementById('peCam');
+  const img = document.getElementById('peImg');
+  const time = document.getElementById('peTime');
+  const cap = document.getElementById('peCap');
+  const title = document.getElementById('peTitle');
+  const resetBtn = document.getElementById('peReset');
+  function staticJolt(ms){
+    if(!cv) return;
+    cv.style.opacity = '.6';
+    setTimeout(()=>{ cv.style.opacity = '.18'; }, ms||220);
+  }
+  function capShow(html){
+    cap.style.opacity = '0';
+    setTimeout(()=>{ cap.innerHTML = html; cap.style.opacity = '1'; }, 220);
+  }
+  let sec = 40;
+  const tick = setInterval(()=>{
+    sec++; if(sec>=60) sec = 0;
+    time.innerHTML = '2025-12-20 22:47:<b>'+String(sec).padStart(2,'0')+'</b>';
+  }, 1000);
+  setTimeout(()=>{ title.style.opacity = '1'; }, 500);
+  setTimeout(()=>{ cam.style.opacity = '1'; }, 1200);
+  setTimeout(()=>{ capShow('画面里没有人。<br>只有走廊尽头的灯，一闪，一闪。'); }, 2800);
+  setTimeout(()=>{ capShow('癸亥日 · 亥时。<br>一甲子走到了尽头，阴极到顶。<br>它说八年后回来，还剩 <b>80 天</b>——<br>可它<b>等不到三月十号了</b>。'); }, 5000);
+  setTimeout(()=>{
+    staticJolt(260);
+    sec = 43; time.innerHTML = '2025-12-20 22:47:<b>43</b>';
+    img.src = 'img/NeedImg/IMG_0402.jpg';
+    img.classList.add('zoom');
+  }, 6000);
+  setTimeout(()=>{ capShow('有人走进来了。<br>穿白裙子的，是她。'); }, 7600);
+  setTimeout(()=>{ capShow('她把手机举起来，<br>对准镜头。对准<b>你</b>。'); }, 9200);
+  setTimeout(()=>{ capShow('她对着镜头，笑了一下。<br><b>—— 你已经在屏幕里面了。 ——</b>'); }, 11000);
+  setTimeout(()=>{
+    clearInterval(tick);
+    resetBtn.style.opacity = '1';
+  }, 12500);
+  _markViewed('phone_ending');
+}
+function wxHead(title){
+  return `<div class="appview-head" style="background:#fff;border-bottom:1px solid #e5e5e5"><span class="bk" onclick="goBack()" style="color:#333">‹</span><span class="t" style="color:#111;font-weight:600">${title}</span><span class="bk none"> </span></div>`;
+}
+const WX_SPK = '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M2 6v4h3l4 3V3L5 6H2z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+const WX_ME_BG = 'linear-gradient(135deg,#ffb3c8,#ff7ba9)';
+function renderWx(){
+  document.getElementById('pApp').innerHTML = wxHead('微信') + `<div class="wx-body">
+    <div class="wx-search">搜索</div>
+    <div class="wx-list">${P.wx.map((s,i)=>`
+      <div class="wx-row" onclick="viewWx(${i})">
+        <div class="wx-ava" style="background:${s.bg}">${s.ava}</div>
+        <div class="wx-mid">
+          <div class="wx-row-n">${s.c}</div>
+          <div class="wx-row-p">${escapeHtml(s.last)}</div>
+        </div>
+        <div class="wx-right">
+          <div class="wx-tm">${s.tm}</div>
+          ${s.badge?`<div class="wx-badge">${s.badge}</div>`:''}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+function viewWx(i){
+  appLevel = 1;
+  const s = P.wx[i];
+  document.getElementById('pApp').innerHTML = wxHead(s.c) + `<div class="wx-chat">
+    <div class="wx-scroll">
+      ${s.lines.map((l)=>{
+        const d = l.date?`<div class="wx-date">${escapeHtml(l.date)}</div>`:'';
+        const bub = l.voice
+          ? `<div class="wx-bub ${l.me?'me':'them'} voice"><span class="wx-vicon">${WX_SPK}</span><span>${escapeHtml(l.text)}</span><span class="wx-vlen">${escapeHtml(l.len||'')}</span></div>`
+          : `<div class="wx-bub ${l.me?'me':'them'}">${escapeHtml(l.text)}</div>`;
+        return d + `<div class="wx-msg ${l.me?'me':'them'}"><div class="wx-ava sm" style="background:${l.me?WX_ME_BG:s.bg}">${l.me?'苏':s.ava}</div>${bub}</div>`;
+      }).join('')}
+    </div>
+    <div class="wx-input"><span class="wx-ic">🎤</span><span class="wx-box">语音</span><span class="wx-ic">＋</span></div>
+  </div>`;
+}
+function renderWeb(){
+  document.getElementById('pApp').innerHTML = appHead('浏览器') + `<div class="appview-body">
+    ${P.web.map(w=>`<div class="ph-item"><div class="n" style="color:#7da0ff">${escapeHtml(w.t)}</div><div class="d">${escapeHtml(w.u)}</div></div>`).join('')}
+  </div>`;
+}
+function renderVoice(){
+  document.getElementById('pApp').innerHTML = appHead('语音备忘录') + `<div class="appview-body">
+    ${P.voice.map((v,i)=>`<div class="voice-item" onclick="viewVoice(${i})"><div class="play">▶</div><div class="n">${v.n}</div><div class="d">${v.d}</div></div>`).join('')}
+  </div>`;
+}
+function viewVoice(i){
+  appLevel = 1;
+  const v = P.voice[i];
+  document.getElementById('pApp').innerHTML = appHead('语音备忘录') + `<div class="appview-body">
+    <div class="voice-item" style="cursor:default"><div class="play">▶</div><div class="n">${v.n}</div><div class="d">${v.d}</div></div>
+    <div class="voice-text">${escapeHtml(v.text)}</div>
+  </div>`;
+}
+function renderClock(){
+  document.getElementById('pApp').innerHTML = appHead('时钟') + `<div class="appview-body" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#5c3048">
+    <div id="clockText" style="font-size:56px;font-weight:200;letter-spacing:2px">22:47</div>
+    <div style="font-size:12px;color:#9a6b82">这个闹钟每天都是这个时间响。她没关过。</div>
+    <div id="clockHint" style="margin-top:16px;font-size:11px;color:#a56a86;letter-spacing:2px">（在这个页面停留超过 8 秒……试试）</div>
+  </div>`;
+  clearTimeout(window._clockAlarmT);
+  window._clockAlarmT = setTimeout(triggerClockAlarm, 8000);
+}
+function triggerClockAlarm(){
+  const body = document.getElementById('pApp');
+  if(!body || !document.getElementById('clockText')) return;   // 不在时钟页则不触发
+  pulseFx();
+  const ct = document.getElementById('clockText');
+  // 屏幕闪红 + 震动
+  const phone = document.getElementById('phone');
+  let shakeN = 0;
+  const shakeI = setInterval(()=>{
+    phone.style.transform = `translateX(${(shakeN%2?'-':'')}${6+Math.random()*8}px)`;
+    shakeN++;
+    if(shakeN>10){ clearInterval(shakeI); phone.style.transform=''; }
+  }, 80);
+  ct.style.transition='color .3s';
+  ct.style.color = '#ff2d55';
+  ct.style.textShadow = '0 0 20px rgba(255,45,85,.6)';
+  // 锁屏样式的提示
+  const layer = document.createElement('div');
+  layer.style.cssText='position:absolute;inset:0;background:rgba(10,2,6,.92);z-index:5;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#ffeaf2;padding:40px;text-align:center';
+  layer.innerHTML = `
+    <div style="font-size:13px;color:#c4769a;letter-spacing:4px">闹钟 · 22:47</div>
+    <div style="font-size:26px;color:#ff2d55;font-weight:600;letter-spacing:4px;text-shadow:0 0 20px rgba(255,45,85,.6)">22:47</div>
+    <div style="font-size:13px;line-height:1.9;color:#e6b5c9;margin-top:20px">
+      屏幕亮了。<br>
+      这台 2018 年的手机，没有人按它，它自己亮了。<br>
+      闹钟的名字是：<b style="color:#ff7ba9">「今天，别去五楼」</b>。<br>
+      它重复响了 <b style="color:#ff7ba9">42</b> 次，<br>
+      响到第 <b style="color:#ff2d55">43</b> 次的时候，闹钟名字自己变了——<br>
+      <b style="color:#fff;font-size:15px">「今天，来五楼。」</b>
+    </div>
+    <button onclick="this.parentElement.remove()" style="margin-top:26px;background:none;border:1px solid #d06a96;color:#ff7ba9;padding:7px 22px;border-radius:16px;cursor:pointer;font-size:12px">（关掉闹钟）</button>
+    <div style="font-size:11px;color:#6f7a90;letter-spacing:3px;margin-top:10px">——关不掉的。它响过了。</div>`;
+  body.appendChild(layer);
+  _markViewed('clock_alarm');
+}
+/* ---------- 八字 · 玄机：排盘换算 ---------- */
+const BZ_GZ = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BZ_DZ = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const BZ_GZ60 = [];
+for(let i=0;i<60;i++) BZ_GZ60.push(BZ_GZ[i%10]+BZ_DZ[i%12]);
+const BZ_HOURS = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+function bzRun(){
+  const box = document.getElementById('bzResult');
+  const yp = document.getElementById('bzYG').value + document.getElementById('bzYZ').value;
+  const mp = document.getElementById('bzMG').value + document.getElementById('bzMZ').value;
+  const dp = document.getElementById('bzDG').value + document.getElementById('bzDZ').value;
+  const hb = BZ_HOURS.indexOf(document.getElementById('bzH').value);
+  if(!yp || !mp || !dp || hb<0){ box.innerHTML = `<div class="bz-warn">（八字不齐，起不了卦。）</div>`; return; }
+  const ds = BZ_GZ.indexOf(dp[0]);
+  const hs = ([0,2,4,6,8][ds%5] + hb) % 10;   // 由日干推时干（五鼠遁）
+  const hp = BZ_GZ[hs] + BZ_DZ[hb];
+  const isHer = yp==='庚辰' && mp==='甲申' && dp==='甲辰' && hb===4;
+  const diN = BZ_GZ60.indexOf(dp)+1;   // 日柱甲子序号（1 起）
+  const hiN = BZ_GZ60.indexOf(hp)+1;   // 时柱甲子序号
+  const wz = {金:0,木:0,水:0,火:0,土:0};
+  [yp,mp,dp,hp].forEach(p=>{
+    const s = p[0], b = p[1];
+    (s==='甲'||s==='乙')?wz.木++:(s==='丙'||s==='丁')?wz.火++:(s==='戊'||s==='己')?wz.土++:(s==='庚'||s==='辛')?wz.金++:wz.水++;
+    (b==='寅'||b==='卯')?wz.木++:(b==='巳'||b==='午')?wz.火++:(b==='辰'||b==='戌'||b==='丑'||b==='未')?wz.土++:(b==='申'||b==='酉')?wz.金++:wz.水++;
+  });
+  const tbl = BZ_GZ60.map((g,i)=>{ const hl = g===dp||g===hp; return `<span class="${hl?'hl':''}">${g}</span>`; }).join('');
+  let html = `
+    <div class="bz-divider">— 命 盘 —</div>
+    <div class="bz-pan">
+      <div class="pl"><small>年柱</small>${yp}</div>
+      <div class="pl"><small>月柱</small>${mp}</div>
+      <div class="pl hi"><small>日柱</small>${dp}</div>
+      <div class="pl hi"><small>时柱</small>${hp}</div>
+    </div>
+    <div class="bz-wx">五行：金${wz.金} 木${wz.木} 水${wz.水} 火${wz.火} 土${wz.土}</div>
+    <div class="bz-yu">
+      ${isHer
+        ? '五行缺水火，命不全。破命之人，命里留了口子。<br>这样的命，怨灵不避，反倒爱往身上贴。'
+        : '此命，不在本册。'}
+    </div>`;
+  if(isHer){
+    html += `
+    <div class="bz-ming">
+      <div>日柱 <b>${dp}</b> = 甲子序 <b>第 ${diN} 位</b></div>
+      <div>时柱 <b>${hp}</b> = 甲子序 <b>第 ${String(hiN).padStart(2,'0')} 位</b></div>
+      <div class="bz-num">命数 · <b>${diN}${String(hiN).padStart(2,'0')}</b></div>
+      <div class="bz-hint">（这个数，像是把哪一把锁的钥匙。）</div>
+    </div>`;
+    _markViewed('bazi_4105');
+  }
+  html += `<div class="bz-tbl-t">六十甲子 · 子至亥</div><div class="bz-table">${tbl}</div>`;
+  box.innerHTML = html;
+}
+function renderBazi(){
+  const gzOpts = BZ_GZ.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const dzOpts = BZ_DZ.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const hourOpts = BZ_HOURS.map(h=>`<option value="${h}">${h}时</option>`).join('');
+  document.getElementById('pApp').innerHTML = appHead('八字') + `<div class="appview-body bz">
+    <div class="bz-tag">☯　八字 · 玄机　☯</div>
+    <div class="bz-sub">批命看相，起卦排盘。<br>报上生辰八字，替你算一卦。</div>
+    <div class="bz-form">
+      <div class="frow"><span>年柱</span><select id="bzYG">${gzOpts}</select><select id="bzYZ">${dzOpts}</select></div>
+      <div class="frow"><span>月柱</span><select id="bzMG">${gzOpts}</select><select id="bzMZ">${dzOpts}</select></div>
+      <div class="frow"><span>日柱</span><select id="bzDG">${gzOpts}</select><select id="bzDZ">${dzOpts}</select></div>
+      <div class="frow"><span>时辰</span><select id="bzH">${hourOpts}</select></div>
+      <button class="bz-go" onclick="bzRun()">起　卦</button>
+    </div>
+    <div id="bzResult"></div>
+    <div class="bz-tip">＊ 此命若已身故，起出来的，便是它的命。<br>＊ 时柱天干，按日干推，一并起出。</div>
+  </div>`;
+}
+/* ---------- 密聊 · 与神秘人（JECat）的对话 ---------- */
+const MYSTERY = {
+  main:{msgs:['到货了。','这台手机的镜像，你看到哪了？'],options:[
+    {t:'刚解开锁屏。',next:'hub'},{t:'你是谁？',next:'who'},{t:'先不聊了。',next:'end'}]},
+  hub:{msgs:['嗯。','密码你能解开，我这几手买家里头，你是头一个。','想问什么？'],options:[
+    {t:'她是谁？',next:'owner'},{t:'你从哪弄到这台手机的？',next:'source'},{t:'她留下了什么？',next:'clues'},{t:'「它」是什么意思？',next:'it'},{t:'先不聊了。',next:'end'}]},
+  who:{msgs:['卖数据的。','这种「女高中生」的镜像，出手快，价也高。','你这单，不干净。'],options:[
+    {t:'犯法的吧？',next:'illegal'},{t:'就为了赚钱？',next:'money'},{t:'换个话题。',next:'hub'}]},
+  illegal:{msgs:['……','你说得对。','可我不卖，也会有别人卖。','你要真觉得犯法，删了，别看了。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  money:{msgs:['钱我收了。','但这单的买家，都陆续失联了。','你是头一个，还愿意跟我聊的。'],options:[
+    {t:'失联？',next:'lost'},{t:'换个话题。',next:'hub'}]},
+  lost:{msgs:['对。','买了之后，贴吧账号就再没登录过。','有一个，半夜给我发过一条消息：『它看着我了。』','然后就没了。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  owner:{msgs:['苏晚晴。2016级，3号楼。','2018年4月5日，清明节，跳的。','你翻到相册了吧。地上那些图，是她拍的。'],options:[
+    {t:'地上的是什么？',next:'ground'},{t:'她为什么跳？',next:'fall'},{t:'换个话题。',next:'hub'}]},
+  ground:{msgs:['她说那是「符」。','我劝你，照着相册数清楚那些图有几笔，再去3号楼楼下。','数不齐之前，别站那儿。'],options:[
+    {t:'数什么？',next:'count'},{t:'换个话题。',next:'hub'}]},
+  count:{msgs:['3号楼一共12个班。','有人晚上在楼下数过人头，13个。','多出来的那个是谁，你自己琢磨。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  fall:{msgs:['公开的说法：悲伤过度。','她舍友说她哭了一宿。','真实原因，你自己看她备忘录。'],options:[
+    {t:'备忘录？',next:'notes'},{t:'换个话题。',next:'hub'}]},
+  notes:{msgs:['备忘录里有一篇「损坏的数据」，能修复。','还有一篇上锁的，密码四个数字，和她掉下去的时间有关。','你锁屏都能解，这个不难。'],options:[
+    {t:'那个时间？',next:'time'},{t:'换个话题。',next:'hub'}]},
+  time:{msgs:['22:47。','她男朋友2018年3月10号22:47，从旧教学楼掉下去的。','八年后的同一天，2026年3月10号。正好80天。','自己数。'],options:[
+    {t:'八年？',next:'eight'},{t:'换个话题。',next:'hub'}]},
+  eight:{msgs:['我也不太懂这些。','只记得卖我数据那老师傅提过一句：门开过，就关不上了。','她跳下去，是想关门。','没关上。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  source:{msgs:['清明之后，3号楼收上来的手机，没人认领。','数据是从学校资料库里流出来的，那儿存着不少「被删除」的东西。','弄出来的人，是信息中心一个老师傅。'],options:[
+    {t:'那个老师傅是谁？',next:'teacher'},{t:'资料库里还有什么？',next:'archive'},{t:'换个话题。',next:'hub'}]},
+  teacher:{msgs:['他在信息中心管机房、修监控，干了好些年。','手底下带过个徒弟，2018年4月3号辞的职——清明前两天。','徒弟临走留了个后门：『机房半夜的东西，别碰。但数据，别删。』','师父没听全。后门留着，数据就流出来了。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  archive:{msgs:['删掉的帖子、监控、学籍，都在。','还有一段，是这台手机导出来的。','导出来就是满的——相册、备忘录、录音，一样不少。','最后一条录音，2018年4月5号22:45。','再往后，什么都没有了。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  clues:{msgs:['她留的东西，都在手机里。','相册最后一张，是一地强光。拍完那张，她再没拍过。','备忘录上锁那篇，密码在她掉下去的时间里头。','「损坏的数据」，修一下，能看到句实话。','吧务记录里那些「内容为空」的删帖，也是它干的。'],options:[
+    {t:'它干的？',next:'it'},{t:'换个话题。',next:'hub'}]},
+  it:{msgs:['你别问它是谁。','我说不清楚，也不敢说。','你只要知道：这台手机里，有些东西，不是她一个人的。'],options:[
+    {t:'……那要是它找我呢？',next:'it2'},{t:'换个话题。',next:'hub'}]},
+  it2:{msgs:['它不挑人，挑眼睛。','看过它的人，都会被数上。','你数数删帖记录，心里就有数了。'],options:[
+    {t:'换个话题。',next:'hub'}]},
+  end:{msgs:['行。','记住：晚上22:47，别盯着屏幕。','也……别照镜子。'],options:[
+    {t:'（结束对话）',next:'exit'}]},
+  exit:{msgs:['（对方已离线）'],options:[
+    {t:'（返回主屏）',next:'__home'}]}
+};
+let mCurrent = 'main';
+/* 密聊 App 访问密码：4105（她生辰八字的命数——日柱甲辰第41、时柱戊辰第05，需用「八字」换算） */
+const MYSTERY_PIN = '4105';
+let mysteryPin = '', mysteryWrong = 0;
+function buildMysteryPad(){
+  const pad = document.getElementById('myPad');
+  if(!pad) return;
+  pad.innerHTML = ['1','2','3','4','5','6','7','8','9','del','0','ok'].map(k=>{
+    const label = k==='del' ? '⌫' : k==='ok' ? '确定' : k;
+    const cls = (k==='del'||k==='ok') ? 'dim' : '';
+    return `<button class="${cls}" onclick="myPinKey('${k}')">${label}</button>`;
+  }).join('');
+}
+function myPinDots(){
+  document.querySelectorAll('#myDots i').forEach((d,i)=>{ d.classList.toggle('on', i < mysteryPin.length); });
+}
+function myPinKey(k){
+  if(k==='del') mysteryPin = mysteryPin.slice(0,-1);
+  else if(k==='ok') checkMysteryPin();
+  else if(mysteryPin.length < 4) mysteryPin += k;
+  myPinDots();
+  if(mysteryPin.length===4) setTimeout(checkMysteryPin, 260);
+}
+function checkMysteryPin(){
+  const err = document.getElementById('myErr');
+  if(!err) return;
+  if(mysteryPin===MYSTERY_PIN){
+    mysteryWrong = 0;
+    err.textContent = '';
+    localStorage.setItem('byzx_mystery_unlocked','1');
+    pulseFx();
+    renderMystery();
+  } else {
+    mysteryWrong++;
+    const hint = mysteryWrong>=4 ? ' · 提示：4105' : (mysteryWrong>=3 ? ' · 提示：日柱第41、时柱第05' : (mysteryWrong>=2 ? ' · 提示：用「八字」排过她的命数了吗？' : ''));
+    err.textContent = '密码错误' + hint;
+    const app = document.getElementById('pApp');
+    if(app){
+      app.classList.remove('shake');
+      void app.offsetWidth;
+      app.classList.add('shake');
+    }
+    mysteryPin = '';
+    myPinDots();
+  }
+}
+function renderMystery(){
+  const body = document.getElementById('pApp');
+  if(localStorage.getItem('byzx_mystery_unlocked') !== '1'){
+    body.innerHTML = appHead('密聊') + `<div class="appview-body" style="display:flex;flex-direction:column;align-items:center;padding-top:34px;text-align:center">
+      <div style="font-size:15px;color:#8c3f63;letter-spacing:2px">密聊 · 访问受限</div>
+      <div style="font-size:11px;color:#c68ba2;margin-top:8px;line-height:1.8;padding:0 30px">（这台机器上唯一的陌生应用。<br>它锁着。要打开它，得先知道她的<b>命数</b>。<br>你手机里，有一台能排八字的机器。）</div>
+      <div class="pin-dots" id="myDots" style="margin-top:26px"><i></i><i></i><i></i><i></i></div>
+      <div class="pin-pad" id="myPad"></div>
+      <div class="pin-err" id="myErr"></div>
+    </div>`;
+    buildMysteryPad();
+    return;
+  }
+  body.innerHTML = appHead('密聊') + `<div class="appview-body">
+    <div class="ph-item" onclick="openMysteryChat()">
+      <div class="n">JECat <span class="note-tag">未知来源</span></div>
+      <div class="d">一条新消息 · 对方在线</div>
+      <div class="c">（收货之后，这个联系人一直在等你开口。）</div>
+    </div>
+  </div>`;
+}
+function openMysteryChat(){
+  appLevel = 1;
+  const exitBtn = `<button class="bk" onclick="exitMystery()" title="退出对话">退出</button>`;
+  document.getElementById('pApp').innerHTML = appHead('密聊', exitBtn) + `<div class="appview-body mystery-body">
+    <div class="m-thread" id="mThread"></div>
+    <div class="m-options" id="mOptions"></div>
+  </div>`;
+  mNode('main');
+}
+/* 聊天右上角「退出」：未变声前触发晚晴上线；变声后则返回主屏 */
+function exitMystery(){
+  if(_wanqingTriggered){ showHome(); return; }
+  mNode('exit');
+}
+function mTyping(on){
+  const t = document.getElementById('mThread');
+  let el = document.getElementById('mTypingEl');
+  if(on){
+    if(!el){
+      el = document.createElement('div');
+      el.id = 'mTypingEl';
+      el.className = 'bub them typing';
+      t.appendChild(el);
+    }
+    el.textContent = '对方正在输入…';
+    t.scrollTop = t.scrollHeight;
+  } else if(el){
+    el.remove();
+  }
+}
+function mMsg(speaker, text){
+  const t = document.getElementById('mThread');
+  const div = document.createElement('div');
+  div.className = 'bub ' + (speaker==='me' ? 'me' : (speaker==='wanqing' ? 'them wanqing' : 'them'));
+  div.textContent = text;
+  t.appendChild(div);
+  t.scrollTop = t.scrollHeight;
+  if(speaker==='wanqing'){
+    t.classList.remove('wx-flick');
+    void t.offsetWidth;
+    t.classList.add('wx-flick');
+  }
+}
+function mNode(id){
+  if(id==='__home'){ showHome(); return; }
+  mCurrent = id;
+  const n = MYSTERY[id];
+  if(!n) return;
+  const opt = document.getElementById('mOptions');
+  opt.innerHTML = '';
+  let i = 0;
+  function step(){
+    if(i < n.msgs.length){
+      mTyping(true);
+      const text = n.msgs[i++];
+      setTimeout(()=>{ mTyping(false); mMsg('j', text); step(); }, 520 + Math.random()*420);
+    } else {
+      opt.innerHTML = n.options.map((o,idx)=>`<button class="m-opt" onclick="mPick(${idx})">${escapeHtml(o.t)}</button>`).join('');
+    }
+  }
+  step();
+}
+function mPick(idx){
+  const n = MYSTERY[mCurrent];
+  if(!n || !n.options[idx]) return;
+  const o = n.options[idx];
+  mMsg('me', o.t);
+  document.getElementById('mOptions').innerHTML = '';
+  mNode(o.next);
+}
+(function buildPinPad(){
+  const pad = document.getElementById('pinPad');
+  const keys = ['1','2','3','4','5','6','7','8','9','del','0','ok'];
+  pad.innerHTML = keys.map(k=>{
+    const label = k==='del' ? '⌫' : k==='ok' ? '确定' : k;
+    const cls = (k==='del'||k==='ok') ? 'dim' : '';
+    return `<button class="${cls}" onclick="pinKey('${k}')">${label}</button>`;
+  }).join('');
+})();
+
+/* 开机动画 → 锁屏 */
+setTimeout(()=>{
+  const b = document.getElementById('boot');
+  b.style.opacity = '0';
+  setTimeout(()=> b.style.display='none', 520);
+}, 900);
+
+/* 等比缩放，保证比例正确 */
+const wrap = document.getElementById('wrap');
+function fit(){
+  const s = Math.min(1, (window.innerWidth - 60)/390, (window.innerHeight - 150)/844);
+  wrap.style.transform = `scale(${s})`;
+}
+window.addEventListener('resize', fit);
+fit();
+
+/* 当前解密进度 → 0~1 强度 */
+function sndI(){
+  let n = 0;
+  try{ n += _viewed ? _viewed.size : 0; }catch(e){}
+  if(localStorage.getItem('byzx_phone_unlocked')==='1') n += 3;
+  if(localStorage.getItem('byzx_note_unlocked')==='1') n += 2;
+  return Math.min(1, n/12);
+}
+/* 页面氛围：暗角/噪点随进度加重，关键节点闪红 */
+function applyFx(){
+  const fx = document.getElementById('fx');
+  if(!fx) return;
+  fx.style.opacity = (0.04 + sndI()*0.5).toFixed(3);
+}
+function pulseFx(){
+  const fx = document.getElementById('fx');
+  if(!fx) return;
+  fx.classList.add('pulse');
+  setTimeout(()=>fx.classList.remove('pulse'), 900);
+}
+/* 晚晴上线：信号断裂的恐怖特效 */
+function staticBurst(dur){
+  let el = document.getElementById('fxStatic');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'fxStatic';
+    el.className = 'fx-static';
+    document.body.appendChild(el);
+  }
+  el.style.opacity = '0';
+  void el.offsetWidth;
+  el.style.transition = 'opacity .04s linear';
+  el.style.opacity = '.55';
+  setTimeout(()=>{ el.style.opacity = '0'; }, dur||240);
+}
+/* 晚晴把壁纸换成了她那张图（整屏闪现 + 主屏永久替换） */
+function setWanqingWall(){
+  const home = document.getElementById('pHome');
+  if(!home) return;
+  home.classList.add('wanqing');
+  home.classList.add('wx-flick');
+  setTimeout(()=>home.classList.remove('wx-flick'), 1600);
+}
+function wallBleed(){
+  let el = document.getElementById('fxWall');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'fxWall';
+    el.className = 'fx-wall';
+    document.body.appendChild(el);
+  }
+  el.style.transition = 'none';
+  el.style.opacity = '0';
+  void el.offsetWidth;
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = 'wxWall .8s steps(1) 1';
+}
+function wanqingFx(){
+  const app = document.getElementById('pApp');
+  const thread = document.getElementById('mThread');
+  pulseFx();
+  setTimeout(pulseFx, 460);
+  staticBurst(240);
+  setWanqingWall();
+  wallBleed();
+  if(thread){
+    thread.classList.remove('wx-flick');
+    void thread.offsetWidth;
+    thread.classList.add('wx-flick');
+  }
+  if(app){
+    app.classList.add('wx-flick');
+    setTimeout(()=>app.classList.remove('wx-flick'), 1800);
+  }
+  setTimeout(()=>{ try{
+    const head = document.querySelector('.appview-head .t');
+    if(head){
+      head.classList.add('wx-flick');
+      setTimeout(()=>head.classList.remove('wx-flick'), 700);
+    }
+  }catch(e){} }, 850);
+}
+applyFx();
+</script>
+</body>
+</html>

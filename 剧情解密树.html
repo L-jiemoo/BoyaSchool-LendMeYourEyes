@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>剧情解密脉络 · 博雅中学</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:radial-gradient(1200px 800px at 50% 10%,#131a2b 0%,#0a0e18 55%,#05070d 100%);
+    color:#dfe3ea;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    min-height:100%;padding-bottom:60px;
+  }
+  .head{
+    background:linear-gradient(180deg,#101c38 0%,#0e1830 100%);
+    border-bottom:1px solid rgba(78,110,242,.35);
+    padding:14px 20px;position:sticky;top:0;z-index:10;
+    display:flex;align-items:center;gap:16px;
+  }
+  .head a{color:#aeb9d8;text-decoration:none;font-size:13px;letter-spacing:1px}
+  .head a:hover{color:#fff}
+  .head .t{font-size:16px;font-weight:700;color:#fff;letter-spacing:2px}
+  .head .t b{color:#ff5d7e}
+  .head .note{margin-left:auto;font-size:11px;color:#5a6680;letter-spacing:2px}
+  .legend{max-width:920px;margin:18px auto 4px;padding:0 20px;display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:#aeb9d8}
+  .legend .lg{display:flex;align-items:center;gap:6px}
+  .legend .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .tree{max-width:920px;margin:12px auto 0;padding:4px 20px}
+  .tree ul{list-style:none;padding-left:26px;margin:0;position:relative}
+  .tree > ul{padding-left:0}
+  .tree li{position:relative;padding:7px 0 7px 10px}
+  .tree > ul > li{padding-left:0}
+  .tree li::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;border-left:1.5px solid rgba(130,150,255,.4)}
+  .tree li:last-child::before{height:23px}
+  .tree li::after{content:"";position:absolute;left:0;top:23px;width:10px;border-top:1.5px solid rgba(130,150,255,.4)}
+  .tree > ul > li::before,.tree > ul > li::after{display:none}
+  .node{
+    display:flex;align-items:center;gap:10px;
+    background:rgba(20,28,50,.75);border:1px solid rgba(90,110,180,.25);
+    border-left:3px solid #4e6ef2;border-radius:8px;
+    padding:10px 14px;min-height:46px;transition:opacity .4s;
+  }
+  .node .n-left{flex:1;min-width:0}
+  .node .n-title{font-size:14px;color:#eef1f5;font-weight:600}
+  .node .n-des{font-size:12px;color:#8a94a6;margin-top:2px;line-height:1.6}
+  .node .star{color:#f5c84c;font-size:12px;flex-shrink:0}
+  .tag{font-size:10px;padding:2px 8px;border-radius:10px;flex-shrink:0;letter-spacing:1px;white-space:nowrap}
+  .tag-entry{background:rgba(78,110,242,.2);color:#9fc1ff;border:1px solid rgba(78,110,242,.5)}
+  .tag-clue{background:rgba(160,120,255,.15);color:#c4a8ff;border:1px solid rgba(160,120,255,.4)}
+  .tag-turn{background:rgba(180,60,180,.18);color:#e0a0e8;border:1px solid rgba(180,60,180,.45)}
+  .tag-core{background:rgba(230,75,90,.16);color:#ff9b8f;border:1px solid rgba(230,75,90,.45)}
+  .tag-end{background:rgba(230,45,85,.2);color:#ff5d7e;border:1px solid rgba(230,45,85,.5)}
+  .node.main{border-left-color:#ff5d7e;box-shadow:0 0 0 1px rgba(255,45,85,.22)}
+  .node.main .n-title{color:#fff}
+  /* 未解密：只显示「？」 */
+  .node .q{display:none;font-size:18px;color:#8a94a6;margin:auto}
+  .node.locked{background:rgba(12,18,34,.7);border-style:dashed;border-color:rgba(90,110,180,.22);box-shadow:none;cursor:default}
+  .node.locked .n-left,.node.locked .tag,.node.locked .star{display:none}
+  .node.locked .q{display:block}
+  .foot{max-width:920px;margin:32px auto 0;padding:0 20px;font-size:11px;color:#5a6680;line-height:2;text-align:center;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <a href="博雅中学吧.html">← 返回贴吧</a>
+  <div class="t">剧情解密脉络 <b>·</b> 博雅中学</div>
+  <div class="note">只读 · 档案</div>
+</header>
+
+<div class="legend">
+  <span class="lg"><span class="dot" style="background:#4e6ef2"></span>入口</span>
+  <span class="lg"><span class="dot" style="background:#a070ff"></span>贴吧线索</span>
+  <span class="lg"><span class="dot" style="background:#b43cb4"></span>关键转折</span>
+  <span class="lg"><span class="dot" style="background:#e64b5a"></span>核心线索</span>
+  <span class="lg"><span class="dot" style="background:#e62d55"></span>终点</span>
+  <span class="lg"><span style="color:#f5c84c">★</span>主线必经</span>
+  <span class="lg"><span style="color:#8a94a6">？</span>未解密</span>
+</div>
+
+<div class="tree">
+  <ul>
+    <li>
+      <div class="node main">
+        <span class="q">？</span>
+        <div class="n-left"><div class="n-title">博雅中学吧 · 2025-12-20 22:47</div><div class="n-des">入口。吧里的帖子埋着七年前的全部往事。</div></div>
+        <span class="tag tag-entry">入口</span>
+      </div>
+      <ul>
+        <li>
+          <div class="node main" data-v="p3">
+            <span class="q">？</span>
+            <div class="n-left"><div class="n-title">p3 时间线帖「五楼那些事」</div><div class="n-des">2018—2025 事件汇总：看这条才理得清「归返」的规律。</div></div>
+            <span class="star">★</span><span class="tag tag-clue">贴吧线索</span>
+          </div>
+          <ul>
+            <li><div class="node" data-v="p3"><span class="q">？</span><div class="n-left"><div class="n-title">1997 溺水 · 2004 失踪 · 2011 火灾</div><div class="n-des">每七年一次「大新闻」＝「归返」之礼。</div></div><span class="tag tag-clue">规律</span></div></li>
+            <li><div class="node main" data-v="p3"><span class="q">？</span><div class="n-left"><div class="n-title">2018-03-10 林晓坠楼 · 22:47</div><div class="n-des">五楼东侧。CAM13 拍到异常。这一次仪式被打断。</div></div><span class="star">★</span><span class="tag tag-core">核心</span></div></li>
+            <li><div class="node" data-v="p3"><span class="q">？</span><div class="n-left"><div class="n-title">2018-04-05 苏晚晴跳楼</div><div class="n-des">清明。3号楼顶。公开说法：悲伤过度。</div></div><span class="tag tag-clue">贴吧线索</span></div></li>
+            <li><div class="node main" data-v="p3"><span class="q">？</span><div class="n-left"><div class="n-title">2026-03-10 · 第八年 · 80天</div><div class="n-des">它把七年改成了八年。2026-03-10 22:47，归返之礼续上。</div></div><span class="star">★</span><span class="tag tag-end">终点</span></div></li>
+          </ul>
+        </li>
+        <li>
+          <div class="node" data-a="t1,t2,t25">
+            <span class="q">？</span>
+            <div class="n-left"><div class="n-title">灵异帖集群</div><div class="n-des">五楼灯灭 · 平移入墙 · 3号楼楼顶白影 · 地下室水泥。</div></div>
+            <span class="tag tag-clue">贴吧线索</span>
+          </div>
+          <ul>
+            <li><div class="node" data-a="t1,t2,t25,t26,t29,t14,t18"><span class="q">？</span><div class="n-left"><div class="n-title">「它」在动</div><div class="n-des">施工队往封死的地下室运水泥；楼顶焊护栏；监控从13路变12路。</div></div><span class="tag tag-clue">暗线</span></div></li>
+            <li><div class="node" data-a="t1,t2,t5,t25"><span class="q">？</span><div class="n-left"><div class="n-title">十三分之十二 · 删帖记录 22:47</div><div class="n-des">吧里的常驻神秘 ID。删帖记录里躺着一条条 22:47 的空删帖。</div></div><span class="tag tag-clue">暗线</span></div></li>
+          </ul>
+        </li>
+        <li>
+          <div class="node main" data-v="j1">
+            <span class="q">？</span>
+            <div class="n-left"><div class="n-title">数据包：JECat 出售「2018 女高中生手机数据镜像」</div><div class="n-des">「接收数据包 · 解压并打开」→ 进入苏晚晴的手机。</div></div>
+            <span class="star">★</span><span class="tag tag-turn">关键转折</span>
+          </div>
+          <ul>
+            <li>
+              <div class="node main" data-f="byzx_phone_unlocked">
+                <span class="q">？</span>
+                <div class="n-left"><div class="n-title">锁屏 · PIN 180310</div><div class="n-des">2018-03-10 —— 林晓坠楼那一天。</div></div>
+                <span class="star">★</span><span class="tag tag-turn">关键转折</span>
+              </div>
+              <ul>
+                <li>
+                  <div class="node" data-pa="photo_0,photo_1,photo_2,photo_3,photo_4">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">相册（5 张）</div><div class="n-des">黑符 → 封印水碗 → 白光人影 → 空地面 → 强光「它让我看清楚」。</div></div>
+                    <span class="tag tag-core">核心线索</span>
+                  </div>
+                  <ul>
+                    <li><div class="node" data-pv="photo_4"><span class="q">？</span><div class="n-left"><div class="n-title">IMG_0512 强光</div><div class="n-des">最后一张，对着地面拍的。备注：它让我看清楚。我看清了。</div></div><span class="tag tag-core">关键</span></div></li>
+                  </ul>
+                </li>
+                <li>
+                  <div class="node" data-pa="note_0,note_1,note_2,note_3,note_locked,note_5,cipher_fixed">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">备忘录（6 篇）</div><div class="n-des">封印清单 / 奶奶的话 / 舍友 / 他 / 上锁 / 损坏数据。</div></div>
+                    <span class="tag tag-core">核心线索</span>
+                  </div>
+                  <ul>
+                    <li><div class="node" data-pv="note_1"><span class="q">？</span><div class="n-left"><div class="n-title">奶奶的话</div><div class="n-des">「有些门，开过就关不上了。你走吧。」——她没走。</div></div><span class="tag tag-core">关键</span></div></li>
+                    <li><div class="node main" data-pv="note_locked"><span class="q">？</span><div class="n-left"><div class="n-title">上锁备忘 · 2247</div><div class="n-des">「它说，八年后它会回来。到那天，它要借我的眼睛。别让人查地下室。」</div></div><span class="star">★</span><span class="tag tag-core">核心</span></div></li>
+                    <li><div class="node main" data-pv="cipher_fixed"><span class="q">？</span><div class="n-left"><div class="n-title">损坏的数据 · 修复</div><div class="n-des">「我没能封住它。它在地下。八年后会回来。」</div></div><span class="star">★</span><span class="tag tag-core">核心</span></div></li>
+                  </ul>
+                </li>
+                <li>
+                  <div class="node" data-pa="wx_0,wx_1,wx_2">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">微信（3 个联系人）</div><div class="n-des">奶奶（语音未听）· 舍友A（工具被扔）· 朋友B（背叛 · 4/5 22:41 未读）。</div></div>
+                    <span class="tag tag-core">核心线索</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="node" data-pa="voice_0,voice_1">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">语音备忘录（2 条）</div><div class="n-des">22:40「封不住的」→ 22:45「我不念了」。</div></div>
+                    <span class="tag tag-core">核心线索</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="node main" data-pv="bazi_4105">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">八字 · 玄机 → 命数 4105</div><div class="n-des">她生辰庚辰·甲申·甲辰·辰时，排盘：日柱甲辰=第41、时柱戊辰=第05 → 命数 4105（密聊的密码）。</div></div>
+                    <span class="star">★</span><span class="tag tag-core">核心线索</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="node main" data-pv="mystery_end">
+                    <span class="q">？</span>
+                    <div class="n-left"><div class="n-title">密聊 · JECat → 晚晴</div><div class="n-des">用命数 4105 进门 → 卖家指路 → 「它」→ 22:47 · 80 天 → 对方掉线 → 晚晴上线：「它要借我的眼睛看八年后的今天。」</div></div>
+                    <span class="star">★</span><span class="tag tag-turn">关键转折</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="foot">
+  — 2026-03-10 22:47 · 归返之礼 · 它数齐了，只差一个容器。 —
+</div>
+
+<script>
+/* 进度持久化：刷新不丢；关闭窗口/重启浏览器才重置（与贴吧、手机共用会话标记） */
+try{
+  if(!sessionStorage.getItem('byzx_sess')){
+    Object.keys(localStorage).forEach(k=>{ if(k.indexOf('byzx')===0) localStorage.removeItem(k); });
+    sessionStorage.setItem('byzx_sess','1');
+  }
+}catch(e){}
+/* 解密进度：绑定到各页面写下的进度信号，解一个点亮一个 */
+(function(){
+  function arr(k){ try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){ return []; } }
+  function isLit(n){
+    const d = n.dataset;
+    const v = arr('byzx_viewed');
+    const pv = arr('byzx_phone_viewed');
+    if(d.v && v.includes(d.v)) return true;
+    if(d.a && d.a.split(',').some(k=>v.includes(k))) return true;
+    if(d.pv && pv.includes(d.pv)) return true;
+    if(d.pa && d.pa.split(',').some(k=>pv.includes(k))) return true;
+    if(d.f && localStorage.getItem(d.f)==='1') return true;
+    return false;
+  }
+  function render(){
+    document.querySelectorAll('.node[data-v],.node[data-a],.node[data-pv],.node[data-pa],.node[data-f]').forEach(n=>{
+      const lit = isLit(n);
+      n.classList.toggle('lit', lit);
+      n.classList.toggle('locked', !lit);
+    });
+  }
+  render();
+  setInterval(render, 1500);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# ---- 操作系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ---- 依赖 / 日志（万一以后加） ----
+node_modules/
+*.log
+
+# ---- Claude Code 工作区 ----
+.claude/
+
+# ---- 备份 / 临时文件 ----
+*.bak
+_tmp*
+tmp/
+temp/
+
+# ---- 游戏剧透（公开仓库先别传，避免泄底） ----
+# 完整通关攻略（含密码、结局、步骤）
+解密步骤.txt
+# 全世界观设定与幕后设计（含结局真相）
+游戏世界观.txt

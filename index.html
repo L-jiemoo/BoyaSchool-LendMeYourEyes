@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>博雅中学 · 归返之礼</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    overflow:hidden;
+  }
+  .fx{position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.5}
+  .fx-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 42%,rgba(3,6,14,.85) 100%)}
+  .fx-grain{position:absolute;inset:-20%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");opacity:.1;animation:fxgrain .4s steps(3) infinite}
+  .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.025) 2px 3px)}
+  .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(255,20,50,.35) 100%);transition:background .12s}
+  @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* 桌面 */
+  .desktop{
+    position:fixed;inset:0;z-index:1;
+    background:
+      radial-gradient(1000px 500px at 70% -10%, rgba(78,110,242,.18) 0%, transparent 60%),
+      linear-gradient(160deg,#131f3c 0%,#0c1428 55%,#070b16 100%);
+  }
+  .desktop .wm{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-size:60px;font-weight:800;letter-spacing:16px;color:rgba(255,255,255,.045);white-space:nowrap;pointer-events:none}
+  /* 桌面图标 */
+  .icons{position:absolute;top:22px;left:22px;display:grid;grid-template-columns:repeat(6,84px);gap:14px 6px;z-index:2}
+  .ico{width:84px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 2px;border-radius:6px}
+  .ico .pic{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.45),inset 0 -4px 8px rgba(0,0,0,.3)}
+  .ico .lb{font-size:12px;color:#dfe6f5;text-shadow:0 1px 3px rgba(0,0,0,.9);letter-spacing:1px}
+  .ico.click{cursor:pointer}
+  .ico.click:hover{background:rgba(255,255,255,.1)}
+  .ico.click .pic{animation:icglow 2.2s ease-in-out infinite}
+  .ico .bd{position:relative}
+  .ico.click .bd::after{content:"1";position:absolute;top:-7px;right:-13px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff2d55;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
+  @keyframes icglow{0%,100%{box-shadow:0 0 0 2px #ff5d7e,0 0 12px rgba(255,45,85,.4)}50%{box-shadow:0 0 0 2px #ff5d7e,0 0 26px rgba(255,45,85,.8)}}
+  /* 贴吧通知（Windows 样式） */
+  .toast{position:fixed;right:26px;bottom:66px;z-index:60;width:340px;cursor:pointer;
+    background:rgba(26,32,54,.97);border:1px solid rgba(140,160,230,.45);border-left:4px solid #ff5e2e;border-radius:8px;
+    box-shadow:0 14px 40px rgba(0,0,0,.6);padding:14px 14px 12px;
+    transform:translateX(120%);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.3,1.15),opacity .45s}
+  .toast.show{transform:none;opacity:1}
+  .toast .t-head{display:flex;align-items:center;gap:10px}
+  .toast .t-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+  .toast .t-app{font-size:13px;color:#fff;font-weight:600;flex:1}
+  .toast .t-tm{font-size:11px;color:#8a94a6}
+  .toast .t-close{font-size:14px;color:#5a6680;cursor:pointer;padding:0 4px}
+  .toast .t-close:hover{color:#fff}
+  .toast .t-msg{font-size:12px;color:#cdd6e6;line-height:1.8;margin-top:8px}
+  .toast .t-msg b{color:#ff8a8f}
+  /* 任务栏 */
+  .taskbar{position:fixed;left:0;right:0;bottom:0;height:50px;z-index:70;display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(24,32,56,.9),rgba(12,16,30,.95));
+    border-top:1px solid rgba(140,160,230,.25);padding:0 14px}
+  .taskbar .tb-l{display:flex;align-items:center;gap:6px}
+  .start{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:5px;color:#dfe6f5;font-size:13px;cursor:default;letter-spacing:1px}
+  .start .logo{width:20px;height:20px;background:linear-gradient(135deg,#ff5e2e,#ff8a4a);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+  .taskbar .tb-pins{display:flex;gap:4px;margin-left:6px}
+  .taskbar .pin{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;cursor:pointer}
+  .taskbar .pin:hover{outline:1px solid rgba(255,255,255,.3)}
+  .taskbar .tb-r{display:flex;align-items:center;gap:12px;color:#dfe6f5;font-size:12px}
+  .taskbar .tray{display:flex;gap:8px;color:#9fb0d8}
+  .taskbar .clock{text-align:right;line-height:1.35;cursor:default}
+  .taskbar .clock .t{font-size:13px;letter-spacing:1px}
+  .taskbar .clock .d{font-size:10px;color:#9fb0d8}
+</style>
+</head>
+<body>
+
+<div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+
+<div class="desktop">
+  <div class="wm">博雅中学 · 归返之礼</div>
+  <div class="icons" id="icons"></div>
+</div>
+
+<!-- 贴吧通知 -->
+<div class="toast" id="toast" onclick="openTieba()">
+  <div class="t-head">
+    <div class="t-ic" style="background:linear-gradient(135deg,#ff8a4a,#ff5e2e)">贴</div>
+    <div class="t-app">贴吧</div>
+    <div class="t-tm">刚刚 · 22:47</div>
+    <div class="t-close" onclick="event.stopPropagation();closeToast()">×</div>
+  </div>
+  <div class="t-msg">有人发了一条帖子：<br><b>「出：2018 年女高中生手机数据镜像，三份出了两份，剩最后一份。」</b></div>
+</div>
+
+<!-- 任务栏 -->
+<div class="taskbar">
+  <div class="tb-l">
+    <div class="start"><span class="logo">博</span>开始</div>
+    <div class="tb-pins" id="pins"></div>
+  </div>
+  <div class="tb-r">
+    <div class="tray">▲　🔊　📶</div>
+    <div class="clock"><div class="t">22:47</div><div class="d">2025-12-20</div></div>
+  </div>
+</div>
+
+<script>
+/* 进度会话标记：与贴吧/手机/解密树一致——新会话才重置，刷新不丢 */
+try{
+  if(!sessionStorage.getItem('byzx_sess')){
+    Object.keys(localStorage).forEach(k=>{ if(k.indexOf('byzx')===0) localStorage.removeItem(k); });
+    sessionStorage.setItem('byzx_sess','1');
+  }
+}catch(e){}
+
+/* 桌面图标：只有贴吧能点 */
+const ICONS = [
+  {id:'pc',     t:'我的电脑', c:'电', bg:'linear-gradient(135deg,#7a8496,#5a6474)'},
+  {id:'recycle',t:'回收站',   c:'回', bg:'linear-gradient(135deg,#8a8a8a,#5f5f5f)'},
+  {id:'wx',     t:'微信',     c:'微', bg:'linear-gradient(135deg,#2cd14c,#0fae35)'},
+  {id:'qq',     t:'QQ',       c:'Q',  bg:'linear-gradient(135deg,#20b7f5,#0a97e0)'},
+  {id:'browser',t:'浏览器',   c:'网', bg:'linear-gradient(135deg,#5b9bff,#3a6df0)'},
+  {id:'tieba',  t:'贴吧',     c:'贴', bg:'linear-gradient(135deg,#ff8a4a,#ff5e2e)', click:true},
+  {id:'music',  t:'音乐',     c:'音', bg:'linear-gradient(135deg,#ff5a7e,#ff2d55)'},
+  {id:'photos', t:'相册',     c:'相', bg:'linear-gradient(135deg,#ffa83c,#ff8a1e)'},
+  {id:'note',   t:'记事本',   c:'记', bg:'linear-gradient(135deg,#f7c948,#f0a500)'},
+  {id:'settings',t:'设置',    c:'设', bg:'linear-gradient(135deg,#7a8496,#5a6474)'}
+];
+function icoHTML(a){
+  const pic = `<div class="pic" style="background:${a.bg}">${a.c}</div>`;
+  const body = a.click ? `<div class="bd">${pic}</div>` : pic;
+  const attrs = a.click ? 'class="ico click" onclick="openTieba()"' : 'class="ico"';
+  return `<div ${attrs}>${body}<div class="lb">${a.t}</div></div>`;
+}
+document.getElementById('icons').innerHTML = ICONS.map(icoHTML).join('');
+document.getElementById('pins').innerHTML = ['tieba','wx','browser'].map(id=>{
+  const a = ICONS.find(x=>x.id===id);
+  return `<div class="pin" style="background:${a.bg}" title="${a.t}">${a.c}</div>`;
+}).join('');
+
+function openTieba(){ location.href='博雅中学吧.html'; }
+function closeToast(){ document.getElementById('toast').classList.remove('show'); }
+
+/* 稍后弹出贴吧通知 */
+setTimeout(()=>{
+  document.getElementById('toast').classList.add('show');
+  const fx = document.getElementById('fx');
+  fx.classList.add('pulse');
+  setTimeout(()=>fx.classList.remove('pulse'), 900);
+}, 2200);
+</script>
+</body>
+</html>
