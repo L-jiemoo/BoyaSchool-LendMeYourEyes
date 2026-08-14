@@ -1199,7 +1199,8 @@ setTimeout(()=>{
 /* 等比缩放，保证比例正确 */
 const wrap = document.getElementById('wrap');
 function fit(){
-  const s = Math.min(1, (window.innerWidth - 60)/390, (window.innerHeight - 150)/844);
+  const narrow = window.innerWidth <= 480;
+  const s = Math.min(1, (window.innerWidth - (narrow?24:60))/390, (window.innerHeight - (narrow?110:150))/844);
   wrap.style.transform = `scale(${s})`;
 }
 window.addEventListener('resize', fit);

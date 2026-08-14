@@ -244,6 +244,35 @@ body.h4 .tieba-logo b{color:#ff2d55}
   .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
   .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
   @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* ---------- 移动端适配 ---------- */
+  @media (max-width: 760px){
+    .global-inner{height:auto;min-height:50px;padding:8px 12px;flex-wrap:wrap;gap:10px}
+    .g-nav{display:none}
+    .g-search{order:3;width:100%}
+    .g-search input{flex:1;width:auto}
+    .g-user{font-size:12px;gap:6px}
+    .g-time{font-size:12px;padding:2px 8px}
+    .forum-inner{padding:18px 14px 14px}
+    .forum-head::before{font-size:56px;top:-14px}
+    .f-title h1{font-size:22px}
+    .f-title .desc{font-size:12px}
+    .f-stats{margin-left:0;gap:14px;padding-bottom:0}
+    .f-stats .num{font-size:16px}
+    .f-actions{flex-wrap:wrap}
+    .layout{grid-template-columns:1fr;padding:0 10px 20px;gap:12px}
+    .tabs{overflow-x:auto;white-space:nowrap;padding:0 6px}
+    .tab{padding:10px 10px;font-size:13px}
+    .thread{padding:10px 10px;gap:8px}
+    .t-av{width:32px;height:32px;font-size:14px}
+    .t-title{font-size:14px}
+    .t-time{display:none}
+    .t-right{text-align:right}
+    .side{gap:10px}
+    .tmodal{max-width:100%}
+    .tmodal-head{padding:12px 14px}
+    .tmodal-body{padding:0 14px 16px}
+    #countdown{right:10px;bottom:10px;left:10px;font-size:12px;padding:12px 14px}
+  }
 </style>
 </head>
 <body>

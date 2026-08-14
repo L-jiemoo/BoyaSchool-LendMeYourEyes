@@ -58,6 +58,21 @@
   .node.locked .n-left,.node.locked .tag,.node.locked .star{display:none}
   .node.locked .q{display:block}
   .foot{max-width:920px;margin:32px auto 0;padding:0 20px;font-size:11px;color:#5a6680;line-height:2;text-align:center;letter-spacing:2px}
+  /* ---------- 移动端适配 ---------- */
+  @media (max-width: 760px){
+    .head{padding:10px 14px;gap:10px}
+    .head .t{font-size:14px;letter-spacing:1px}
+    .head .note{font-size:10px}
+    .legend{padding:0 14px;gap:10px}
+    .tree{padding:4px 12px}
+    .tree ul{padding-left:14px}
+    .node{padding:8px 10px;min-height:40px;gap:8px}
+    .node .n-title{font-size:13px}
+    .node .n-des{font-size:11px}
+    .node .q{font-size:16px}
+    .tag{font-size:9px;padding:1px 6px}
+    .foot{padding:0 14px;font-size:10px}
+  }
 </style>
 </head>
 <body>

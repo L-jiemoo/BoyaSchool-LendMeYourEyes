@@ -65,6 +65,20 @@
   .taskbar .clock{text-align:right;line-height:1.35;cursor:default}
   .taskbar .clock .t{font-size:13px;letter-spacing:1px}
   .taskbar .clock .d{font-size:10px;color:#9fb0d8}
+  /* ---------- 移动端适配 ---------- */
+  @media (max-width: 760px){
+    .wm{font-size:30px;letter-spacing:8px}
+    .icons{top:14px;left:10px;grid-template-columns:repeat(4,74px);gap:12px 4px}
+    .ico{width:74px;padding:6px 2px}
+    .ico .pic{width:46px;height:46px;font-size:20px;border-radius:10px}
+    .ico .lb{font-size:11px}
+    .toast{right:10px;left:10px;bottom:58px;width:auto}
+    .taskbar{height:46px;padding:0 10px}
+    .start{padding:5px 8px;font-size:12px}
+    .start .logo{width:18px;height:18px;font-size:10px}
+    .taskbar .tray{display:none}
+    .taskbar .clock .t{font-size:12px}
+  }
 </style>
 </head>
 <body>
