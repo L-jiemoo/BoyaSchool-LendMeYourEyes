@@ -357,7 +357,7 @@ const P = {
     {t:'他', d:'2018-04-04', body:'她们给我看了截图。三中一个，职高一个，还有一个我连名字都没听过。\n他说过，只喜欢我一个。\n原来全是我一厢情愿。他保护我，只是怕我被霸凌的事闹大，或者，觉得我可怜。\n他从来不爱我。'},
     {t:'上锁的备忘', d:'2018-04-05', lock:'2247', body:'他骗了我。工具也没了。\n奶奶说，门开过就关不上了。我没能封住它。\n它说，八年后它会回来。到那天，它要借我的眼睛，看这个世界。\n别让人查地下室。\n对不起。\n我跳下去，会不会正好关上门？\n我不知道。但总得有人试。'},
     {t:'损坏的数据', d:'2018-04-05', cipher:true, clean:'我没能封住它。它在地下。八年后会回来。', noise:'我22:47没22:47能22:47封22:47住22:47它22:47它22:47在22:47地22:47下22:47八22:47年22:47后22:47会22:47回22:47来'},
-    {t:'生辰', d:'2018-04-04', body:'奶奶说我落地那会儿，天刚亮。\n庚辰年，甲申月，甲辰日，辰时。\n她说我命里缺水缺火，五行不全，是个「破命」。\n那时我还笑：破命的人，鬼都不愿意要。\n现在我不笑了。\n它好像，就是冲着破命的人来的。'}
+    {t:'生辰', d:'2018-04-04', afterLock:true, body:'奶奶说我落地那会儿，天刚亮。\n庚辰年，甲申月，甲辰日，辰时。\n她说我命里缺水缺火，五行不全，是个「破命」。\n那时我还笑：破命的人，鬼都不愿意要。\n现在我不笑了。\n它好像，就是冲着破命的人来的。'}
   ],
   wx:[
     {c:'奶奶', ava:'奶', bg:'linear-gradient(135deg,#e8a87c,#d97a4a)', tm:'3月28日', last:'（语音）', badge:'1', lines:[
@@ -366,7 +366,7 @@ const P = {
       {me:false,text:'你封不住。它比我老。你走。'},
       {me:true,text:'我走了，它就跟着我。'},
       {me:true,date:'2018年3月28日 深夜', text:'奶奶，我是辰时生的吧？你总说我落地那会儿天刚亮。'},
-      {me:false,text:'庚辰年，甲申月，甲辰日，辰时。命是破命，八字奶奶算不全。'},
+      {me:false,gate:'八字',text:'庚辰年，甲申月，甲辰日，辰时。命是破命，八字奶奶算不全。'},
       {me:true,text:'奶奶，它是不是就冲我这种命来的。'},
       {me:false,voice:true,text:'语音', len:'12″'}
     ]},
@@ -549,8 +549,10 @@ function viewPhoto(i){
   </div>`;
 }
 function renderNotes(){
+  const noteUnlocked = localStorage.getItem('byzx_note_unlocked')==='1';
+  const list = P.notes.map((n,i)=>({n,i})).filter(({n})=> !n.afterLock || noteUnlocked);
   document.getElementById('pApp').innerHTML = appHead('备忘录') + `<div class="appview-body">
-    ${P.notes.map((n,i)=>`
+    ${list.map(({n,i})=>`
       <div class="ph-item" onclick="viewNote(${i})">
         <div class="n">${n.t}${n.lock?'<span class="note-tag">🔒 已上锁</span>':''}${n.cipher?'<span class="note-tag">⚠ 数据损坏</span>':''}</div>
         <div class="d">${n.d}</div>
@@ -598,6 +600,7 @@ function tryNotePin(){
       <div style="font-size:13px;color:#4a2a3c;line-height:1.9;white-space:pre-wrap">${escapeHtml(n.body)}</div>
     </div>`;
     pulseFx();
+    toast('（备忘录里，多了一篇「生辰」。）');
   } else {
     noteWrong++;
     const h = noteWrong>=4 ? '提示：2247' : (noteWrong>=3 ? '提示：和22:47有关' : '');
@@ -720,9 +723,10 @@ function wanqingReply(){
       mTyping(false);
       mMsg('wanqing', '……你知道。');
       mMsg('wanqing', '那你也应该知道了。');
-      mMsg('wanqing', '今天，是它数到的最后一天。');
-      mMsg('wanqing', '我数了八年。数到第四十二个的时候，它停了。');
-      mMsg('wanqing', '它在等你，数第四十三个。');
+      mMsg('wanqing', '它说八年后回来。可你那边，今天才 2025 年 12 月 20 号。');
+      mMsg('wanqing', '离那天，还有 80 天。');
+      mMsg('wanqing', '我替它数了八年。数到第四十二个的时候，它停了。');
+      mMsg('wanqing', '它停下来，就是在等你——等你，数第四十三个。');
       setTimeout(triggerPhoneEnding, 2200);
     }, 1300);
   }, 500);
@@ -856,13 +860,15 @@ function renderWx(){
 function viewWx(i){
   appLevel = 1;
   const s = P.wx[i];
+  const noteUnlocked = localStorage.getItem('byzx_note_unlocked')==='1';
   document.getElementById('pApp').innerHTML = wxHead(s.c) + `<div class="wx-chat">
     <div class="wx-scroll">
       ${s.lines.map((l)=>{
         const d = l.date?`<div class="wx-date">${escapeHtml(l.date)}</div>`:'';
+        const text = (l.gate && !noteUnlocked) ? '「□□年，□□月，□□日，□□时。命是破命，八字奶奶算不全。」' : l.text;
         const bub = l.voice
           ? `<div class="wx-bub ${l.me?'me':'them'} voice"><span class="wx-vicon">${WX_SPK}</span><span>${escapeHtml(l.text)}</span><span class="wx-vlen">${escapeHtml(l.len||'')}</span></div>`
-          : `<div class="wx-bub ${l.me?'me':'them'}">${escapeHtml(l.text)}</div>`;
+          : `<div class="wx-bub ${l.me?'me':'them'}">${escapeHtml(text)}</div>`;
         return d + `<div class="wx-msg ${l.me?'me':'them'}"><div class="wx-ava sm" style="background:${l.me?WX_ME_BG:s.bg}">${l.me?'苏':s.ava}</div>${bub}</div>`;
       }).join('')}
     </div>
@@ -988,9 +994,10 @@ function renderBazi(){
   const gzOpts = BZ_GZ.map(c=>`<option value="${c}">${c}</option>`).join('');
   const dzOpts = BZ_DZ.map(c=>`<option value="${c}">${c}</option>`).join('');
   const hourOpts = BZ_HOURS.map(h=>`<option value="${h}">${h}时</option>`).join('');
+  const noteUnlocked = localStorage.getItem('byzx_note_unlocked')==='1';
   document.getElementById('pApp').innerHTML = appHead('八字') + `<div class="appview-body bz">
     <div class="bz-tag">☯　八字 · 玄机　☯</div>
-    <div class="bz-sub">批命看相，起卦排盘。<br>报上生辰八字，替你算一卦。</div>
+    <div class="bz-sub">批命看相，起卦排盘。<br>报上生辰八字，替你算一卦。${noteUnlocked?'':'<br><span style="color:#d08a6a">（她的生辰，还锁在一篇备忘录里。先打开那篇锁着的。）</span>'}</div>
     <div class="bz-form">
       <div class="frow"><span>年柱</span><select id="bzYG">${gzOpts}</select><select id="bzYZ">${dzOpts}</select></div>
       <div class="frow"><span>月柱</span><select id="bzMG">${gzOpts}</select><select id="bzMZ">${dzOpts}</select></div>
@@ -1098,7 +1105,7 @@ function renderMystery(){
   if(localStorage.getItem('byzx_mystery_unlocked') !== '1'){
     body.innerHTML = appHead('密聊') + `<div class="appview-body" style="display:flex;flex-direction:column;align-items:center;padding-top:34px;text-align:center">
       <div style="font-size:15px;color:#8c3f63;letter-spacing:2px">密聊 · 访问受限</div>
-      <div style="font-size:11px;color:#c68ba2;margin-top:8px;line-height:1.8;padding:0 30px">（这台机器上唯一的陌生应用。<br>它锁着。要打开它，得先知道她的<b>命数</b>。<br>你手机里，有一台能排八字的机器。）</div>
+      <div style="font-size:11px;color:#c68ba2;margin-top:8px;line-height:1.8;padding:0 30px">（这台机器上唯一的陌生应用。<br>它锁着。要打开它，得先知道她的<b>命数</b>。<br>她的生辰，锁在一篇备忘录里；<br>手机里那台排八字的机器，能替你算。）</div>
       <div class="pin-dots" id="myDots" style="margin-top:26px"><i></i><i></i><i></i><i></i></div>
       <div class="pin-pad" id="myPad"></div>
       <div class="pin-err" id="myErr"></div>
