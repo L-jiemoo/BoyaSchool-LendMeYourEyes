@@ -255,6 +255,11 @@
   .bz-table{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;position:relative;z-index:1}
   .bz-table span{font-size:9px;color:#b9a880;text-align:center;padding:2px 0;border:1px solid rgba(160,138,80,.16)}
   .bz-table span.hl{color:#ff7a5c;border-color:#ff7a5c;background:rgba(255,80,50,.14);font-weight:700}
+  /* ---------- 移动端适配 ---------- */
+  @media (max-width: 520px){
+    .cap{display:none}
+    .back{top:14px;left:14px;font-size:12px;color:rgba(223,227,235,.9);z-index:60}
+  }
 </style>
 </head>
 <body>
@@ -1199,8 +1204,10 @@ setTimeout(()=>{
 /* 等比缩放，保证比例正确 */
 const wrap = document.getElementById('wrap');
 function fit(){
-  const narrow = window.innerWidth <= 480;
-  const s = Math.min(1, (window.innerWidth - (narrow?24:60))/390, (window.innerHeight - (narrow?110:150))/844);
+  const narrow = window.innerWidth <= 520;
+  const s = narrow
+    ? Math.min(window.innerWidth/390, window.innerHeight/844)
+    : Math.min(1, (window.innerWidth - 60)/390, (window.innerHeight - 150)/844);
   wrap.style.transform = `scale(${s})`;
 }
 window.addEventListener('resize', fit);

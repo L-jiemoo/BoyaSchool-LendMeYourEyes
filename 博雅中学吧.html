@@ -117,7 +117,7 @@ body.h4 .tieba-logo b{color:#ff2d55}
   .btn-ghost:hover{background:rgba(255,255,255,.18)}
   .f-actions .hint{font-size:12px;color:#7d93ba}
   /* ---------- 布局 ---------- */
-  .layout{max-width:1200px;margin:16px auto 0;display:grid;grid-template-columns:1fr 280px;gap:16px;padding:0 16px 30px}
+  .layout{max-width:1200px;margin:16px auto 0;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;padding:0 16px 30px}
   .main{display:flex;flex-direction:column;gap:0}
   .card{background:var(--card);border:1px solid var(--line);border-radius:8px}
   /* 标签栏 */
@@ -244,33 +244,52 @@ body.h4 .tieba-logo b{color:#ff2d55}
   .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
   .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
   @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* ---------- 移动端贴吧（手机贴吧布局） ---------- */
+  .m-shell{position:fixed;inset:0;z-index:5;background:#f6f7f9;display:none;flex-direction:column}
+  .m-bar{height:50px;background:#fff;border-bottom:1px solid #e5e6eb;display:flex;align-items:center;gap:6px;padding:0 12px;flex-shrink:0}
+  .m-back{font-size:24px;color:#555;cursor:pointer;line-height:1}
+  .m-name{font-size:16px;font-weight:600;color:#222;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .m-focus{font-size:12px;color:#4e6ef2;border:1px solid #4e6ef2;border-radius:4px;padding:2px 6px;margin-left:7px;cursor:pointer}
+  .m-time{font-size:12px;color:#86909c;padding:2px 8px;border:1px solid #e5e6eb;border-radius:10px;background:#fafbfc;white-space:nowrap}
+  .m-time.danger{color:#b3202e;border-color:#f3b0bf;background:#fff0f3}
+  .m-ic{font-size:17px;color:#555;cursor:pointer}
+  .m-tabs{background:#fff;border-bottom:1px solid #e5e6eb;display:flex;gap:20px;padding:0 14px;flex-shrink:0;overflow-x:auto}
+  .m-tabs span{font-size:14px;color:#666;padding:10px 2px;border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer}
+  .m-tabs span.on{color:#4e6ef2;border-bottom-color:#4e6ef2;font-weight:600}
+  .m-quick{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#eef2fe;border-bottom:1px solid #e5e6eb;flex-shrink:0;font-size:12px;overflow-x:auto;white-space:nowrap}
+  .m-quick a{color:#315efb;font-weight:600}
+  .m-quick .m-qhint{margin-left:auto;color:#86909c;font-size:11px}
+  .m-list{flex:1;overflow-y:auto;padding:8px 0 12px}
+  .m-thread{background:#fff;margin:7px 10px;border-radius:8px;padding:11px 12px;cursor:pointer}
+  .mt-title{font-size:15px;color:#1f2329;font-weight:500;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+  .mt-title .pin-mark{color:#e8a13a;font-weight:700;margin-right:4px}
+  .mt-title .dig-mark,.mt-title .lock-mark{display:inline-block;font-size:11px;line-height:1;padding:3px 5px;border-radius:3px;margin-right:6px;vertical-align:2px}
+  .mt-title .dig-mark{background:#e8a13a;color:#fff}
+  .mt-title .lock-mark{background:#86909c;color:#fff}
+  .mt-row{display:flex;align-items:center;gap:8px;margin-top:9px}
+  .mt-av{width:24px;height:24px;border-radius:50%;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+  .mt-name{font-size:12px;color:#86909c}
+  .mt-time{font-size:12px;color:#b0b7c0}
+  .mt-rep{margin-left:auto;font-size:13px;color:#1f2329;font-weight:600}
+  .mt-rep b{font-size:11px;font-weight:400;color:#86909c}
+  .m-nav{height:52px;background:#fff;border-top:1px solid #e5e6eb;display:flex;align-items:center;flex-shrink:0}
+  .m-nav span{flex:1;text-align:center;font-size:11px;color:#86909c;display:flex;flex-direction:column;gap:2px;align-items:center;cursor:pointer}
+  .m-nav span.on{color:#4e6ef2;font-weight:600}
+  .m-nav span i{font-style:normal;font-size:18px;line-height:1}
   /* ---------- 移动端适配 ---------- */
   @media (max-width: 760px){
-    .global-inner{height:auto;min-height:50px;padding:8px 12px;flex-wrap:wrap;gap:10px}
-    .g-nav{display:none}
-    .g-search{order:3;width:100%}
-    .g-search input{flex:1;width:auto}
-    .g-user{font-size:12px;gap:6px}
-    .g-time{font-size:12px;padding:2px 8px}
-    .forum-inner{padding:18px 14px 14px}
-    .forum-head::before{font-size:56px;top:-14px}
-    .f-title h1{font-size:22px}
-    .f-title .desc{font-size:12px}
-    .f-stats{margin-left:0;gap:14px;padding-bottom:0}
-    .f-stats .num{font-size:16px}
-    .f-actions{flex-wrap:wrap}
-    .layout{grid-template-columns:1fr;padding:0 10px 20px;gap:12px}
-    .tabs{overflow-x:auto;white-space:nowrap;padding:0 6px}
-    .tab{padding:10px 10px;font-size:13px}
-    .thread{padding:10px 10px;gap:8px}
-    .t-av{width:32px;height:32px;font-size:14px}
-    .t-title{font-size:14px}
-    .t-time{display:none}
-    .t-right{text-align:right}
-    .side{gap:10px}
+    .m-shell{display:flex}
+    .global-bar,.forum-head,.footer,.layout{display:none}
+    .mask{padding:12px 10px}
     .tmodal{max-width:100%}
     .tmodal-head{padding:12px 14px}
+    .tmodal-head h2{font-size:16px}
     .tmodal-body{padding:0 14px 16px}
+    .op-top{gap:8px}
+    .op-av{width:38px;height:38px;font-size:15px}
+    .op-content{font-size:13px}
+    .floor{padding:12px 0}
+    .f-text{font-size:13px}
     #countdown{right:10px;bottom:10px;left:10px;font-size:12px;padding:12px 14px}
   }
 </style>
@@ -279,6 +298,26 @@ body.h4 .tieba-logo b{color:#ff2d55}
 
 <!-- 氛围叠加层：暗角 + 噪点 + 扫描线（随进度加重） -->
 <div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+
+<!-- 移动端贴吧（手机贴吧布局，≤760px 显示） -->
+<div class="m-shell" id="mShell">
+  <header class="m-bar">
+    <span class="m-back" onclick="history.back()">‹</span>
+    <div class="m-name">博雅中学吧<span class="m-focus" onclick="alert('已关注博雅中学吧。关注后，吧内每条动态都会推送到你的消息。')">＋ 关注</span></div>
+    <span class="m-time" id="mTime">22:47</span>
+    <span class="m-ic" onclick="alert('搜索功能维护中，请稍后再试。')">🔍</span>
+  </header>
+  <div class="m-tabs"><span class="on">全部</span><span>吧务</span><span>精华</span><span>图片</span><span>视频</span></div>
+  <div class="m-quick">
+    <a href="剧情解密树.html" target="byzx_tree">解密节点树</a>
+    <a href="javascript:void(0)" onclick="Object.keys(localStorage).forEach(function(k){if(k.indexOf('byzx')===0)localStorage.removeItem(k)});location.reload()">重新开始本局</a>
+    <span class="m-qhint">密码 · 在时间线里</span>
+  </div>
+  <div class="m-list" id="mThreadList"></div>
+  <nav class="m-nav">
+    <span class="on"><i>⌂</i>首页</span><span><i>▤</i>吧</span><span><i>✉</i>消息</span><span><i>☰</i>我的</span>
+  </nav>
+</div>
 
 <!-- 顶栏 -->
 <header class="global-bar">
@@ -945,7 +984,8 @@ const flairText = {ling:'灵异', qiu:'求助', disc:'讨论', tu:'吐槽', bai:
 
 function renderList(){
   const el = document.getElementById('threadList');
-  let html = '';
+  const mel = document.getElementById('mThreadList');
+  let html = '', mhtml = '';
   threads.forEach(t=>{
     let left = '';
     if(t.pin) left += '<span class="pin-mark">置顶</span>';
@@ -971,8 +1011,19 @@ function renderList(){
         <div class="t-time">${t.time}</div>
       </div>
     </div>`;
+    mhtml += `
+    <div class="m-thread" onclick="openThread('${t.key}')">
+      <div class="mt-title">${left}${t.title}</div>
+      <div class="mt-row">
+        <span class="mt-av" style="background:${avc};${dark?'color:#9fc1ff;':''}">${t.author[0]||'?'}</span>
+        <span class="mt-name">${t.author}</span>
+        <span class="mt-time">${t.time}</span>
+        <span class="mt-rep">${t.rep.toLocaleString()} <b>回复</b></span>
+      </div>
+    </div>`;
   });
   el.innerHTML = html;
+  if(mel) mel.innerHTML = mhtml;
 }
 
 /* ---------- 热帖 ---------- */
@@ -1255,6 +1306,8 @@ function trigger2247Event(){
     t.textContent = '22:47';
     t.classList.remove('warn','danger','dead');
   }
+  const mt = document.getElementById('mTime');
+  if(mt){ mt.textContent = '22:47'; mt.classList.add('danger'); }
   // 批量把灵异帖标记为「系统已锁定」并加 22:47 回复
   _creepyKeys.forEach(k=>{
     const t = threads.find(x=>x.key===k);
