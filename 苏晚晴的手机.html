@@ -195,6 +195,12 @@
   .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
   .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
   @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* 解锁八字后：红字「我要你的眼睛」密密麻麻铺满手机屏幕 */
+  .eye-bg{position:absolute;inset:0;z-index:35;pointer-events:none;opacity:0;transition:opacity 1.4s;overflow:hidden}
+  .eye-bg .eg{position:absolute;color:#ff2d55;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:12px;white-space:nowrap;line-height:1;opacity:.55;will-change:transform,opacity;animation:egJit var(--dur,.6s) steps(2) infinite;animation-delay:var(--del,0s)}
+  .eye-bg .eg.deep{opacity:1;filter:brightness(1.6) saturate(1.4);animation:egShake .3s steps(2) infinite}
+  @keyframes egJit{0%,100%{transform:translate(0,0)}33%{transform:translate(-2px,1px)}66%{transform:translate(2px,-1px)}}
+  @keyframes egShake{0%{transform:translate(0,0)}25%{transform:translate(-5px,2px)}50%{transform:translate(4px,-3px)}75%{transform:translate(-2px,-3px)}100%{transform:translate(0,0)}}
   /* ---------- 晚晴上线：信号断裂 + 红色诡谲 ---------- */
   @keyframes wxFlick{0%,86%{opacity:1}87%{opacity:.12}90%{opacity:1}91%{opacity:.22}95%{opacity:1}}
   @keyframes wxTxtGlitch{0%,24%,100%{transform:none;filter:none}26%{transform:translate(1px,-1px) skewX(-4deg)}29%{transform:translate(-1px,1px)}32%{transform:none;filter:none}58%{transform:translate(0,1px)}61%{transform:none}}
@@ -315,6 +321,7 @@
             <button class="nv" onclick="navBtn(this);navRecents()" title="最近任务"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
           </div>
         </div>
+        <div class="eye-bg" id="eyeBg" aria-hidden="true"></div>
       </div>
     </div>
     <div class="cap">数据镜像 · <b>只读</b><br>这台手机自 2018-04-05 22:47 之后，再没有亮过。</div>
@@ -357,7 +364,8 @@ const P = {
     {t:'他', d:'2018-04-04', body:'她们给我看了截图。三中一个，职高一个，还有一个我连名字都没听过。\n他说过，只喜欢我一个。\n原来全是我一厢情愿。他保护我，只是怕我被霸凌的事闹大，或者，觉得我可怜。\n他从来不爱我。'},
     {t:'上锁的备忘', d:'2018-04-05', lock:'2247', body:'他骗了我。工具也没了。\n奶奶说，门开过就关不上了。我没能封住它。\n它说，八年后它会回来。到那天，它要借我的眼睛，看这个世界。\n别让人查地下室。\n对不起。\n我跳下去，会不会正好关上门？\n我不知道。但总得有人试。'},
     {t:'损坏的数据', d:'2018-04-05', cipher:true, clean:'我没能封住它。它在地下。八年后会回来。', noise:'我22:47没22:47能22:47封22:47住22:47它22:47它22:47在22:47地22:47下22:47八22:47年22:47后22:47会22:47回22:47来'},
-    {t:'生辰', d:'2018-04-04', afterLock:true, body:'奶奶说我落地那会儿，天刚亮。\n庚辰年，甲申月，甲辰日，辰时。\n她说我命里缺水缺火，五行不全，是个「破命」。\n那时我还笑：破命的人，鬼都不愿意要。\n现在我不笑了。\n它好像，就是冲着破命的人来的。'}
+    {t:'生辰', d:'2018-04-04', afterLock:true, body:'奶奶说我落地那会儿，天刚亮。\n庚辰年，甲申月，甲辰日，辰时。\n她说我命里缺水缺火，五行不全，是个「破命」。\n那时我还笑：破命的人，鬼都不愿意要。\n现在我不笑了。\n它好像，就是冲着破命的人来的。'},
+    {t:'心理问诊报告', d:'2018-04-04', body:'姓名：苏晚晴　性别：女　年龄：17\n就诊科室：心理科 · 门诊记录\n\n主诉：近一个月，患者反复称「地面上的图案会自己多几笔」，「深夜有东西敲机柜」，并坚信「有个东西，八年后要回来」。\n现病史：近期经历强烈心理创伤，情绪低落、睡眠紊乱、多次深夜惊醒。\n精神检查：意识清，定向力完整；存在鲜明幻视，对所视内容坚信不疑，伴被控制感与被害观念。\n诊断印象：创伤后应激障碍，伴幻觉。\n处理建议：留院观察，暂缓返校，避免独处。\n\n（患者拒绝留院观察，本人签字离院。）'}
   ],
   wx:[
     {c:'奶奶', ava:'奶', bg:'linear-gradient(135deg,#e8a87c,#d97a4a)', tm:'3月28日', last:'（语音）', badge:'1', lines:[
@@ -773,7 +781,7 @@ function triggerPhoneEnding(){
     </div>
     <div class="pe-title" id="peTitle">—— 手机镜像结局 · 借我一双眼睛 ——</div>
     <div class="pe-cap" id="peCap"></div>
-    <div class="pe-reset" id="peReset"><button onclick="Object.keys(localStorage).forEach(function(k){if(k.indexOf('byzx')===0)localStorage.removeItem(k)});location.reload()">［ 拔下数据线，重来 ］</button></div>`;
+    <div class="pe-reset" id="peReset"><button onclick="unplugAndGo()">［ 拔下数据线，重来 ］</button></div>`;
   document.body.appendChild(stage);
   /* 摄像机噪点（监控实时画面） */
   const cv = document.getElementById('peStatic');
@@ -829,10 +837,21 @@ function triggerPhoneEnding(){
   setTimeout(()=>{ capShow('她把手机举起来，<br>对准镜头。对准<b>你</b>。'); }, 9200);
   setTimeout(()=>{ capShow('她对着镜头，笑了一下。<br><b>—— 你已经在屏幕里面了。 ——</b>'); }, 11000);
   setTimeout(()=>{
+    staticJolt(260);
+    img.classList.remove('zoom');
+    img.src = 'img/NeedImg/IMG_0401.jpg';
+    capShow('她离开了。<br>似乎，了结了什么心愿。');
+  }, 13000);
+  setTimeout(()=>{
     clearInterval(tick);
     resetBtn.style.opacity = '1';
-  }, 12500);
+  }, 15200);
   _markViewed('phone_ending');
+}
+/* 拔下数据线：回到桌面，index 会弹出婉晴的最后一条消息 */
+function unplugAndGo(){
+  try{ localStorage.setItem('byzx_wanqing_msg','1'); }catch(e){}
+  location.href = 'index.html';
 }
 function wxHead(title){
   return `<div class="appview-head" style="background:#fff;border-bottom:1px solid #e5e5e5"><span class="bk" onclick="goBack()" style="color:#333">‹</span><span class="t" style="color:#111;font-weight:600">${title}</span><span class="bk none"> </span></div>`;
@@ -1049,7 +1068,7 @@ const MYSTERY = {
     {t:'……那要是它找我呢？',next:'it2'},{t:'换个话题。',next:'hub'}]},
   it2:{msgs:['它不挑人，挑眼睛。','看过它的人，都会被数上。','你数数删帖记录，心里就有数了。'],options:[
     {t:'换个话题。',next:'hub'}]},
-  end:{msgs:['行。','记住：晚上22:47，别盯着屏幕。','也……别照镜子。'],options:[
+  end:{msgs:['行。','记住：晚上22:47，别盯着屏幕。'],options:[
     {t:'（结束对话）',next:'exit'}]},
   exit:{msgs:['（对方已离线）'],options:[
     {t:'（返回主屏）',next:'__home'}]}
@@ -1228,11 +1247,56 @@ function sndI(){
   if(localStorage.getItem('byzx_note_unlocked')==='1') n += 2;
   return Math.min(1, n/12);
 }
+let _eyeBase = 0;
+let _eyeBuilt = false;
+/* 生成一段段独立的红字：每段随机节奏、随机相位，各自持续微抖 */
+function buildEyeSpans(el){
+  const w = el.clientWidth, h = el.clientHeight;
+  if(!w || !h) return;
+  let html = '';
+  const col = 96, row = 22;
+  for(let r=0; r*row < h + 20; r++)
+    for(let c=0; c*col < w + 60; c++)
+      html += `<span class="eg" style="left:${c*col + (r%2)*48}px;top:${r*row}px;--dur:${(0.5+Math.random()*0.7).toFixed(2)}s;--del:${(-Math.random()*1.2).toFixed(2)}s">我要你的眼睛</span>`;
+  el.innerHTML = html;
+  _eyeBuilt = true;
+}
+function updateEyeBG(){
+  const el = document.getElementById('eyeBg');
+  if(!el) return;
+  let o = 0;
+  if(_viewed.has('bazi_4105')) o = 0.34 + sndI()*0.10;
+  if(_viewed.has('mystery_end')) o = Math.max(o, 0.60);
+  _eyeBase = o;
+  if(o > 0 && !_eyeBuilt) buildEyeSpans(el);
+  el.style.opacity = o.toFixed(3);
+}
+/* 随机挑一小撮红字加深 + 剧烈抖动，再各自落下 */
+function eyeGlitch(){
+  const els = document.querySelectorAll('#eyeBg .eg');
+  if(!els.length || _eyeBase <= 0) return;
+  const n = Math.max(2, Math.floor(els.length * (0.01 + Math.random()*0.02)));
+  let guard = 0, count = 0;
+  while(count < n && guard < els.length*3){
+    guard++;
+    const s = els[Math.floor(Math.random()*els.length)];
+    if(s.classList.contains('deep')) continue;
+    s.classList.add('deep');
+    count++;
+    (function(el){
+      setTimeout(()=>el.classList.remove('deep'), 200 + Math.random()*400);
+    })(s);
+  }
+}
+(function eyeLoop(){
+  setTimeout(()=>{ eyeGlitch(); eyeLoop(); }, 600 + Math.random()*500);
+})();
 /* 页面氛围：暗角/噪点随进度加重，关键节点闪红 */
 function applyFx(){
   const fx = document.getElementById('fx');
   if(!fx) return;
   fx.style.opacity = (0.04 + sndI()*0.5).toFixed(3);
+  updateEyeBG();
 }
 function pulseFx(){
   const fx = document.getElementById('fx');

@@ -58,6 +58,12 @@
   .node.locked .n-left,.node.locked .tag,.node.locked .star{display:none}
   .node.locked .q{display:block}
   .foot{max-width:920px;margin:32px auto 0;padding:0 20px;font-size:11px;color:#5a6680;line-height:2;text-align:center;letter-spacing:2px}
+  /* 解锁八字后：红字「我要你的眼睛」铺满网页 */
+  .eye-bg{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1.4s;overflow:hidden}
+  .eye-bg .eg{position:absolute;color:#ff2d55;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:12px;white-space:nowrap;line-height:1;opacity:.55;will-change:transform,opacity;animation:egJit var(--dur,.6s) steps(2) infinite;animation-delay:var(--del,0s)}
+  .eye-bg .eg.deep{opacity:1;filter:brightness(1.6) saturate(1.4);animation:egShake .3s steps(2) infinite}
+  @keyframes egJit{0%,100%{transform:translate(0,0)}33%{transform:translate(-2px,1px)}66%{transform:translate(2px,-1px)}}
+  @keyframes egShake{0%{transform:translate(0,0)}25%{transform:translate(-5px,2px)}50%{transform:translate(4px,-3px)}75%{transform:translate(-2px,-3px)}100%{transform:translate(0,0)}}
   /* ---------- 移动端适配 ---------- */
   @media (max-width: 760px){
     .head{padding:10px 14px;gap:10px}
@@ -76,6 +82,9 @@
 </style>
 </head>
 <body>
+
+<!-- 解锁八字后：红字「我要你的眼睛」铺满背景 -->
+<div class="eye-bg" id="eyeBg" aria-hidden="true"></div>
 
 <header class="head">
   <a href="博雅中学吧.html">← 返回贴吧</a>
@@ -225,7 +234,53 @@ try{
     if(d.f && localStorage.getItem(d.f)==='1') return true;
     return false;
   }
+  let _eyeBase = 0;
+  let _eyeBuilt = false;
+  /* 生成一段段独立的红字：每段随机节奏、随机相位，各自持续微抖 */
+  function buildEyeSpans(el){
+    const w = el.clientWidth, h = el.clientHeight;
+    if(!w || !h) return;
+    let html = '';
+    const col = 96, row = 22;
+    for(let r=0; r*row < h + 20; r++)
+      for(let c=0; c*col < w + 60; c++)
+        html += `<span class="eg" style="left:${c*col + (r%2)*48}px;top:${r*row}px;--dur:${(0.5+Math.random()*0.7).toFixed(2)}s;--del:${(-Math.random()*1.2).toFixed(2)}s">我要你的眼睛</span>`;
+    el.innerHTML = html;
+    _eyeBuilt = true;
+  }
+  function updateEyeBG(){
+    const el = document.getElementById('eyeBg');
+    if(!el) return;
+    const pv = arr('byzx_phone_viewed');
+    let o = 0;
+    if(pv.includes('bazi_4105')) o = 0.34;
+    if(pv.includes('mystery_end')) o = 0.55;
+    _eyeBase = o;
+    if(o > 0 && !_eyeBuilt) buildEyeSpans(el);
+    el.style.opacity = o.toFixed(3);
+  }
+  /* 随机挑一小撮红字加深 + 剧烈抖动，再各自落下 */
+  function eyeGlitch(){
+    const els = document.querySelectorAll('#eyeBg .eg');
+    if(!els.length || _eyeBase <= 0) return;
+    const n = Math.max(2, Math.floor(els.length * (0.01 + Math.random()*0.02)));
+    let guard = 0, count = 0;
+    while(count < n && guard < els.length*3){
+      guard++;
+      const s = els[Math.floor(Math.random()*els.length)];
+      if(s.classList.contains('deep')) continue;
+      s.classList.add('deep');
+      count++;
+      (function(el){
+        setTimeout(()=>el.classList.remove('deep'), 200 + Math.random()*400);
+      })(s);
+    }
+  }
+  (function eyeLoop(){
+    setTimeout(()=>{ eyeGlitch(); eyeLoop(); }, 600 + Math.random()*500);
+  })();
   function render(){
+    updateEyeBG();
     document.querySelectorAll('.node[data-v],.node[data-a],.node[data-pv],.node[data-pa],.node[data-f]').forEach(n=>{
       const lit = isLit(n);
       n.classList.toggle('lit', lit);

@@ -50,6 +50,8 @@
   .toast .t-close:hover{color:#fff}
   .toast .t-msg{font-size:12px;color:#cdd6e6;line-height:1.8;margin-top:8px}
   .toast .t-msg b{color:#ff8a8f}
+  /* 婉晴的最后一条消息（拔下数据线回到桌面时弹出） */
+  .toast.wx-toast{border-left-color:#ff7ba9;box-shadow:0 14px 40px rgba(255,45,85,.28)}
   /* 任务栏 */
   .taskbar{position:fixed;left:0;right:0;bottom:0;height:50px;z-index:70;display:flex;align-items:center;justify-content:space-between;
     background:linear-gradient(180deg,rgba(24,32,56,.9),rgba(12,16,30,.95));
@@ -65,6 +67,12 @@
   .taskbar .clock{text-align:right;line-height:1.35;cursor:default}
   .taskbar .clock .t{font-size:13px;letter-spacing:1px}
   .taskbar .clock .d{font-size:10px;color:#9fb0d8}
+  /* 解锁八字后：红字「我要你的眼睛」铺满桌面 */
+  .eye-bg{position:fixed;inset:0;z-index:95;pointer-events:none;opacity:0;transition:opacity 1.4s;overflow:hidden}
+  .eye-bg .eg{position:absolute;color:#ff2d55;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:12px;white-space:nowrap;line-height:1;opacity:.55;will-change:transform,opacity;animation:egJit var(--dur,.6s) steps(2) infinite;animation-delay:var(--del,0s)}
+  .eye-bg .eg.deep{opacity:1;filter:brightness(1.6) saturate(1.4);animation:egShake .3s steps(2) infinite}
+  @keyframes egJit{0%,100%{transform:translate(0,0)}33%{transform:translate(-2px,1px)}66%{transform:translate(2px,-1px)}}
+  @keyframes egShake{0%{transform:translate(0,0)}25%{transform:translate(-5px,2px)}50%{transform:translate(4px,-3px)}75%{transform:translate(-2px,-3px)}100%{transform:translate(0,0)}}
   /* ---------- 移动端适配 ---------- */
   @media (max-width: 760px){
     .wm{font-size:30px;letter-spacing:8px}
@@ -84,6 +92,8 @@
 <body>
 
 <div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+<!-- 解锁八字后：红字「我要你的眼睛」铺满桌面 -->
+<div class="eye-bg" id="eyeBg" aria-hidden="true"></div>
 
 <div class="desktop">
   <div class="wm">博雅中学 · 归返之礼</div>
@@ -99,6 +109,17 @@
     <div class="t-close" onclick="event.stopPropagation();closeToast()">×</div>
   </div>
   <div class="t-msg">有人发了一条帖子：<br><b>「出：2018 年女高中生手机数据镜像，三份出了两份，剩最后一份。」</b></div>
+</div>
+
+<!-- 婉晴的最后一条消息（拔下数据线回到桌面时弹出） -->
+<div class="toast wx-toast" id="wxToast">
+  <div class="t-head">
+    <div class="t-ic" style="background:linear-gradient(135deg,#ffb3c8,#ff7ba9);box-shadow:0 0 12px rgba(255,123,169,.6)">晚</div>
+    <div class="t-app">苏晚晴 <span style="font-size:10px;color:#ff9ec0">· 未知设备</span></div>
+    <div class="t-tm">2018-04-05 · 00:00</div>
+    <div class="t-close" onclick="event.stopPropagation();closeWxToast()">×</div>
+  </div>
+  <div class="t-msg">对不起，是地下室的东西让我这样做的，我并没有恶意。<br>如果你能找到<b style="color:#ffb3c8">最后一位守门人</b>的话，请帮帮我，他应该有办法。</div>
 </div>
 
 <!-- 任务栏 -->
@@ -147,8 +168,60 @@ document.getElementById('pins').innerHTML = ['tieba','wx','browser'].map(id=>{
   return `<div class="pin" style="background:${a.bg}" title="${a.t}">${a.c}</div>`;
 }).join('');
 
+/* 解锁八字后：红字「我要你的眼睛」铺满桌面 */
+function phoneHasBazi(){
+  try{ const pv = JSON.parse(localStorage.getItem('byzx_phone_viewed')||'[]'); return pv.includes('bazi_4105')||pv.includes('mystery_end'); }catch(e){ return false; }
+}
+let _eyeBase = 0;
+let _eyeBuilt = false;
+/* 生成一段段独立的红字：每段随机节奏、随机相位，各自持续微抖 */
+function buildEyeSpans(el){
+  const w = el.clientWidth, h = el.clientHeight;
+  if(!w || !h) return;
+  let html = '';
+  const col = 96, row = 22;
+  for(let r=0; r*row < h + 20; r++)
+    for(let c=0; c*col < w + 60; c++)
+      html += `<span class="eg" style="left:${c*col + (r%2)*48}px;top:${r*row}px;--dur:${(0.5+Math.random()*0.7).toFixed(2)}s;--del:${(-Math.random()*1.2).toFixed(2)}s">我要你的眼睛</span>`;
+  el.innerHTML = html;
+  _eyeBuilt = true;
+}
+function updateEyeBG(){
+  const el = document.getElementById('eyeBg');
+  if(!el) return;
+  let o = 0;
+  if(phoneHasBazi()) o = 0.30;
+  try{ if(JSON.parse(localStorage.getItem('byzx_phone_viewed')||'[]').includes('mystery_end')) o = 0.50; }catch(e){}
+  _eyeBase = o;
+  if(o > 0 && !_eyeBuilt) buildEyeSpans(el);
+  el.style.opacity = o.toFixed(3);
+}
+/* 随机挑一小撮红字加深 + 剧烈抖动，再各自落下 */
+function eyeGlitch(){
+  const els = document.querySelectorAll('#eyeBg .eg');
+  if(!els.length || _eyeBase <= 0) return;
+  const n = Math.max(2, Math.floor(els.length * (0.01 + Math.random()*0.02)));
+  let guard = 0, count = 0;
+  while(count < n && guard < els.length*3){
+    guard++;
+    const s = els[Math.floor(Math.random()*els.length)];
+    if(s.classList.contains('deep')) continue;
+    s.classList.add('deep');
+    count++;
+    (function(el){
+      setTimeout(()=>el.classList.remove('deep'), 200 + Math.random()*400);
+    })(s);
+  }
+}
+(function eyeLoop(){
+  setTimeout(()=>{ eyeGlitch(); eyeLoop(); }, 600 + Math.random()*500);
+})();
+updateEyeBG();
+setInterval(updateEyeBG, 4000);
+
 function openTieba(){ location.href='博雅中学吧.html'; }
 function closeToast(){ document.getElementById('toast').classList.remove('show'); }
+function closeWxToast(){ const w = document.getElementById('wxToast'); if(w) w.classList.remove('show'); }
 
 /* 稍后弹出贴吧通知 */
 setTimeout(()=>{
@@ -157,6 +230,20 @@ setTimeout(()=>{
   fx.classList.add('pulse');
   setTimeout(()=>fx.classList.remove('pulse'), 900);
 }, 2200);
+
+/* 拔下数据线回到桌面：弹出婉晴的最后一条消息 */
+if(localStorage.getItem('byzx_wanqing_msg') === '1'){
+  localStorage.removeItem('byzx_wanqing_msg');
+  setTimeout(()=>{
+    const w = document.getElementById('wxToast');
+    if(w){
+      w.classList.add('show');
+      const fx = document.getElementById('fx');
+      fx.classList.add('pulse');
+      setTimeout(()=>fx.classList.remove('pulse'), 900);
+    }
+  }, 3500);
+}
 </script>
 </body>
 </html>

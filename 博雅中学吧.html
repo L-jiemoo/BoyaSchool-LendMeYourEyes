@@ -140,6 +140,9 @@ body.h4 .tieba-logo b{color:#ff2d55}
   .t-info{min-width:0}
   .t-title{font-size:15px;color:var(--ink);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .t-title .pin-mark{color:#e8a13a;font-weight:700;margin-right:4px}
+  /* 剧情帖的消息红点 */
+  .msg-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff2d55;margin-right:6px;vertical-align:2px;flex-shrink:0;box-shadow:0 0 6px rgba(255,45,85,.65);animation:msgDotPulse 1.6s ease-in-out infinite}
+  @keyframes msgDotPulse{0%,100%{opacity:.9;box-shadow:0 0 4px rgba(255,45,85,.5)}50%{opacity:.5;box-shadow:0 0 10px rgba(255,45,85,.9)}}
   .t-title .dig-mark{display:inline-block;background:#e8a13a;color:#fff;font-size:11px;line-height:1;padding:3px 5px;border-radius:3px;margin-right:6px;vertical-align:2px}
   .t-title .lock-mark{display:inline-block;background:#86909c;color:#fff;font-size:11px;line-height:1;padding:3px 5px;border-radius:3px;margin-right:6px;vertical-align:2px}
   .t-meta{font-size:12px;color:var(--sub);margin-top:2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -243,7 +246,115 @@ body.h4 .tieba-logo b{color:#ff2d55}
   .fx-grain{position:absolute;inset:-20%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");opacity:.16;animation:fxgrain .4s steps(3) infinite}
   .fx-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(255,255,255,.035) 2px 3px)}
   .fx.pulse .fx-vig{background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(255,20,50,.4) 100%);transition:background .12s}
+  /* 解锁八字后：红字「我要你的眼睛」铺满网页（手机端铺满贴吧手机屏） */
+  .eye-bg{position:fixed;inset:0;z-index:120;pointer-events:none;opacity:0;transition:opacity 1.4s;overflow:hidden}
+  .eye-bg .eg{position:absolute;color:#ff2d55;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:12px;white-space:nowrap;line-height:1;opacity:.55;will-change:transform,opacity;animation:egJit var(--dur,.6s) steps(2) infinite;animation-delay:var(--del,0s)}
+  .eye-bg .eg.deep{opacity:1;filter:brightness(1.6) saturate(1.4);animation:egShake .3s steps(2) infinite}
+  @keyframes egJit{0%,100%{transform:translate(0,0)}33%{transform:translate(-2px,1px)}66%{transform:translate(2px,-1px)}}
+  @keyframes egShake{0%{transform:translate(0,0)}25%{transform:translate(-5px,2px)}50%{transform:translate(4px,-3px)}75%{transform:translate(-2px,-3px)}100%{transform:translate(0,0)}}
   @keyframes fxgrain{0%{transform:translate(0,0)}33%{transform:translate(-6px,4px)}66%{transform:translate(4px,-5px)}100%{transform:translate(-3px,-3px)}}
+  /* ---------- 完整剧情解锁：诡异红色主题（常驻） ---------- */
+  body.red-theme{background:#160709;transition:background 1.5s}
+  body.red-theme #wrap{background:#160709}
+  body.red-theme .global-bar{background:linear-gradient(180deg,#2a0a0c 0%,#180506 100%);border-bottom-color:#7a1620}
+  body.red-theme .tieba-logo{color:#c0355c}
+  body.red-theme .tieba-logo b{color:#ff2d55}
+  body.red-theme .g-nav span,body.red-theme .g-user{color:#b9858d}
+  body.red-theme .g-search input{background:#200a0e;border-color:#52121c;color:#e6c6ca}
+  body.red-theme .g-search input::placeholder{color:#8a4a54}
+  body.red-theme .g-search button{background:#b3202e}
+  body.red-theme .g-time{color:#ffb0b0;border-color:#b3202e;background:#3a1014}
+  body.red-theme .forum-head{background:linear-gradient(135deg,#2a0a0c 0%,#3a1014 55%,#220709 100%);border-bottom-color:#b3202e}
+  body.red-theme .forum-head::before{color:rgba(255,45,85,.06)}
+  body.red-theme .forum-head::after{background:linear-gradient(90deg,transparent,rgba(255,45,85,.8),transparent)}
+  body.red-theme .f-title h1{color:#ffd7d7}
+  body.red-theme .f-title .tag{background:rgba(255,45,85,.25);border-color:#b3202e;color:#ffb0b0}
+  body.red-theme .f-title .desc,body.red-theme .f-actions .hint{color:#b9858d}
+  body.red-theme .f-avatar{background:linear-gradient(145deg,#3a1014,#24090c);border-color:rgba(255,80,100,.35);color:#ff8a8f}
+  body.red-theme .f-stats .num{color:#ffd7d7}
+  body.red-theme .f-stats .lab{color:#a86a72}
+  body.red-theme .btn-blue{background:#b3202e}
+  body.red-theme .btn-blue:hover{background:#8a1824}
+  body.red-theme .btn-ghost{background:rgba(255,60,80,.12);border-color:rgba(255,80,100,.3);color:#ffc6c6}
+  body.red-theme .btn-ghost:hover{background:rgba(255,60,80,.2)}
+  body.red-theme .card,body.red-theme .tabs,body.red-theme .thread-list{background:#1a0a0e;border-color:#3a1018}
+  body.red-theme .tab{color:#a86a72}
+  body.red-theme .tab:hover{color:#ffc6c6}
+  body.red-theme .tab.on{color:#ff2d55;border-bottom-color:#ff2d55}
+  body.red-theme .post-btn{background:#b3202e}
+  body.red-theme .post-btn:hover{background:#8a1824}
+  body.red-theme .pin-row{background:#241015;border-left-color:#b3202e;color:#a86a72}
+  body.red-theme .pin-row b{color:#ff2d55}
+  body.red-theme .thread{border-bottom-color:#2a0c12}
+  body.red-theme .thread:hover{background:#2a0c12}
+  body.red-theme .t-title{color:#e0b4ba}
+  body.red-theme .t-meta,body.red-theme .t-time{color:#8a4a54}
+  body.red-theme .t-rep{color:#e0b4ba}
+  body.red-theme .t-rep small{color:#8a4a54}
+  body.red-theme .t-av{filter:saturate(.5) brightness(.8) hue-rotate(-15deg)}
+  body.red-theme .pg{background:#200a0e;border-color:#3a1018;color:#a86a72}
+  body.red-theme .pg.on{background:#b3202e;border-color:#b3202e;color:#fff}
+  body.red-theme .pg:hover:not(.on){color:#ff2d55;border-color:#ff2d55}
+  body.red-theme .side .card{background:#180a0e;border-color:#3a1018}
+  body.red-theme .side h3{color:#e0b4ba}
+  body.red-theme .side h3::before{background:#ff2d55}
+  body.red-theme .side ul li{color:#a86a72}
+  body.red-theme .side ul li.off{color:#6a3a44}
+  body.red-theme .del-log li{color:#a86a72}
+  body.red-theme .rank-row{border-bottom-color:#2a0c12}
+  body.red-theme .rank-num{background:#2a0c12;color:#a86a72}
+  body.red-theme .friend li{color:#a86a72}
+  body.red-theme .footer{border-top-color:#3a1018;color:#8a4a54}
+  body.red-theme .tmodal{background:#1a0a0e}
+  body.red-theme .tmodal-head{background:#241015;border-bottom-color:#3a1018}
+  body.red-theme .tmodal-head h2{color:#e0b4ba}
+  body.red-theme .tmodal-close{color:#a86a72}
+  body.red-theme .tmodal-close:hover{background:#2a0c12}
+  body.red-theme .op-content,body.red-theme .f-text{color:#e6c6ca}
+  body.red-theme .op-name{color:#e0b4ba}
+  body.red-theme .op-meta,body.red-theme .f-time,body.red-theme .f-floor{color:#8a4a54}
+  body.red-theme .f-name,body.red-theme .sub-row .au{color:#ff8a8f}
+  body.red-theme .floor{border-bottom-color:#2a0c12}
+  body.red-theme .sub{background:#241015}
+  body.red-theme .sub-row{color:#e0b4ba}
+  body.red-theme .reply-bar input{background:#241015;border-color:#3a1018;color:#e6c6ca}
+  body.red-theme .reply-bar button{background:#b3202e}
+  body.red-theme .locked-note{border-color:#7a1620;background:#2a0a0e;color:#ff8a8f}
+  /* 移动端红色主题 */
+  body.red-theme .m-shell{background:#160709}
+  body.red-theme .m-bar{background:#2a0a0c;border-bottom-color:#52121c}
+  body.red-theme .m-name{color:#ffd7d7}
+  body.red-theme .m-time{color:#ffb0b0;border-color:#52121c;background:#3a1014}
+  body.red-theme .m-tabs{background:#220709;border-bottom-color:#52121c}
+  body.red-theme .m-tabs span{color:#a86a72}
+  body.red-theme .m-tabs span.on{color:#ff2d55;border-bottom-color:#ff2d55}
+  body.red-theme .m-quick{background:#241015;border-bottom-color:#3a1018}
+  body.red-theme .m-quick a{color:#ff8a8f}
+  body.red-theme .m-thread{background:#1a0a0e}
+  body.red-theme .mt-title{color:#e0b4ba}
+  body.red-theme .mt-time,body.red-theme .mt-name{color:#8a4a54}
+  body.red-theme .mt-rep{color:#e0b4ba}
+  body.red-theme .mt-rep b{color:#8a4a54}
+  body.red-theme .m-nav{background:#2a0a0c;border-top-color:#52121c}
+  body.red-theme .m-nav span{color:#a86a72}
+  body.red-theme .m-nav span.on{color:#ff2d55}
+  /* ---------- 剧情全解锁：0403 眼睛铺满页面（一次性镜头） ---------- */
+  .eye-tiles{position:fixed;inset:0;z-index:400;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .7s;background:rgba(10,3,4,.35)}
+  .eye-tiles.show{opacity:1}
+  .eye-tiles img{position:absolute;object-fit:cover;display:block;filter:brightness(1.25) contrast(1.1)}
+  /* ---------- 眼睛触发后：贴吧只剩 JECat 这一条消息 ---------- */
+  .forum-cleared{padding:26px 20px 6px;font-size:12px;line-height:1.9;text-align:center;color:#ff8a8f;letter-spacing:1px}
+  .jecat-post{margin:12px 16px 24px;border:1px solid #b3202e;border-radius:8px;background:#1a0a0e;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.4);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .jecat-post:hover{border-color:#ff2d55;box-shadow:0 10px 34px rgba(179,32,46,.45)}
+  .jecat-post .jp-open{padding:10px 16px;text-align:center;font-size:12px;color:#8a4a54;border-top:1px dashed #3a1018;letter-spacing:1px;transition:color .2s}
+  .jecat-post:hover .jp-open{color:#ff8a8f}
+  .jecat-post .jp-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#241015;border-bottom:1px solid #3a1018}
+  .jecat-post .jp-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#c0355c,#8a1824);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;flex-shrink:0}
+  .jecat-post .jp-name{font-size:14px;font-weight:600;color:#e0b4ba;display:flex;align-items:center;gap:8px}
+  .jecat-post .jp-tag{font-size:11px;padding:1px 7px;border-radius:3px;background:#3a1014;color:#ff8a8f;border:1px solid #b3202e;font-weight:500}
+  .jecat-post .jp-meta{font-size:12px;color:#8a4a54;margin-top:2px}
+  .jecat-post .jp-body{padding:14px 16px;font-size:14px;line-height:2;color:#e6c6ca}
+  .jecat-post .jp-last{color:#ff2d55;font-weight:600}
   /* ---------- 移动端贴吧（手机贴吧布局） ---------- */
   .m-shell{position:fixed;inset:0;z-index:5;background:#f6f7f9;display:none;flex-direction:column}
   .m-bar{height:50px;background:#fff;border-bottom:1px solid #e5e6eb;display:flex;align-items:center;gap:6px;padding:0 12px;flex-shrink:0}
@@ -298,6 +409,10 @@ body.h4 .tieba-logo b{color:#ff2d55}
 
 <!-- 氛围叠加层：暗角 + 噪点 + 扫描线（随进度加重） -->
 <div class="fx" id="fx" aria-hidden="true"><div class="fx-vig"></div><div class="fx-grain"></div><div class="fx-scan"></div></div>
+<!-- 解锁八字后：红字「我要你的眼睛」铺满背景 -->
+<div class="eye-bg" id="eyeBg" aria-hidden="true"></div>
+<!-- 完整剧情解锁：0403 图片按眼睛形状铺满页面（一次性镜头） -->
+<div class="eye-tiles" id="eyeTiles" aria-hidden="true"></div>
 
 <!-- 移动端贴吧（手机贴吧布局，≤760px 显示） -->
 <div class="m-shell" id="mShell">
@@ -985,12 +1100,20 @@ const flairText = {ling:'灵异', qiu:'求助', disc:'讨论', tu:'吐槽', bai:
 function renderList(){
   const el = document.getElementById('threadList');
   const mel = document.getElementById('mThreadList');
+  if(localStorage.getItem('byzx_forum_cleared') === '1'){   /* 眼睛触发后：贴吧只剩 JECat 那一条消息 */
+    if(el) el.innerHTML = JECAT_FORUM_HTML;
+    if(mel) mel.innerHTML = JECAT_FORUM_HTML;
+    clearSideMessages();
+    return;
+  }
   let html = '', mhtml = '';
   threads.forEach(t=>{
+    if(t.key === 'j1') return;   /* 先隐藏 JECat 的贴吧消息，等眼睛触发后再作为唯一一条显示 */
     let left = '';
     if(t.pin) left += '<span class="pin-mark">置顶</span>';
     if(t.digest) left += '<span class="dig-mark">精</span>';
     if(t.locked) left += '<span class="lock-mark">锁</span>';
+    const dot = _creepyKeys.includes(t.key) ? '<span class="msg-dot" title="有新消息"></span>' : '';   /* 剧情帖前加消息红点 */
     const meta = `<span class="flair ${flairCls[t.flair]}">${flairText[t.flair]}</span>` +
                  `<span>${t.author}</span>` +
                  `<span>${t.rep}回复</span>` +
@@ -1002,7 +1125,7 @@ function renderList(){
       <div class="t-left">
         <span class="t-av" style="background:${avc};${dark?'color:#9fc1ff;':''}">${t.author[0]||'?'}</span>
         <div class="t-info">
-          <div class="t-title">${left}${t.title}</div>
+          <div class="t-title">${left}${dot}${t.title}</div>
           <div class="t-meta">${meta}</div>
         </div>
       </div>
@@ -1013,7 +1136,7 @@ function renderList(){
     </div>`;
     mhtml += `
     <div class="m-thread" onclick="openThread('${t.key}')">
-      <div class="mt-title">${left}${t.title}</div>
+      <div class="mt-title">${left}${dot}${t.title}</div>
       <div class="mt-row">
         <span class="mt-av" style="background:${avc};${dark?'color:#9fc1ff;':''}">${t.author[0]||'?'}</span>
         <span class="mt-name">${t.author}</span>
@@ -1028,8 +1151,11 @@ function renderList(){
 
 /* ---------- 热帖 ---------- */
 function renderHot(){
+  const el = document.getElementById('hotList');
+  if(!el) return;
+  if(localStorage.getItem('byzx_forum_cleared') === '1'){ el.innerHTML = ''; return; }   /* 已清空：热帖不再回填 */
   const hot = threads.filter(t=>t.hot).sort((a,b)=>b.hot-a.hot).slice(0,5);
-  document.getElementById('hotList').innerHTML = hot.map(t=>`
+  el.innerHTML = hot.map(t=>`
     <div class="rank-row" style="cursor:pointer" onclick="openThread('${t.key}')">
       <span class="rank-num top3">${t.hot}</span>
       <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.title}</span>
@@ -1112,7 +1238,7 @@ setInterval(()=>{
 }, 8000);
 
 /* ---------- 叙事沉浸：自动诡异事件 ---------- */
-const _creepyKeys = ['t1','t2','t25','t24','t5','t6','t26','t29','t14','t18','t17','t30','n25','n27','n28','t7','t10'];
+const _creepyKeys = ['t1','t2','t25','t24','t5','t6','t26','t29','t14','t18','t17','t30','n25','n27','n28','t7','t10','p3','j2','t27'];
 const _viewedThreads = new Set();
 const _originalThreadTitle = {};
 threads.forEach(t=>{ _originalThreadTitle[t.key]=t.title; });
@@ -1216,8 +1342,7 @@ function plotGate_unlocked(){
       <div style="color:#c88eb0">
         你解锁了那台手机。<br>
         它隔着屏幕，看见你了。<br>
-        相册最后那张强光，是你拍的，还是它拍的？<br>
-        <b style="color:#ff7ba9">「别照镜子。」</b>
+        相册最后那张强光，是你拍的，还是它拍的？
       </div>
       <div style="margin-top:12px;text-align:right"><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:1px solid #722ed1;color:#d0a8f0;padding:4px 14px;border-radius:4px;cursor:pointer;font-size:11px">关闭</button></div>`;
     document.body.appendChild(c);
@@ -1243,7 +1368,94 @@ function checkPlotHorror(){
   plotGate_browsed();
   plotGate_unlocked();
   plotGate_note();
+  plotGate_redTheme();
   applyFx();
+}
+
+/* ---------- 完整剧情解锁：诡异红色主题 + 眼睛铺满 + JECat 贴吧消息 ---------- */
+function plotComplete(){
+  /* 贴吧剧情帖看过一半以上（17 篇里 ≥9 篇）→ 已看懂过半剧情 */
+  return creepyViewedCount() >= Math.ceil(_creepyKeys.length/2);
+}
+let _eyeTilesBuilt = false;
+/* 把 0403/0404 图片沿屏幕四边排成一圈 */
+function buildEyeTiles(){
+  const el = document.getElementById('eyeTiles');
+  if(!el) return;
+  (new Image()).src = 'img/NeedImg/IMG_0404.jpg';         /* 预加载第二段图片，切换不闪烁 */
+  const w = el.clientWidth, h = el.clientHeight;
+  if(!w || !h) return;
+  const size = Math.max(40, Math.round(w/14));            /* 图块步长 */
+  const tile = Math.max(22, Math.round(size*0.72));       /* 图块留间隔 */
+  const off = Math.round((size - tile)/2);
+  const src = 'img/NeedImg/IMG_0403.jpg';
+  const box = (x,y)=>`<img src="${src}" alt="" style="left:${x+off}px;top:${y+off}px;width:${tile}px;height:${tile}px">`;
+  let html = '';
+  /* 围绕屏幕一圈：上 / 下 / 左 / 右四条边 */
+  for(let x=0; x<w; x+=size) html += box(x, 0);           /* 上边 */
+  for(let x=0; x<w; x+=size) html += box(x, h-size);      /* 下边 */
+  for(let y=size; y<h-size; y+=size) html += box(0, y);   /* 左边（避开上下角） */
+  for(let y=size; y<h-size; y+=size) html += box(w-size, y); /* 右边 */
+  el.innerHTML = html;
+  _eyeTilesBuilt = true;
+}
+/* 切换眼睛图块里的图片：0403 → 0404 → 0403 */
+function setEyeSrc(src){
+  document.querySelectorAll('#eyeTiles img').forEach(img=>{ img.src = src; });
+}
+function plotGate_redTheme(){
+  const fired = localStorage.getItem('byzx_red_theme') === '1';
+  if(fired){                                   /* 已触发过：红色主题保持常驻，不再重放镜头 */
+    document.body.classList.add('red-theme');
+    window._plotRed = true;
+    return;
+  }
+  if(window._plotRed) return;
+  if(!plotComplete()) return;
+  window._plotRed = true;
+  localStorage.setItem('byzx_red_theme', '1');
+  document.body.classList.add('red-theme');
+  pulseFx();
+  const tiles = document.getElementById('eyeTiles');
+  if(tiles && !_eyeTilesBuilt){
+    buildEyeTiles();
+    setTimeout(()=>{ tiles.classList.add('show'); pulseFx(); }, 700);        /* 眼睛浮现：0403 */
+    setTimeout(()=>{ setEyeSrc('img/NeedImg/IMG_0404.jpg'); pulseFx(); }, 3400);  /* 2.7s 后 → 0404 */
+    setTimeout(()=>{ setEyeSrc('img/NeedImg/IMG_0403.jpg'); pulseFx(); }, 6100);  /* 2.7s 后 → 回到 0403 */
+    setTimeout(()=>{ tiles.classList.remove('show'); }, 8300);               /* 0403 停留 2.2s 后淡出 */
+  }
+  setTimeout(()=>{ clearAllMessages(); pulseFx(); }, 8600);                  /* 眼睛消失后：清空贴吧全部消息，空吧里只剩 JECat 的最后一条 */
+}
+/* 眼睛触发后：贴吧只剩 JECat 这一条消息 */
+const JECAT_FORUM_HTML = `
+  <div class="forum-cleared">吧内全部帖子已于 22:47 被清空。<br>只剩这一条，收件人才能看到。</div>
+  <div class="jecat-post" onclick="openThread('j1')" title="点开查看 JECat 的消息">
+    <div class="jp-head">
+      <span class="jp-av">J</span>
+      <div class="jp-info">
+        <div class="jp-name">JECat <span class="jp-tag">交易</span></div>
+        <div class="jp-meta">最后一条消息 · 今天 22:47</div>
+      </div>
+    </div>
+    <div class="jp-body">我发现，这里面的东西不简单。<br>手机密码，好像是她男朋友坠楼的日子。<br>看你打不打开咯。<br><span class="jp-last">我钱已经赚够了，就免费送你了罢。</span></div>
+    <div class="jp-open">—— 点开查看完整消息 ›</div>
+  </div>`;
+/* 清空侧栏的动态内容：删帖记录 / 公告 / 吧务团队 / 排行榜 */
+function clearSideMessages(){
+  const dl = document.querySelector('.del-log');
+  if(dl) dl.innerHTML = '';
+  document.querySelectorAll('.side .card h3').forEach(h=>{
+    let n = h.nextElementSibling;
+    while(n && n !== h.parentElement){ const nx = n.nextElementSibling; n.remove(); n = nx; }
+  });
+}
+/* 清空贴吧的全部消息，空吧里只渲染 JECat 的最后一条（持久） */
+function clearAllMessages(){
+  localStorage.setItem('byzx_forum_cleared','1');
+  const mask = document.getElementById('mask');
+  if(mask) mask.classList.remove('show');   /* 关掉正开着的主题弹窗 */
+  clearSideMessages();
+  renderList();                             /* 列表只剩 JECat 的最后一条消息 */
 }
 
 /* 当前解密进度 → 0~1 强度 */
@@ -1257,11 +1469,59 @@ function sndI(){
   }catch(e){}
   return Math.min(1, n/10);
 }
+function phoneHas(key){
+  try{ return (JSON.parse(localStorage.getItem('byzx_phone_viewed')||'[]')).includes(key); }catch(e){ return false; }
+}
+let _eyeBase = 0;
+let _eyeBuilt = false;
+/* 生成一段段独立的红字：每段随机节奏、随机相位，各自持续微抖 */
+function buildEyeSpans(el){
+  const w = el.clientWidth, h = el.clientHeight;
+  if(!w || !h) return;
+  let html = '';
+  const col = 96, row = 22;
+  for(let r=0; r*row < h + 20; r++)
+    for(let c=0; c*col < w + 60; c++)
+      html += `<span class="eg" style="left:${c*col + (r%2)*48}px;top:${r*row}px;--dur:${(0.5+Math.random()*0.7).toFixed(2)}s;--del:${(-Math.random()*1.2).toFixed(2)}s">我要你的眼睛</span>`;
+  el.innerHTML = html;
+  _eyeBuilt = true;
+}
+function updateEyeBG(){
+  const el = document.getElementById('eyeBg');
+  if(!el) return;
+  let o = 0;
+  if(phoneHas('bazi_4105')) o = 0.30 + sndI()*0.10;
+  if(phoneHas('mystery_end')) o = Math.max(o, 0.52);
+  _eyeBase = o;
+  if(o > 0 && !_eyeBuilt) buildEyeSpans(el);
+  el.style.opacity = o.toFixed(3);
+}
+/* 随机挑一小撮红字加深 + 剧烈抖动，再各自落下 */
+function eyeGlitch(){
+  const els = document.querySelectorAll('#eyeBg .eg');
+  if(!els.length || _eyeBase <= 0) return;
+  const n = Math.max(2, Math.floor(els.length * (0.01 + Math.random()*0.02)));
+  let guard = 0, count = 0;
+  while(count < n && guard < els.length*3){
+    guard++;
+    const s = els[Math.floor(Math.random()*els.length)];
+    if(s.classList.contains('deep')) continue;
+    s.classList.add('deep');
+    count++;
+    (function(el){
+      setTimeout(()=>el.classList.remove('deep'), 200 + Math.random()*400);
+    })(s);
+  }
+}
+(function eyeLoop(){
+  setTimeout(()=>{ eyeGlitch(); eyeLoop(); }, 600 + Math.random()*500);
+})();
 /* 页面氛围：暗角/噪点随进度加重，关键节点闪红 */
 function applyFx(){
   const fx = document.getElementById('fx');
   if(!fx) return;
   fx.style.opacity = (0.04 + sndI()*0.5).toFixed(3);
+  updateEyeBG();
 }
 function pulseFx(){
   const fx = document.getElementById('fx');
